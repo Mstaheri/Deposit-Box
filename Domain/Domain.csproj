@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -10,6 +10,10 @@
     <Compile Remove="Helper\**" />
     <EmbeddedResource Remove="Helper\**" />
     <None Remove="Helper\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="IRepositories\" />
   </ItemGroup>
 
 </Project>

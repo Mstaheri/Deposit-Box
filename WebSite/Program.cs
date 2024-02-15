@@ -1,7 +1,11 @@
+using Persistence;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+string Connection = builder.Configuration.GetConnectionString("sqlServer");
+builder.Services.AddSqlServer<DbContextEF>(Connection);
 
 var app = builder.Build();
 

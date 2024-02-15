@@ -8,12 +8,29 @@ namespace Domain.Entity
 {
     public class BankAccount
     {
-        public string AccountNumber { get; set; }
-        public string AccountHolder { get; set; }
-        public string AccountName { get; set; }
-        public string BankName { get; set; }
-        public string Description { get; set; }
-        public User Users { get; set; }
-        public ICollection<DepositToBox> DepositToBoxs { get; set; }
+        public string AccountNumber { get; private set; }
+        public string UserName { get; private set; }
+        public string AccountName { get; private set; }
+        public string BankName { get; private set; }
+        public string Description { get; private set; }
+        public User User { get; private set; }
+        public ICollection<BankSafeTransactions> BankSafeTransactions { get; private set; }
+        public ICollection<BankSafeDocument> BankSafeDocuments { get; private set; }
+        public BankAccount(string accountNumber, string userName, string accountName,
+            string bankName, string description)
+        {
+            AccountNumber = accountNumber;
+            UserName = userName;
+            AccountName = accountName;
+            BankName = bankName;
+            Description = description;
+        }
+        public void Edit(string accountName,
+            string bankName, string description)
+        {
+            AccountName = accountName;
+            BankName = bankName;
+            Description = description;
+        }
     }
 }
