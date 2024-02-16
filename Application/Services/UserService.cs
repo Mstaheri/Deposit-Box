@@ -43,16 +43,29 @@ namespace Application.Services
                 var result = await _userRepositorie.GetAsync(user.UserName);
                 if (result != null)
                 {
-
+                    result.Edit(user.FirstName, user.LastName, user.PhoneNumber
+                     , user.NationalIDNumber, user.Email, user.Password, user.Roll);
                 }
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
-                _logger.LogInformation($"{user.UserName} is Created Successfully");
+                _logger.LogInformation($"{user.UserName} is Edit Successfully");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
             }
-
+        }
+        public async void Delete(string UserName, CancellationToken cancellationToken)
+        {
+            try
+            {
+                await _userRepositorie.DeleteAsync(UserName);
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+                _logger.LogInformation($"{UserName} is Delete Successfully");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
         }
     }
 }

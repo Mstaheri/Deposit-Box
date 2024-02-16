@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Application.test.Services
 {
-    internal class UserService
+    public class UserService
     {
+        [Fact]
+        public async Task AddTestAsync()
+        {
+            
+        }
     }
 }
