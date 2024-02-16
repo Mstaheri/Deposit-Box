@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Persistence
 {
-    public class DbContextEF : DbContext
+    public class DbContextEF : DbContext , IUnitOfWork
     {
         public DbContextEF(DbContextOptions<DbContextEF> Connection) : base(Connection)
         {
-
+            
         }
         public DbSet<User> Users { get; set; }
         public DbSet<BankSafe> BankSafes { get; set; }
