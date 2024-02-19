@@ -25,7 +25,7 @@ namespace Domain.Entity
             BankName = bankName;
             Description = description;
         }
-        public void Edit(string accountName,
+        public void Update(string accountName,
             string bankName, string description)
         {
             AccountName = accountName;

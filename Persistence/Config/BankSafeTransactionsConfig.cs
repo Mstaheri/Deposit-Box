@@ -13,7 +13,7 @@ namespace Persistence.Config
     {
         public void Configure(EntityTypeBuilder<BankSafeTransactions> builder)
         {
-            builder.HasKey(p => p.CodeTransactions);
+            builder.HasKey(p => p.Code);
         }
     }
 }

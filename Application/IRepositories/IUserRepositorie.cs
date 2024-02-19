@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.IRepositories
+namespace Application.IRepositories
 {
     public interface IUserRepositorie
     {

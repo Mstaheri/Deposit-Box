@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Persistence.Config
 {
-    public class BankSafeDocumentConfig : IEntityTypeConfiguration<BankSafeDocument>
+    public class LoanDocumentConfig : IEntityTypeConfiguration<LoanDocument>
     {
-        public void Configure(EntityTypeBuilder<BankSafeDocument> builder)
+        public void Configure(EntityTypeBuilder<LoanDocument> builder)
         {
             builder.HasKey(p => p.Code);
         }

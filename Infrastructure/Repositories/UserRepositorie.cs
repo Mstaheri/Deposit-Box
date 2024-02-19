@@ -1,5 +1,5 @@
-﻿using Domain.Entity;
-using Domain.IRepositories;
+﻿using Application.IRepositories;
+using Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using System;

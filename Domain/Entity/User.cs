@@ -17,7 +17,7 @@ namespace Domain.Entity
         public string Password { get; private set; }
         public string Roll { get; private set; }
         public ICollection<BankAccount> BankAccounts { get; private set; }
-        public ICollection<UserSharePrice> UserSharePrices { get; private set; }
+        public ICollection<UserAndNumberOfShare> UserAndNumberOfShares { get; private set; }
         public User(string firstName, string lastName, string phoneNumber,
             string nationalIDNumber, string email, string userName,
             string password, string roll)
@@ -31,7 +31,7 @@ namespace Domain.Entity
             Password = password;
             Roll = roll;
         }
-        public void Edit(string firstName, string lastName, string phoneNumber,
+        public void Update(string firstName, string lastName, string phoneNumber,
             string nationalIDNumber, string email,
             string password, string roll)
         {

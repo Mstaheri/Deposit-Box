@@ -1,7 +1,6 @@
-﻿using Domain.Entity;
-using Domain.IRepositories;
+﻿using Application.IRepositories;
+using Domain.Entity;
 using Microsoft.Extensions.Logging;
-using Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +42,7 @@ namespace Application.Services
                 var result = await _userRepositorie.GetAsync(user.UserName);
                 if (result != null)
                 {
-                    result.Edit(user.FirstName, user.LastName, user.PhoneNumber
+                    result.Update(user.FirstName, user.LastName, user.PhoneNumber
                      , user.NationalIDNumber, user.Email, user.Password, user.Roll);
                 }
                 await _unitOfWork.SaveChangesAsync(cancellationToken);

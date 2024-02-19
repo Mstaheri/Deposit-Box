@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
@@ -11,9 +12,11 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DbContextEF))]
-    partial class DbContextEFModelSnapshot : ModelSnapshot
+    [Migration("20240218192110_AddLoanAndLoanTransactionsAndLoanDocuments")]
+    partial class AddLoanAndLoanTransactionsAndLoanDocuments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,7 +50,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("UserName");
 
-                    b.ToTable("BankAccounts", (string)null);
+                    b.ToTable("BankAccounts");
                 });
 
             modelBuilder.Entity("Domain.Entity.BankSafe", b =>
@@ -60,7 +63,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Name");
 
-                    b.ToTable("BankSafes", (string)null);
+                    b.ToTable("BankSafes");
                 });
 
             modelBuilder.Entity("Domain.Entity.BankSafeDocument", b =>
@@ -100,7 +103,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("NameBankSafe");
 
-                    b.ToTable("BankSafeDocuments", (string)null);
+                    b.ToTable("BankSafeDocuments");
                 });
 
             modelBuilder.Entity("Domain.Entity.BankSafeTransactions", b =>
@@ -129,7 +132,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("NameBankSafe");
 
-                    b.ToTable("BankSafeTransactions", (string)null);
+                    b.ToTable("BankSafeTransactions");
                 });
 
             modelBuilder.Entity("Domain.Entity.Loan", b =>
@@ -159,7 +162,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("NameBankSafe");
 
-                    b.ToTable("Loans", (string)null);
+                    b.ToTable("Loans");
                 });
 
             modelBuilder.Entity("Domain.Entity.LoanDocument", b =>
@@ -195,7 +198,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("NameBankSafe");
 
-                    b.ToTable("LoanDocuments", (string)null);
+                    b.ToTable("LoanDocuments");
                 });
 
             modelBuilder.Entity("Domain.Entity.LoanTransactions", b =>
@@ -223,7 +226,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("NameBankSafe");
 
-                    b.ToTable("LoanTransactions", (string)null);
+                    b.ToTable("LoanTransactions");
                 });
 
             modelBuilder.Entity("Domain.Entity.User", b =>
@@ -261,7 +264,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("UserName");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Domain.Entity.UserAndNumberOfShare", b =>
@@ -279,7 +282,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("NameBankSafe");
 
-                    b.ToTable("UserAndNumberOfShares", (string)null);
+                    b.ToTable("UserAndNumberOfShares");
                 });
 
             modelBuilder.Entity("Domain.Entity.BankAccount", b =>

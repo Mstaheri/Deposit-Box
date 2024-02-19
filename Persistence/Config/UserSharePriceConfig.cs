@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Persistence.Config
 {
-    public class UserSharePriceConfig : IEntityTypeConfiguration<UserSharePrice>
+    public class UserSharePriceConfig : IEntityTypeConfiguration<UserAndNumberOfShare>
     {
-        public void Configure(EntityTypeBuilder<UserSharePrice> builder)
+        public void Configure(EntityTypeBuilder<UserAndNumberOfShare> builder)
         {
             builder.HasKey(p => new { p.UserName, p.NameBankSafe });
         }

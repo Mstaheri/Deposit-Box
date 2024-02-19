@@ -17,11 +17,13 @@ namespace Persistence.Config
 
             builder.HasMany(p => p.BankAccounts)
                 .WithOne(p => p.User)
-                .HasForeignKey(p => p.UserName);
+                .HasForeignKey(p => p.UserName)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasMany(p => p.UserSharePrices)
+            builder.HasMany(p => p.UserAndNumberOfShares)
                 .WithOne(p => p.User)
-                .HasForeignKey(p => p.UserName);
+                .HasForeignKey(p => p.UserName)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

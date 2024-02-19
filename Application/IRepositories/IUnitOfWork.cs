@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Persistence
+namespace Application.IRepositories
 {
     public interface IUnitOfWork
     {
