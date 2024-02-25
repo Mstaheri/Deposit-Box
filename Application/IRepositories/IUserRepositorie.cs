@@ -12,5 +12,6 @@ namespace Application.IRepositories
         ValueTask AddAsync(User user);
         Task DeleteAsync(string userName);
         Task<User> GetAsync(string userName);
+        Task<List<User>> GetAllAsync();
     }
 }

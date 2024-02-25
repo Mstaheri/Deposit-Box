@@ -32,9 +32,16 @@ namespace Infrastructure.Repositories
             }
             else
             {
-                new Exception("");
+                new Exception("User deletion was not successful");
             }
         }
+
+        public async Task<List<User>> GetAllAsync()
+        {
+            var result = await _users.ToListAsync();
+            return result;
+        }
+
         public async Task<User> GetAsync(string userName)
         {
             var result = await _users.Where(p => p.UserName == userName).FirstOrDefaultAsync();
