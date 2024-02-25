@@ -25,7 +25,8 @@ namespace Infrastructure.Repositories
 
         public async Task DeleteAsync(string userName)
         {
-            var result = await _users.Where(p => p.UserName == userName).FirstOrDefaultAsync();
+            var result = await _users.Where(p => p.UserName == userName)
+                .FirstOrDefaultAsync();
             if (result != null)
             {
                 _users.Remove(result);
@@ -44,7 +45,8 @@ namespace Infrastructure.Repositories
 
         public async Task<User> GetAsync(string userName)
         {
-            var result = await _users.Where(p => p.UserName == userName).FirstOrDefaultAsync();
+            var result = await _users.Where(p => p.UserName == userName)
+                .FirstOrDefaultAsync();
             return result;
         }
     }
