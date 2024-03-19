@@ -1,4 +1,5 @@
-﻿using Application.IRepositories;
+﻿using Application.UnitOfWork;
+using Domain.IRepositories;
 using Application.Models;
 using Domain.Entity;
 using Microsoft.Extensions.Logging;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Application.Services
 {
@@ -23,7 +25,7 @@ namespace Application.Services
             _unitOfWork = unitOfWork;
             _logger = logger;
         }
-        public async Task<OperationResult> Add(User user ,
+        public async Task<OperationResult> AddAsync(User user ,
             CancellationToken cancellationToken = default)
         {
             try
@@ -31,23 +33,16 @@ namespace Application.Services
                 await _userRepositorie.AddAsync(user);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
                 _logger.LogInformation($"{user.UserName} is Created Successfully");
-                return new OperationResult
-                {
-                    Success = true
-                };
+                return new OperationResult(true, null);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return new OperationResult
-                {
-                    Success = false,
-                    Message = ex.Message
-                };
+                return new OperationResult(false, ex.Message);
             }
             
         }
-        public async Task<OperationResult> Edit(User user,
+        public async Task<OperationResult> UpdateAsync(User user,
             CancellationToken cancellationToken = default)
         {
             try
@@ -57,25 +52,22 @@ namespace Application.Services
                 {
                     result.Update(user.FirstName, user.LastName, user.PhoneNumber
                      , user.NationalIDNumber, user.Email, user.Password, user.Roll);
+                    await _unitOfWork.SaveChangesAsync(cancellationToken);
+                    _logger.LogInformation($"{user.UserName} is Update Successfully");
+                    return new OperationResult(true, null);
                 }
-                await _unitOfWork.SaveChangesAsync(cancellationToken);
-                _logger.LogInformation($"{user.UserName} is Edit Successfully");
-                return new OperationResult
+                else
                 {
-                    Success = true
-                };
+                    return new OperationResult(false, "User Update was not successful");
+                }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return new OperationResult
-                {
-                    Success = false,
-                    Message = ex.Message
-                };
+                return new OperationResult(false, ex.Message);
             }
         }
-        public async Task<OperationResult> Delete(string UserName,
+        public async Task<OperationResult> DeleteAsync(string UserName,
             CancellationToken cancellationToken = default)
         {
             try
@@ -83,44 +75,43 @@ namespace Application.Services
                 await _userRepositorie.DeleteAsync(UserName);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
                 _logger.LogInformation($"{UserName} is Delete Successfully");
-                return new OperationResult
-                {
-                    Success = true
-                };
+                return new OperationResult(true, null);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return new OperationResult
-                {
-                    Success = false,
-                    Message = ex.Message
-                };
+                return new OperationResult(false, ex.Message);
             }
         }
-        public async Task<OperationResult<List<User>>> GetAll()
+        public async Task<OperationResult<List<User>>> GetAllAsync()
         {
             try
             {
                 var result = await _userRepositorie.GetAllAsync();
                 _logger.LogInformation("GetAll is Successfully");
-                return new OperationResult<List<User>>
-                {
-                    Success = true,
-                    Result= result
-                    
-                };
+                return new OperationResult<List<User>>(true, null, result);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return new OperationResult<List<User>>
-                {
-                    Success = false,
-                    Message = ex.Message
-                };
+                return new OperationResult<List<User>>(true, ex.Message, null);
             }
             
+        }
+        public async Task<OperationResult<User>> GetAsync(string userName)
+        {
+            try
+            {
+                var result = await _userRepositorie.GetAsync(userName);
+                _logger.LogInformation("GetAll is Successfully");
+                return new OperationResult<User>(true, null, result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return new OperationResult<User>(true, ex.Message, null);
+            }
+
         }
     }
 }

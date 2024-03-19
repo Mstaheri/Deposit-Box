@@ -1,4 +1,5 @@
-﻿using Application.IRepositories;
+﻿using Application.UnitOfWork;
+using Domain.IRepositories;
 using Application.Models;
 using Application.Models.MoqData;
 using Application.Services;
@@ -39,7 +40,7 @@ namespace Application.test.Services
                 , _loggerMoq.Object);
 
 
-            var result = await user.Add(data);
+            var result = await user.AddAsync(data);
 
 
             Assert.NotNull(result);
@@ -60,7 +61,7 @@ namespace Application.test.Services
                 , _loggerMoq.Object);
 
 
-            var result = await user.Delete(userName);
+            var result = await user.DeleteAsync(userName);
 
 
             Assert.NotNull(result);
@@ -70,7 +71,7 @@ namespace Application.test.Services
 
         [Fact]
         [Trait("Services", "User")]
-        public async Task EditTestAsync()
+        public async Task UpdateTestAsync()
         {
             var data = await _moqData.Get();
             _repositorMoq.Setup(repo => repo.GetAsync(It.IsAny<string>()))
@@ -80,7 +81,7 @@ namespace Application.test.Services
                 , _loggerMoq.Object);
 
 
-            var result = await user.Edit(data);
+            var result = await user.UpdateAsync(data);
 
 
             Assert.NotNull(result);
@@ -99,7 +100,7 @@ namespace Application.test.Services
                 , _loggerMoq.Object);
 
 
-            var result = await user.GetAll();
+            var result = await user.GetAllAsync();
 
 
             Assert.NotNull(result);

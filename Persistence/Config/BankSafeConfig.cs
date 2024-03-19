@@ -18,32 +18,32 @@ namespace Persistence.Config
             builder.HasMany(p => p.UserAndNumberOfShares)
                 .WithOne(p => p.BankSafe)
                 .HasForeignKey(p => p.NameBankSafe)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(p => p.BankSafeTransactions)
                 .WithOne(p => p.BankSafe)
                 .HasForeignKey(p => p.NameBankSafe)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(p => p.BankSafeDocuments)
                 .WithOne(p => p.BankSafe)
                 .HasForeignKey(p => p.NameBankSafe)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(p => p.loans)
                 .WithOne(p => p.BankSafe)
                 .HasForeignKey(p => p.NameBankSafe)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(p => p.LoanTransactions)
                 .WithOne(p => p.BankSafe)
                 .HasForeignKey(p => p.NameBankSafe)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(p => p.LoanDocuments)
                 .WithOne(p => p.BankSafe)
                 .HasForeignKey(p => p.NameBankSafe)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

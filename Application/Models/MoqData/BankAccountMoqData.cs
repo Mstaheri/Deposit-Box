@@ -17,5 +17,18 @@ namespace Application.Models.MoqData
 
             return Task.FromResult(bankAccount);
         }
+        public Task<List<BankAccount>> GetAll()
+        {
+            List<BankAccount> list = new List<BankAccount>()
+            {
+                new BankAccount("58589831109231322",
+                "Mstaheri", "ss",
+                "tejarat", ":D") ,
+                new BankAccount("58589331509531432",
+                "Estaheri", "ss",
+                "tejarat", ":D")
+            };
+            return Task.FromResult(list);
+        }
     }
 }

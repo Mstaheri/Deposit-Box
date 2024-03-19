@@ -18,12 +18,12 @@ namespace Persistence.Config
             builder.HasMany(p => p.LoanTransactions)
                 .WithOne(p => p.Loan)
                 .HasForeignKey(p => p.CodeLoan)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(p => p.LoanDocuments)
                 .WithOne(p => p.Loan)
                 .HasForeignKey(p => p.CodeLoan)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
