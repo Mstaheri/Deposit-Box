@@ -16,8 +16,8 @@ namespace Domain.Entity
         public string NationalIDNumber { get; private set; }
         public string UserName { get; private set; }
         public string Password { get; private set; }
-        public ICollection<BankAccount> BankAccounts { get; private set; }
-        public ICollection<UserAndNumberOfShare> UserAndNumberOfShares { get; private set; }
+        public ICollection<BankAccount>? BankAccounts { get; private set; }
+        public ICollection<UserAndNumberOfShare>? UserAndNumberOfShares { get; private set; }
         public User(string firstName, string lastName, string phoneNumber,
             string nationalIDNumber, string userName,
             string password)

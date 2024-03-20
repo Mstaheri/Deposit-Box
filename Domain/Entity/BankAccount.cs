@@ -15,9 +15,9 @@ namespace Domain.Entity
         public string AccountName { get; private set; }
         public string BankName { get; private set; }
         public string Description { get; private set; }
-        public User User { get; private set; }
-        public ICollection<BankSafeTransactions> BankSafeTransactions { get; private set; }
-        public ICollection<BankSafeDocument> BankSafeDocuments { get; private set; }
+        public User? User { get; private set; }
+        public ICollection<BankSafeTransactions>? BankSafeTransactions { get; private set; }
+        public ICollection<BankSafeDocument>? BankSafeDocuments { get; private set; }
         public BankAccount(string accountNumber, string userName, string accountName,
             string bankName, string description)
         {

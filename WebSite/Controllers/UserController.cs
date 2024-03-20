@@ -29,9 +29,9 @@ namespace WebSite.Controllers
             }
         }
         [HttpGet("{UserName}")]
-        public async Task<IActionResult> Get([FromRoute] string userName)
+        public async Task<IActionResult> Get([FromRoute] string UserName)
         {
-            var result = await _userService.GetAsync(userName);
+            var result = await _userService.GetAsync(UserName);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -41,7 +41,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpPost]
+        [HttpPost()]
         public async Task<IActionResult> Insert([FromBody] User user)
         {
             var result = await _userService.AddAsync(user);
@@ -69,7 +69,7 @@ namespace WebSite.Controllers
             }
         }
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromRoute] string userName)
+        public async Task<IActionResult> Delete([FromBody] string userName)
         {
             var result = await _userService.DeleteAsync(userName);
             if (result.Success)

@@ -1,4 +1,7 @@
 using Application.Services;
+using Application.UnitOfWork;
+using Domain.IRepositories;
+using Infrastructure.Repositories;
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,8 +14,13 @@ builder.Services.AddSqlServer<DbContextEF>(Connection);
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
-
-
+builder.Services.AddScoped<IUnitOfWork, DbContextEF>();
+//User
+builder.Services.AddScoped<IUserRepositorie , UserRepositorie>();
+builder.Services.AddScoped<UserService>();
+//BankAccount
+builder.Services.AddScoped<IBankAccountRepositorie, BankAccountRepositorie>();
+builder.Services.AddScoped<BankAccountService>();
 
 var app = builder.Build();
 

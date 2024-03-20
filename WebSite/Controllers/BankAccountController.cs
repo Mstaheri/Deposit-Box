@@ -28,9 +28,9 @@ namespace WebSite.Controllers
             }
         }
         [HttpGet("{AccountNumber}")]
-        public async Task<IActionResult> Get([FromRoute] string accountNumber)
+        public async Task<IActionResult> Get([FromRoute] string AccountNumber)
         {
-            var result = await _bankAccountService.GetAsync(accountNumber);
+            var result = await _bankAccountService.GetAsync(AccountNumber);
             if (result.Success)
             {
                 return Ok(result.Data);
