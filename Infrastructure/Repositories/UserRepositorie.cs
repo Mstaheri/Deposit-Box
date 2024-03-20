@@ -26,15 +26,14 @@ namespace Infrastructure.Repositories
 
         public async Task DeleteAsync(string userName)
         {
-            var result = await _users.Where(p => p.UserName == userName)
-                .FirstOrDefaultAsync();
+            var result = await _users.FirstOrDefaultAsync(p => p.UserName == userName);
             if (result != null)
             {
                 _users.Remove(result);
             }
             else
             {
-                new Exception("User deletion was not successful");
+                throw new Exception("User deletion was not successful");
             }
         }
 
@@ -46,8 +45,7 @@ namespace Infrastructure.Repositories
 
         public async Task<User> GetAsync(string userName)
         {
-            var result = await _users.Where(p => p.UserName == userName)
-                .FirstOrDefaultAsync();
+            var result = await _users.FirstOrDefaultAsync(p => p.UserName == userName);
             return result;
         }
     }

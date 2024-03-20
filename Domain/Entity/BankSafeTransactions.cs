@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entity
 {
+    [AudiTable]
     public class BankSafeTransactions
     {
         public Guid Code { get; private set; }

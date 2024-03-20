@@ -14,6 +14,19 @@ namespace Persistence.Config
         public void Configure(EntityTypeBuilder<LoanTransactions> builder)
         {
             builder.HasKey(p => p.Code);
+
+            builder.Property(p => p.NameBankSafe)
+                .HasMaxLength(50)
+                .IsUnicode(true)
+                .IsRequired(true);
+
+            builder.Property(p => p.NumberOfInstallments)
+               .HasMaxLength(4)
+               .IsRequired(true);
+
+            builder.Property(p => p.Amount)
+               .HasMaxLength(12)
+               .IsRequired(true);
         }
     }
 }

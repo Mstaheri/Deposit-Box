@@ -24,15 +24,14 @@ namespace Infrastructure.Repositories
 
         public async Task DeleteAsync(string accountNumber)
         {
-            var result = await _bankAccounts.Where(p => p.AccountName == accountNumber)
-                .FirstOrDefaultAsync();
+            var result = await _bankAccounts.FirstOrDefaultAsync(p => p.AccountName == accountNumber);
             if (result != null)
             {
                 _bankAccounts.Remove(result);
             }
             else
             {
-                new Exception("BankAccount deletion was not successful");
+                throw new Exception("BankAccount deletion was not successful");
             }
             
         }
@@ -45,8 +44,7 @@ namespace Infrastructure.Repositories
 
         public async Task<BankAccount> GetAsync(string accountNumber)
         {
-            var result = await _bankAccounts.Where(p => p.AccountNumber == accountNumber)
-                .FirstOrDefaultAsync();
+            var result = await _bankAccounts.FirstOrDefaultAsync(p => p.AccountNumber == accountNumber);
             return result;
         }
     }

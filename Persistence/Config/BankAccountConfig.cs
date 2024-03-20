@@ -17,11 +17,40 @@ namespace Persistence.Config
 
             builder.HasMany(p => p.BankSafeTransactions)
                 .WithOne(p => p.BankAccount)
-                .HasForeignKey(p => p.AccountNumber);
+                .HasForeignKey(p => p.AccountNumber)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(p => p.BankSafeDocuments)
                 .WithOne(p => p.BankAccount)
-                .HasForeignKey(p => p.AccountNumber);
+                .HasForeignKey(p => p.AccountNumber)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Property(p => p.AccountNumber)
+                .HasMaxLength(16)
+                .IsUnicode(true)
+                .IsRequired(true);
+
+            builder.Property(p => p.UserName)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .IsRequired(true);
+
+            builder.Property(p => p.AccountName)
+                .HasMaxLength(50)
+                .IsUnicode(true)
+                .IsRequired(true);
+
+            builder.Property(p => p.BankName)
+                .HasMaxLength(50)
+                .IsUnicode(true)
+                .IsRequired(true);
+
+            builder.Property(p => p.Description)
+                .HasMaxLength(500)
+                .IsUnicode(true)
+                .IsRequired(false);
+
+
         }
     }
 }

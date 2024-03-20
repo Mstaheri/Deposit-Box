@@ -51,7 +51,7 @@ namespace Application.Services
                 if (result != null)
                 {
                     result.Update(user.FirstName, user.LastName, user.PhoneNumber
-                     , user.NationalIDNumber, user.Email, user.Password, user.Roll);
+                     , user.NationalIDNumber, user.Password);
                     await _unitOfWork.SaveChangesAsync(cancellationToken);
                     _logger.LogInformation($"{user.UserName} is Update Successfully");
                     return new OperationResult(true, null);

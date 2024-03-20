@@ -14,6 +14,34 @@ namespace Persistence.Config
         public void Configure(EntityTypeBuilder<BankSafeDocument> builder)
         {
             builder.HasKey(p => p.Code);
+
+            builder.Property(p => p.NameBankSafe)
+                .HasMaxLength(50)
+                .IsUnicode(true)
+                .IsRequired(true);
+
+            builder.Property(p => p.AccountNumber)
+                .HasMaxLength(16)
+                .IsUnicode(true)
+                .IsRequired(true);
+
+            builder.Property(p => p.RegistrationDate)
+                .HasMaxLength(10)
+                .IsUnicode(true)
+                .IsRequired(true);
+
+            builder.Property(p => p.DueDate)
+                .HasMaxLength(10)
+                .IsUnicode(true)
+                .IsRequired(true);
+
+            builder.Property(p => p.Deposit)
+                .HasMaxLength(12)
+                .IsRequired(true);
+
+            builder.Property(p => p.Withdrawal)
+                .HasMaxLength(12)
+                .IsRequired(true);
         }
     }
 }

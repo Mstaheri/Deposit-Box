@@ -36,31 +36,48 @@ namespace Persistence
         }
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
+            var modifiedEntries = ChangeTracker.Entries()
+                .Where(p => p.State == EntityState.Modified ||
+                p.State == EntityState.Added ||
+                p.State == EntityState.Deleted);
+            foreach (var item in modifiedEntries)
+            {
+                var entityType = item.Context.Model.FindEntityType(item.Entity.GetType());
 
+                var insert = entityType.FindProperty("InsertTime");
+                var update = entityType.FindProperty("UpdateTime");
+                var Remove = entityType.FindProperty("RemoveTime");
+                var isRemove = entityType.FindProperty("IsRemoved");
+                if (item.State == EntityState.Added && insert != null)
+                {
+                    item.Property("InsertTime").CurrentValue = DateTime.Now;
+                }
+                if (item.State == EntityState.Modified && update != null)
+                {
+                    item.Property("UpdateTime").CurrentValue = DateTime.Now;
+                }
+                if (item.State == EntityState.Deleted && Remove != null)
+                {
+                    item.Property("RemoveTime").CurrentValue = DateTime.Now;
+                    item.Property("IsRemoved").CurrentValue = true;
+                }
+            }
             return base.SaveChangesAsync(cancellationToken);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            //foreach (var entityTipy in modelBuilder.Model.GetEntityTypes())
-            //{
-            //    if (entityTipy.ClrType.GetCustomAttributes(typeof(AudiTableAttribute), true).Length > 0)
-            //    {
-            //        modelBuilder.Entity(entityTipy.Name).Property<DateTime>("InsertTime");
-            //        modelBuilder.Entity(entityTipy.Name).Property<DateTime>("UpdateTime");
-            //        modelBuilder.Entity(entityTipy.Name).Property<DateTime>("RemoveTime");
-            //        modelBuilder.Entity(entityTipy.Name).Property<bool>("IsRemoved");
-            //    }
-            //}
-            modelBuilder.ApplyConfiguration(new UserConfig());
-            modelBuilder.ApplyConfiguration(new BankSafeConfig());
-            modelBuilder.ApplyConfiguration(new BankAccountConfig());
-            modelBuilder.ApplyConfiguration(new UserSharePriceConfig());
-            modelBuilder.ApplyConfiguration(new BankSafeTransactionsConfig());
-            modelBuilder.ApplyConfiguration(new BankSafeDocumentConfig());
-            modelBuilder.ApplyConfiguration(new LoanConfig());
-            modelBuilder.ApplyConfiguration(new LoanTransactionsConfig());
-            modelBuilder.ApplyConfiguration(new LoanDocumentConfig());
+            foreach (var entityTipy in modelBuilder.Model.GetEntityTypes())
+            {
+                if (entityTipy.ClrType.GetCustomAttributes(typeof(AudiTableAttribute), true).Length > 0)
+                {
+                    modelBuilder.Entity(entityTipy.Name).Property<DateTime>("InsertTime");
+                    modelBuilder.Entity(entityTipy.Name).Property<DateTime?>("UpdateTime");
+                    modelBuilder.Entity(entityTipy.Name).Property<DateTime?>("RemoveTime");
+                    modelBuilder.Entity(entityTipy.Name).Property<bool>("IsRemoved");
+                }
+            }
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(DbContextEF).Assembly);
             base.OnModelCreating(modelBuilder);
         }
         

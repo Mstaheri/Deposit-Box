@@ -24,6 +24,33 @@ namespace Persistence.Config
                 .WithOne(p => p.Loan)
                 .HasForeignKey(p => p.CodeLoan)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Property(p => p.NameBankSafe)
+                .HasMaxLength(50)
+                .IsUnicode(true)
+                .IsRequired(true);
+
+            builder.Property(p => p.FirstName)
+                .HasMaxLength(50)
+                .IsUnicode(true)
+                .IsRequired(true);
+
+            builder.Property(p => p.LastName)
+               .HasMaxLength(50)
+               .IsUnicode(true)
+               .IsRequired(true);
+
+            builder.Property(p => p.NumberOfInstallments)
+               .HasMaxLength(4)
+               .IsRequired(true);
+
+            builder.Property(p => p.Amount)
+               .HasMaxLength(12)
+               .IsRequired(true);
+
+            builder.Property(p => p.Wage)
+               .HasMaxLength(2)
+               .IsRequired(true);
         }
     }
 }

@@ -18,22 +18,22 @@ namespace Persistence.Config
             builder.HasMany(p => p.UserAndNumberOfShares)
                 .WithOne(p => p.BankSafe)
                 .HasForeignKey(p => p.NameBankSafe)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(p => p.BankSafeTransactions)
                 .WithOne(p => p.BankSafe)
                 .HasForeignKey(p => p.NameBankSafe)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(p => p.BankSafeDocuments)
                 .WithOne(p => p.BankSafe)
                 .HasForeignKey(p => p.NameBankSafe)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(p => p.loans)
                 .WithOne(p => p.BankSafe)
                 .HasForeignKey(p => p.NameBankSafe)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(p => p.LoanTransactions)
                 .WithOne(p => p.BankSafe)
@@ -44,6 +44,17 @@ namespace Persistence.Config
                 .WithOne(p => p.BankSafe)
                 .HasForeignKey(p => p.NameBankSafe)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Property(p => p.Name)
+                .HasMaxLength(50)
+                .IsUnicode(true)
+                .IsRequired(true);
+
+            builder.Property(p => p.SharePrice)
+                .HasMaxLength(12)
+                .IsRequired(true);
         }
+        //public string Name { get; private set; }
+        //public decimal SharePrice { get; private set; }
     }
 }
