@@ -13,6 +13,8 @@ namespace Persistence.Config
     {
         public void Configure(EntityTypeBuilder<BankSafe> builder)
         {
+            builder.HasQueryFilter(m => EF.Property<bool>(m, "IsRemoved") == false);
+
             builder.HasKey(p => p.Name);
 
             builder.HasMany(p => p.UserAndNumberOfShares)
@@ -54,7 +56,5 @@ namespace Persistence.Config
                 .HasMaxLength(12)
                 .IsRequired(true);
         }
-        //public string Name { get; private set; }
-        //public decimal SharePrice { get; private set; }
     }
 }

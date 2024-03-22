@@ -67,10 +67,10 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpDelete]
-        public async Task<IActionResult> Delete([FromRoute] string accountNumber)
+        [HttpDelete("{AccountNumber}")]
+        public async Task<IActionResult> Delete([FromRoute] string AccountNumber)
         {
-            var result = await _bankAccountService.DeleteAsync(accountNumber);
+            var result = await _bankAccountService.DeleteAsync(AccountNumber);
             if (result.Success)
             {
                 return Ok(result.Success);

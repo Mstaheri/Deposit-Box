@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Models.MoqData
+namespace Application.Data.MoqData
 {
     public class BankAccountMoqData
     {

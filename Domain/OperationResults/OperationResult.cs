@@ -4,15 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Application.Models
+namespace Domain.OperationResults
 {
     public class OperationResult
     {
-        public OperationResult(bool success , string? message)
+        public OperationResult(bool success, string? message)
         {
-            Success= success ;
+            Success = success;
             Message = message;
         }
         public bool Success { get; set; }
@@ -21,9 +20,9 @@ namespace Application.Models
     public class OperationResult<T> : OperationResult
     {
         public OperationResult(bool success, string? message, T? data) :
-            base(success , message) 
+            base(success, message)
         {
-            Data= data;
+            Data = data;
         }
         public T? Data { get; set; }
     }

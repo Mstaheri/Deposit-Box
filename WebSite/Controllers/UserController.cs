@@ -68,10 +68,10 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpDelete]
-        public async Task<IActionResult> Delete([FromBody] string userName)
+        [HttpDelete("{UserName}")]
+        public async Task<IActionResult> Delete([FromRoute] string UserName)
         {
-            var result = await _userService.DeleteAsync(userName);
+            var result = await _userService.DeleteAsync(UserName);
             if (result.Success)
             {
                 return Ok(result.Success);

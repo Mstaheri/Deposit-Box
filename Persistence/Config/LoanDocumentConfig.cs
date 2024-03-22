@@ -13,6 +13,8 @@ namespace Persistence.Config
     {
         public void Configure(EntityTypeBuilder<LoanDocument> builder)
         {
+            builder.HasQueryFilter(m => EF.Property<bool>(m, "IsRemoved") == false);
+
             builder.HasKey(p => p.Code);
 
             builder.Property(p => p.NameBankSafe)

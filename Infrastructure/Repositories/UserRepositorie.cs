@@ -21,7 +21,17 @@ namespace Infrastructure.Repositories
 
         public async ValueTask AddAsync(User user)
         {
-            await _users.AddAsync(user);
+            var resultUsers = await _users
+                   .FirstOrDefaultAsync(p => p.UserName == user.UserName);
+            if (resultUsers == null)
+            {
+                await _users.AddAsync(user);
+            }
+            else
+            {
+                throw new Exception("The user name is duplicate");
+            }
+            
         }
 
         public async Task DeleteAsync(string userName)
@@ -33,7 +43,7 @@ namespace Infrastructure.Repositories
             }
             else
             {
-                throw new Exception("User deletion was not successful");
+                throw new Exception("The desired User was not found");
             }
         }
 

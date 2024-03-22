@@ -1,4 +1,5 @@
 ﻿using Domain.Attributes;
+using Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,17 +11,17 @@ namespace Domain.Entity
     [AudiTable]
     public class User
     {
-        public string FirstName { get; private set; }
-        public string LastName { get; private set; }
-        public string PhoneNumber { get; private set; }
-        public string NationalIDNumber { get; private set; }
-        public string UserName { get; private set; }
-        public string Password { get; private set; }
+        public FirstName FirstName { get; private set; }
+        public LastName LastName { get; private set; }
+        public PhoneNumber PhoneNumber { get; private set; }
+        public NationalIDNumber NationalIDNumber { get; private set; }
+        public UserName UserName { get; private set; }
+        public Password Password { get; private set; }
         public ICollection<BankAccount>? BankAccounts { get; private set; }
         public ICollection<UserAndNumberOfShare>? UserAndNumberOfShares { get; private set; }
-        public User(string firstName, string lastName, string phoneNumber,
-            string nationalIDNumber, string userName,
-            string password)
+        public User(FirstName firstName, LastName lastName, PhoneNumber phoneNumber,
+            NationalIDNumber nationalIDNumber, UserName userName,
+            Password password)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -29,9 +30,9 @@ namespace Domain.Entity
             UserName = userName;
             Password = password;
         }
-        public void Update(string firstName, string lastName, string phoneNumber,
-            string nationalIDNumber,
-            string password)
+        public void Update(FirstName firstName, LastName lastName, PhoneNumber phoneNumber,
+            NationalIDNumber nationalIDNumber,
+            Password password)
         {
 
             FirstName = firstName;

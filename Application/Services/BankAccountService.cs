@@ -1,6 +1,5 @@
 ﻿using Application.UnitOfWork;
 using Domain.IRepositories;
-using Application.Models;
 using Domain.Entity;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Storage;
+using Domain.OperationResults;
 
 namespace Application.Services
 {

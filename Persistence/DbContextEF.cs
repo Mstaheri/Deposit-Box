@@ -56,10 +56,11 @@ namespace Persistence
                 {
                     item.Property("UpdateTime").CurrentValue = DateTime.Now;
                 }
-                if (item.State == EntityState.Deleted && Remove != null)
+                if (item.State == EntityState.Deleted && Remove != null && isRemove != null)
                 {
                     item.Property("RemoveTime").CurrentValue = DateTime.Now;
                     item.Property("IsRemoved").CurrentValue = true;
+                    item.State= EntityState.Modified;
                 }
             }
             return base.SaveChangesAsync(cancellationToken);

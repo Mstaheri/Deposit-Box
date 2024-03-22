@@ -1,4 +1,5 @@
 ﻿using Domain.Entity;
+using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -13,6 +14,8 @@ namespace Persistence.Config
     {
         public void Configure(EntityTypeBuilder<BankAccount> builder)
         {
+            builder.HasQueryFilter(m => EF.Property<bool>(m , "IsRemoved") == false);
+
             builder.HasKey(p => p.AccountNumber);
 
             builder.HasMany(p => p.BankSafeTransactions)
@@ -31,6 +34,7 @@ namespace Persistence.Config
                 .IsRequired(true);
 
             builder.Property(p => p.UserName)
+                .HasConversion(userName => userName.Value, value => new UserName(value))
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .IsRequired(true);

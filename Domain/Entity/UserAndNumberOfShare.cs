@@ -1,4 +1,5 @@
 ﻿using Domain.Attributes;
+using Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,11 @@ namespace Domain.Entity
     public class UserAndNumberOfShare
     {
         public string NameBankSafe { get; private set; }
-        public string UserName { get; private set; }
+        public UserName UserName { get; private set; }
         public int NumberOfShares { get; private set; }
         public BankSafe BankSafe { get; private set; }
         public User User { get; private set; }
-        public UserAndNumberOfShare(string nameBankSafe, string userName, int numberOfShares)
+        public UserAndNumberOfShare(string nameBankSafe, UserName userName, int numberOfShares)
         {
             NameBankSafe = nameBankSafe;
             UserName = userName;

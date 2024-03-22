@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Sources;
 
-namespace Application.Models.MoqData
+namespace Application.Data.MoqData
 {
     public class UserMoqData
     {

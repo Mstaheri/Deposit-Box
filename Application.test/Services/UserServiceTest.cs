@@ -1,7 +1,5 @@
 ﻿using Application.UnitOfWork;
 using Domain.IRepositories;
-using Application.Models;
-using Application.Models.MoqData;
 using Application.Services;
 using Domain.Entity;
 using Microsoft.Extensions.Logging;
@@ -12,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Data.MoqData;
+using Domain.OperationResults;
 
 namespace Application.test.Services
 {

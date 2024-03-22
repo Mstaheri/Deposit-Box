@@ -13,17 +13,38 @@ namespace Infrastructure.Repositories
     public class BankAccountRepositorie : IBankAccountRepositorie
     {
         private readonly DbSet<BankAccount> _bankAccounts;
-        public BankAccountRepositorie(IUnitOfWork UnitOfWork)
+        private readonly IUserRepositorie _userRepositorie;
+        public BankAccountRepositorie(IUnitOfWork UnitOfWork, IUserRepositorie userRepositorie)
         {
             _bankAccounts = UnitOfWork.Set<BankAccount>();
+            _userRepositorie = userRepositorie;
         }
         public async ValueTask AddAsync(BankAccount bankAccount)
         {
-            await _bankAccounts.AddAsync(bankAccount);
+            var resultUser = await _userRepositorie.GetAsync(bankAccount.UserName);
+            if (resultUser != null)
+            {
+                var resultBankAccounts = await _bankAccounts
+                    .FirstOrDefaultAsync(p => p.AccountNumber == bankAccount.AccountNumber);
+                if (resultBankAccounts == null)
+                {
+                    await _bankAccounts.AddAsync(bankAccount);
+                }
+                else
+                {
+                    throw new Exception("The account number is duplicate");
+                }
+            }
+            else
+            {
+                throw new Exception("Username not found");
+            }
+            
         }
 
         public async Task DeleteAsync(string accountNumber)
         {
+
             var result = await _bankAccounts.FirstOrDefaultAsync(p => p.AccountName == accountNumber);
             if (result != null)
             {
@@ -31,7 +52,7 @@ namespace Infrastructure.Repositories
             }
             else
             {
-                throw new Exception("BankAccount deletion was not successful");
+                throw new Exception("The desired bank account was not found");
             }
             
         }
