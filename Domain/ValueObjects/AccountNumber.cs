@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Domain.ValueObjects
 {
-    public sealed class Password : ValueObject
+    public sealed class AccountNumber : ValueObject
     {
         public string Value { get; private set; }
-        public Password(string value)
+        public AccountNumber(string value)
         {
-            var result = CheckPassword(value);
+            var result = CheckAccountNumber(value);
             if (result.Success == true)
             {
                 Value = value;
@@ -24,16 +24,16 @@ namespace Domain.ValueObjects
                 throw new Exception(result.Message);
             }
         }
-        private OperationResult CheckPassword(string value)
+        private OperationResult CheckAccountNumber(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                string message = string.Format(ConstMessages.IsNull, nameof(Password));
+                string message = string.Format(ConstMessages.IsNull, nameof(AccountNumber));
                 return new OperationResult(false, message);
             }
-            else if (!Validation.CheckFormatcharacter(value))
+            else if (value.Length != 16 || !Validation.CheckNumberFormat(value))
             {
-                string message = string.Format(ConstMessages.IncorrectFormatCharacters, nameof(Password));
+                string message = string.Format(ConstMessages.IncorrectFormat, nameof(AccountNumber));
                 return new OperationResult(false, message);
             }
             else
@@ -47,10 +47,10 @@ namespace Domain.ValueObjects
             yield return Value;
         }
 
-        public static implicit operator Password(string value)
-        => new Password(value);
+        public static implicit operator AccountNumber(string value)
+        => new AccountNumber(value);
 
-        public static implicit operator string(Password password)
-            => password.Value;
+        public static implicit operator string(AccountNumber accountNumber)
+            => accountNumber.Value;
     }
 }

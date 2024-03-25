@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Persistence.Config
 {
-    public class UserSharePriceConfig : IEntityTypeConfiguration<UserAndNumberOfShare>
+    public class UserAndNumberOfShareConfig : IEntityTypeConfiguration<UserAndNumberOfShare>
     {
         public void Configure(EntityTypeBuilder<UserAndNumberOfShare> builder)
         {
@@ -20,17 +20,19 @@ namespace Persistence.Config
             builder.HasKey(p => new { p.UserName, p.NameBankSafe });
 
             builder.Property(p => p.NameBankSafe)
+               .HasConversion(nameBankSafe => nameBankSafe.Value, value => new Name(value))
                .HasMaxLength(50)
                .IsUnicode(true)
                .IsRequired(true);
 
             builder.Property(p => p.UserName)
-                .HasConversion(userName => userName.Value, value => new UserName(value))
+               .HasConversion(userName => userName.Value, value => new UserName(value))
                .HasMaxLength(50)
                .IsUnicode(false)
                .IsRequired(true);
 
             builder.Property(p => p.NumberOfShares)
+               .HasConversion(numberOfShares => numberOfShares.Value, value => new Number(value))
                .HasMaxLength(4)
                .IsRequired(true);
         }

@@ -1,5 +1,6 @@
 ﻿using Domain.Message;
 using Domain.OperationResults;
+using Domain.Validations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Domain.ValueObjects
 {
     public sealed class UserName : ValueObject
     {
-        public string Value { get; init; }
+        public string Value { get; private set; }
         public UserName(string value)
         {
             var result = CheckUserName(value);
@@ -49,7 +50,7 @@ namespace Domain.ValueObjects
         public static implicit operator UserName(string value)
         => new UserName(value);
 
-        public static implicit operator string(UserName senderFirstName)
-            => senderFirstName.Value;
+        public static implicit operator string(UserName userName)
+            => userName.Value;
     }
 }

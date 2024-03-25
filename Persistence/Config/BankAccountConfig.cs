@@ -29,6 +29,7 @@ namespace Persistence.Config
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(p => p.AccountNumber)
+                .HasConversion(accountNumber => accountNumber.Value, value => new AccountNumber(value))
                 .HasMaxLength(16)
                 .IsUnicode(true)
                 .IsRequired(true);
@@ -40,11 +41,13 @@ namespace Persistence.Config
                 .IsRequired(true);
 
             builder.Property(p => p.AccountName)
+                .HasConversion(acountName => acountName.Value, value => new Name(value))
                 .HasMaxLength(50)
                 .IsUnicode(true)
                 .IsRequired(true);
 
             builder.Property(p => p.BankName)
+                .HasConversion(bankName => bankName.Value, value => new Name(value))
                 .HasMaxLength(50)
                 .IsUnicode(true)
                 .IsRequired(true);

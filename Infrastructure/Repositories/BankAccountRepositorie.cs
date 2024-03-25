@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Message;
+using Domain.ValueObjects;
 
 namespace Infrastructure.Repositories
 {
@@ -32,27 +34,30 @@ namespace Infrastructure.Repositories
                 }
                 else
                 {
-                    throw new Exception("The account number is duplicate");
+                    string message = string.Format(ConstMessages.Duplicate, bankAccount.AccountNumber.Value);
+                    throw new Exception(message);
                 }
             }
             else
             {
-                throw new Exception("Username not found");
+                string message = string.Format(ConstMessages.NotFound, bankAccount.UserName.Value);
+                throw new Exception(message);
             }
             
         }
 
-        public async Task DeleteAsync(string accountNumber)
+        public async Task DeleteAsync(AccountNumber accountNumber)
         {
 
-            var result = await _bankAccounts.FirstOrDefaultAsync(p => p.AccountName == accountNumber);
+            var result = await _bankAccounts.FirstOrDefaultAsync(p => p.AccountNumber == accountNumber);
             if (result != null)
             {
                 _bankAccounts.Remove(result);
             }
             else
             {
-                throw new Exception("The desired bank account was not found");
+                string message = string.Format(ConstMessages.NotFound, accountNumber.Value);
+                throw new Exception(message);
             }
             
         }
@@ -63,7 +68,7 @@ namespace Infrastructure.Repositories
             return result;
         }
 
-        public async Task<BankAccount> GetAsync(string accountNumber)
+        public async Task<BankAccount> GetAsync(AccountNumber accountNumber)
         {
             var result = await _bankAccounts.FirstOrDefaultAsync(p => p.AccountNumber == accountNumber);
             return result;

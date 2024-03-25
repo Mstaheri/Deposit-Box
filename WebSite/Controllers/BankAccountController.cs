@@ -1,5 +1,6 @@
 ﻿using Application.Services;
 using Domain.Entity;
+using Domain.ValueObjects;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,6 +31,7 @@ namespace WebSite.Controllers
         [HttpGet("{AccountNumber}")]
         public async Task<IActionResult> Get([FromRoute] string AccountNumber)
         {
+            
             var result = await _bankAccountService.GetAsync(AccountNumber);
             if (result.Success)
             {
@@ -46,7 +48,7 @@ namespace WebSite.Controllers
             var result = await _bankAccountService.AddAsync(bankAccount);
             if (result.Success)
             {
-                string url = Url.Action(nameof(Get), "bankAccount", new { userName = bankAccount.UserName }, Request.Scheme);
+                string url = Url.Action(nameof(Get), "bankAccount", new { accountNumber = bankAccount.AccountNumber.Value }, Request.Scheme);
                 return Created(url, result.Success);
             }
             else

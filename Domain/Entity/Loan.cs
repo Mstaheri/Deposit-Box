@@ -1,4 +1,5 @@
 ﻿using Domain.Attributes;
+using Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Domain.Entity
     public class Loan
     {
         public Guid Code { get; private set; }
-        public string NameBankSafe { get; private set; }
+        public Name NameBankSafe { get; private set; }
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public int NumberOfInstallments { get; private set; }
@@ -20,7 +21,7 @@ namespace Domain.Entity
         public BankSafe BankSafe { get; private set; }
         public ICollection<LoanTransactions> LoanTransactions { get; private set; }
         public ICollection<LoanDocument> LoanDocuments { get; private set; }
-        public Loan(string nameBankSafe, string firstName , string lastName, int numberOfInstallments, decimal amount)
+        public Loan(Name nameBankSafe, string firstName , string lastName, int numberOfInstallments, decimal amount)
         {
             Code = Guid.NewGuid();
             NameBankSafe = nameBankSafe;

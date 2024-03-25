@@ -1,5 +1,6 @@
 ﻿using Domain.Attributes;
 using Domain.Enum;
+using Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,8 @@ namespace Domain.Entity
     public class BankSafeDocument
     {
         public Guid Code { get; private set; }
-        public string NameBankSafe { get; private set; }
-        public string AccountNumber { get; private set; }
+        public Name NameBankSafe { get; private set; }
+        public AccountNumber AccountNumber { get; private set; }
         public string RegistrationDate { get; private set; }
         public string DueDate { get; private set; }
         public decimal Deposit { get; private set; }
@@ -21,7 +22,7 @@ namespace Domain.Entity
         public SituationTypes Situation { get; private set; }
         public BankAccount BankAccount { get; private set; }
         public BankSafe BankSafe { get; private set; }
-        public BankSafeDocument(string nameBankSafe, string accountNumber, string registrationDate,
+        public BankSafeDocument(Name nameBankSafe, AccountNumber accountNumber, string registrationDate,
             string dueDate, decimal deposit, decimal withdrawal, SituationTypes situation)
         {
             Code = Guid.NewGuid();

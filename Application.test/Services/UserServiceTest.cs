@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Data.MoqData;
 using Domain.OperationResults;
+using Domain.ValueObjects;
 
 namespace Application.test.Services
 {
@@ -44,8 +45,15 @@ namespace Application.test.Services
 
 
             Assert.NotNull(result);
-            Assert.True(result.Success);
             Assert.IsType<OperationResult>(result);
+            if (result.Success)
+            {
+                Assert.Null(result.Message);
+            }
+            else
+            {
+                Assert.NotNull(result.Message);
+            }
         }
 
         [Theory]
@@ -54,7 +62,7 @@ namespace Application.test.Services
         [InlineData("Estaheri")]
         public async Task DeleteTestAsync(string userName)
         {
-            _repositorMoq.Setup(repo => repo.DeleteAsync(It.IsAny<string>()))
+            _repositorMoq.Setup(repo => repo.DeleteAsync(It.IsAny<UserName>()))
                 .Returns(() => Task.CompletedTask);
             UserService user = new UserService(_repositorMoq.Object
                 , _unitOfWorkMoq.Object
@@ -65,8 +73,15 @@ namespace Application.test.Services
 
 
             Assert.NotNull(result);
-            Assert.True(result.Success);
             Assert.IsType<OperationResult>(result);
+            if (result.Success)
+            {
+                Assert.Null(result.Message);
+            }
+            else
+            {
+                Assert.NotNull(result.Message);
+            }
         }
 
         [Fact]
@@ -74,7 +89,7 @@ namespace Application.test.Services
         public async Task UpdateTestAsync()
         {
             var data = await _moqData.Get();
-            _repositorMoq.Setup(repo => repo.GetAsync(It.IsAny<string>()))
+            _repositorMoq.Setup(repo => repo.GetAsync(It.IsAny<UserName>()))
                 .Returns(_moqData.Get());
             UserService user = new UserService(_repositorMoq.Object
                 , _unitOfWorkMoq.Object
@@ -85,8 +100,15 @@ namespace Application.test.Services
 
 
             Assert.NotNull(result);
-            Assert.True(result.Success);
             Assert.IsType<OperationResult>(result);
+            if (result.Success)
+            {
+                Assert.Null(result.Message);
+            }
+            else
+            {
+                Assert.NotNull(result.Message);
+            }
         }
 
         [Fact]
@@ -103,9 +125,48 @@ namespace Application.test.Services
             var result = await user.GetAllAsync();
 
 
-            Assert.NotNull(result);
-            Assert.True(result.Success);
             Assert.IsType<OperationResult<List<User>>>(result);
+            if (result.Success)
+            {
+                Assert.Null(result.Message);
+
+            }
+            else
+            {
+                Assert.NotNull(result.Message);
+                Assert.Null(result.Data);
+            }
+        }
+        [Theory]
+        [Trait("Service", "BankAccount")]
+        [InlineData("estaheri")]
+        [InlineData("")]
+        [InlineData("MSI")]
+        [InlineData("لیبل")]
+        public async Task GetTestAsync(string userName)
+        {
+            _repositorMoq.Setup(p => p.GetAsync(It.IsAny<UserName>()))
+                .Returns(_moqData.Get());
+            UserService user = new UserService(_repositorMoq.Object
+                , _unitOfWorkMoq.Object
+                , _loggerMoq.Object);
+
+
+            var result = await user.GetAsync(userName);
+
+
+            Assert.IsType<OperationResult<User>>(result);
+            if (result.Success)
+            {
+                Assert.Null(result.Message);
+
+            }
+            else
+            {
+                Assert.NotNull(result.Message);
+                Assert.Null(result.Data);
+            }
+
         }
     }
 }

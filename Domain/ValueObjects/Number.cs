@@ -1,23 +1,20 @@
 ﻿using Domain.Message;
 using Domain.OperationResults;
-using Microsoft.VisualBasic.FileIO;
+using Domain.Validations;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace Domain.ValueObjects
 {
-    public sealed class FirstName : ValueObject
+    public sealed class Number : ValueObject
     {
-        public string Value { get; init; }
-        public FirstName(string value)
+        public int Value { get; private set; }
+        public Number(int value)
         {
-            var result = CheckFirstName(value);
+            var result = CheckNumber(value);
             if (result.Success == true)
             {
                 Value = value;
@@ -27,11 +24,11 @@ namespace Domain.ValueObjects
                 throw new Exception(result.Message);
             }
         }
-        private OperationResult CheckFirstName(string value)
+        private OperationResult CheckNumber(int value)
         {
-            if (string.IsNullOrWhiteSpace(value))
+            if (value <= 0)
             {
-                string message = string.Format(ConstMessages.IsNull, nameof(FirstName));
+                string message = string.Format(ConstMessages.NotNegativeOrZero, nameof(Number));
                 return new OperationResult(false, message);
             }
             else
@@ -45,11 +42,10 @@ namespace Domain.ValueObjects
             yield return Value;
         }
 
-        public static implicit operator FirstName(string value)
-        => new FirstName(value);
+        public static implicit operator Number(int value)
+        => new Number(value);
 
-        public static implicit operator string(FirstName senderFirstName)
-            => senderFirstName.Value;
+        public static implicit operator int(Number number)
+            => number.Value;
     }
-    
 }

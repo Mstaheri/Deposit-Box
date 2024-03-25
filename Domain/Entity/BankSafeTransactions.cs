@@ -1,4 +1,5 @@
 ﻿using Domain.Attributes;
+using Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,13 +13,13 @@ namespace Domain.Entity
     public class BankSafeTransactions
     {
         public Guid Code { get; private set; }
-        public string NameBankSafe { get; private set; }
-        public string AccountNumber { get; private set; }
+        public Name NameBankSafe { get; private set; }
+        public AccountNumber AccountNumber { get; private set; }
         public decimal Deposit { get; private set; }
         public decimal Withdrawal { get; private set; }
         public BankAccount BankAccount { get; private set; }
         public BankSafe BankSafe { get; private set; }
-        public BankSafeTransactions(string nameBankSafe, string accountNumber,
+        public BankSafeTransactions(Name nameBankSafe, AccountNumber accountNumber,
             decimal deposit = 0, decimal withdrawal = 0)
         {
             Code = Guid.NewGuid();

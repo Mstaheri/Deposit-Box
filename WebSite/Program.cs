@@ -21,6 +21,12 @@ builder.Services.AddScoped<UserService>();
 //BankAccount
 builder.Services.AddScoped<IBankAccountRepositorie, BankAccountRepositorie>();
 builder.Services.AddScoped<BankAccountService>();
+//BankSafe
+builder.Services.AddScoped<IBankSafeRepositorie, BankSafeRepositorie>();
+builder.Services.AddScoped<BankSafeService>();
+//UserAndNumberOfShare
+builder.Services.AddScoped<IUserAndNumberOfShareRepositorie, UserAndNumberOfShareRepositorie>();
+builder.Services.AddScoped<UserAndNumberOfShareService>();
 
 var app = builder.Build();
 

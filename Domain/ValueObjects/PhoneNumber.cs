@@ -1,5 +1,6 @@
 ﻿using Domain.Message;
 using Domain.OperationResults;
+using Domain.Validations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Domain.ValueObjects
 {
     public sealed class PhoneNumber : ValueObject
     {
-        public string Value { get; init; }
+        public string Value { get; private set; }
         public PhoneNumber(string value)
         {
             var result = CheckPhoneNumber(value);
@@ -30,7 +31,7 @@ namespace Domain.ValueObjects
                 string message = string.Format(ConstMessages.IsNull, nameof(PhoneNumber));
                 return new OperationResult(false, message);
             }
-            else if (!Validation.CheckPhoneNumberFormat(value))
+            else if (value.Length != 11 || !value.StartsWith("09") || !Validation.CheckNumberFormat(value))
             {
                 string message = string.Format(ConstMessages.IncorrectFormat, nameof(PhoneNumber));
                 return new OperationResult(false, message);
@@ -40,7 +41,6 @@ namespace Domain.ValueObjects
                 return new OperationResult(true, null);
             }
         }
-
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return Value;
@@ -49,8 +49,8 @@ namespace Domain.ValueObjects
         public static implicit operator PhoneNumber(string value)
         => new PhoneNumber(value);
 
-        public static implicit operator string(PhoneNumber senderFirstName)
-            => senderFirstName.Value;
+        public static implicit operator string(PhoneNumber phoneNumber)
+            => phoneNumber.Value;
     }
 
 }

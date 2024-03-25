@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Storage;
 using Domain.OperationResults;
+using Domain.Message;
+using Domain.ValueObjects;
 
 namespace Application.Services
 {
@@ -33,7 +35,10 @@ namespace Application.Services
             {
                 await _bankAccountRepositorie.AddAsync(bankAccount);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
-                _Logger.LogInformation($"{bankAccount.AccountNumber} is Created Successfully");
+                string message = string.Format(ConstMessages.Successfully
+                        , bankAccount.AccountNumber.Value
+                        , nameof(AddAsync));
+                _Logger.LogInformation(message);
                 return new OperationResult(true, null);
             }
             catch (Exception ex)
@@ -52,12 +57,16 @@ namespace Application.Services
                 {
                     result.Update(bankAccount.AccountName, bankAccount.BankName, bankAccount.Description);
                     await _unitOfWork.SaveChangesAsync(cancellationToken);
-                    _Logger.LogInformation($"{bankAccount.AccountNumber} is Update Successfully");
+                    string message = string.Format(ConstMessages.Successfully
+                        , bankAccount.AccountNumber.Value
+                        , nameof(UpdateAsync));
+                    _Logger.LogInformation(message);
                     return new OperationResult(true, null);
                 }
                 else
                 {
-                    return new OperationResult(false, "BankAccount Update was not successful");
+                    string message = string.Format(ConstMessages.NotFound, bankAccount.AccountNumber.Value);
+                    throw new Exception(message);
                 }
             }
             catch (Exception ex)
@@ -73,7 +82,10 @@ namespace Application.Services
             {
                 await _bankAccountRepositorie.DeleteAsync(accountNumber);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
-                _Logger.LogInformation($"{accountNumber} is Delete Successfully");
+                string message = string.Format(ConstMessages.Successfully
+                        , accountNumber
+                        , nameof(DeleteAsync));
+                _Logger.LogInformation(message);
                 return new OperationResult(true,null);
             }
             catch (Exception ex)
@@ -87,7 +99,10 @@ namespace Application.Services
             try
             {
                 var result = await _bankAccountRepositorie.GetAllAsync();
-                _Logger.LogInformation("GetAll is Successfully");
+                string message = string.Format(ConstMessages.Successfully
+                        , nameof(GetAllAsync)
+                        , "");
+                _Logger.LogInformation(message);
                 return new OperationResult<List<BankAccount>>(true, null, result);
             }
             catch (Exception ex)
@@ -101,7 +116,10 @@ namespace Application.Services
             try
             {
                 var result = await _bankAccountRepositorie.GetAsync(accountNumber);
-                _Logger.LogInformation("GetAll is Successfully");
+                string message = string.Format(ConstMessages.Successfully
+                        , nameof(GetAsync)
+                        , "");
+                _Logger.LogInformation(message);
                 return new OperationResult<BankAccount>(true, null, result);
             }
             catch (Exception ex)

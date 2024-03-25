@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Message;
+using Domain.ValueObjects;
 
 namespace Infrastructure.Repositories
 {
@@ -29,12 +31,13 @@ namespace Infrastructure.Repositories
             }
             else
             {
-                throw new Exception("The user name is duplicate");
+                string message = string.Format(ConstMessages.Duplicate, user.UserName.Value);
+                throw new Exception(message);
             }
             
         }
 
-        public async Task DeleteAsync(string userName)
+        public async Task DeleteAsync(UserName userName)
         {
             var result = await _users.FirstOrDefaultAsync(p => p.UserName == userName);
             if (result != null)
@@ -43,7 +46,8 @@ namespace Infrastructure.Repositories
             }
             else
             {
-                throw new Exception("The desired User was not found");
+                string message = string.Format(ConstMessages.NotFound, userName.Value);
+                throw new Exception(message);
             }
         }
 
@@ -53,7 +57,7 @@ namespace Infrastructure.Repositories
             return result;
         }
 
-        public async Task<User> GetAsync(string userName)
+        public async Task<User> GetAsync(UserName userName)
         {
             var result = await _users.FirstOrDefaultAsync(p => p.UserName == userName);
             return result;

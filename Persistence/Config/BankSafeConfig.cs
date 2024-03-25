@@ -1,4 +1,5 @@
 ﻿using Domain.Entity;
+using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -48,11 +49,13 @@ namespace Persistence.Config
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.Property(p => p.Name)
+                .HasConversion(nameBankSafe => nameBankSafe.Value, value => new Name(value))
                 .HasMaxLength(50)
                 .IsUnicode(true)
                 .IsRequired(true);
 
             builder.Property(p => p.SharePrice)
+                .HasConversion(sharePrice => sharePrice.Value, value => new Money(value))
                 .HasMaxLength(12)
                 .IsRequired(true);
         }

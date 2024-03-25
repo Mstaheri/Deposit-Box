@@ -29,13 +29,13 @@ namespace Persistence.Config
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(p => p.FirstName)
-                .HasConversion(firstName => firstName.Value, value => new FirstName(value))
+                .HasConversion(firstName => firstName.Value, value => new Name(value))
                 .HasMaxLength(50)
                 .IsUnicode(true)
                 .IsRequired(true);
 
             builder.Property(p => p.LastName)
-                .HasConversion(lastName => lastName.Value, value => new LastName(value))
+                .HasConversion(lastName => lastName.Value, value => new Name(value))
                 .HasMaxLength(50)
                 .IsUnicode(true)
                 .IsRequired(true);

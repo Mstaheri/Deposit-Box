@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Domain.IRepositories
 {
-    public interface IUserRepositorie
+    public interface IBankSafeRepositorie
     {
-        ValueTask AddAsync(User user);
-        Task DeleteAsync(UserName userName);
-        Task<User> GetAsync(UserName userName);
-        Task<List<User>> GetAllAsync();
+        ValueTask AddAsync(BankSafe bankSafe);
+        Task DeleteAsync(Name name);
+        Task<BankSafe> GetAsync(Name name);
+        Task<List<BankSafe>> GetAllAsync();
     }
 }

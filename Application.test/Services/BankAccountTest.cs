@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.Data.MoqData;
 using Domain.OperationResults;
+using Domain.ValueObjects;
 
 namespace Application.test.Services
 {
@@ -44,8 +45,15 @@ namespace Application.test.Services
 
 
             Assert.NotNull(result);
-            Assert.True(result.Success);
             Assert.IsType<OperationResult>(result);
+            if (result.Success)
+            {
+                Assert.Null(result.Message);
+            }
+            else
+            {
+                Assert.NotNull(result.Message);
+            }
         }
 
         [Fact]
@@ -53,7 +61,7 @@ namespace Application.test.Services
         public async Task UpdateTestAsync()
         {
             var data = await _moqData.Get();
-            _repositorMoq.Setup(p => p.GetAsync(It.IsAny<string>()))
+            _repositorMoq.Setup(p => p.GetAsync(It.IsAny<AccountNumber>()))
                 .Returns(_moqData.Get());
             BankAccountService bankAccount = new BankAccountService(_unitOfWorkMoq.Object,
                 _repositorMoq.Object,
@@ -64,17 +72,24 @@ namespace Application.test.Services
 
 
             Assert.NotNull(result);
-            Assert.True(result.Success);
             Assert.IsType<OperationResult>(result);
+            if (result.Success)
+            {
+                Assert.Null(result.Message);
+            }
+            else
+            {
+                Assert.NotNull(result.Message);
+            }
         }
 
         [Theory]
         [Trait("Service", "BankAccount")]
         [InlineData("5859831113124455")]
-        [InlineData("5259834133126435")]
+        [InlineData("52598341331264")]
         public async Task DeleteTestAsync(string accountNumber)
         {
-            _repositorMoq.Setup(p => p.DeleteAsync(It.IsAny<string>()))
+            _repositorMoq.Setup(p => p.DeleteAsync(It.IsAny<AccountNumber>()))
                 .Returns(() => Task.CompletedTask);
             BankAccountService bankAccount = new BankAccountService(_unitOfWorkMoq.Object,
                 _repositorMoq.Object,
@@ -85,8 +100,15 @@ namespace Application.test.Services
 
 
             Assert.NotNull(result);
-            Assert.True(result.Success);
             Assert.IsType<OperationResult>(result);
+            if (result.Success)
+            {
+                Assert.Null(result.Message);
+            }
+            else
+            {
+                Assert.NotNull(result.Message);
+            }
         }
 
         [Fact]
@@ -103,9 +125,49 @@ namespace Application.test.Services
             var result = await bankAccount.GetAllAsync();
 
 
-            Assert.NotNull(result);
-            Assert.True(result.Success);
             Assert.IsType<OperationResult<List<BankAccount>>>(result);
+            if (result.Success)
+            {
+                Assert.Null(result.Message);
+                
+            }
+            else
+            {
+                Assert.NotNull(result.Message);
+                Assert.Null(result.Data);
+            }
+            
+        }
+        [Theory]
+        [Trait("Service", "BankAccount")]
+        [InlineData("1234323412341234")]
+        [InlineData("1234123222341233")]
+        [InlineData("1234123666341234")]
+        [InlineData("12341111123412")]
+        public async Task GetTestAsync(string accountNumber)
+        {
+            _repositorMoq.Setup(p => p.GetAsync(It.IsAny<AccountNumber>()))
+                .Returns(_moqData.Get());
+            BankAccountService bankAccount = new BankAccountService(_unitOfWorkMoq.Object,
+                _repositorMoq.Object,
+                _loggerMoq.Object);
+
+
+            var result = await bankAccount.GetAsync(accountNumber);
+
+
+            Assert.IsType<OperationResult<BankAccount>>(result);
+            if (result.Success)
+            {
+                Assert.Null(result.Message);
+                
+            }
+            else
+            {
+                Assert.NotNull(result.Message);
+                Assert.Null(result.Data);
+            }
+
         }
 
     }

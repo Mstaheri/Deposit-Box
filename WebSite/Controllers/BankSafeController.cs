@@ -2,23 +2,22 @@
 using Domain.Entity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Rewrite;
 
 namespace WebSite.Controllers
 {
-    [Route("api/User")]
+    [Route("api/BankSafe")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class BankSafeController : ControllerBase
     {
-        private readonly UserService _userService;
-        public UserController(UserService userService)
+        private readonly BankSafeService _bankSafeService;
+        public BankSafeController(BankSafeService bankSafeService)
         {
-            _userService = userService;
+            _bankSafeService = bankSafeService;
         }
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _userService.GetAllAsync();
+            var result = await _bankSafeService.GetAllAsync();
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -28,10 +27,10 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpGet("{UserName}")]
-        public async Task<IActionResult> Get([FromRoute] string UserName)
+        [HttpGet("{Name}")]
+        public async Task<IActionResult> Get([FromRoute] string Name)
         {
-            var result = await _userService.GetAsync(UserName);
+            var result = await _bankSafeService.GetAsync(Name);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -42,12 +41,12 @@ namespace WebSite.Controllers
             }
         }
         [HttpPost()]
-        public async Task<IActionResult> Insert([FromBody] User user)
+        public async Task<IActionResult> Insert([FromBody] BankSafe bankSafe)
         {
-            var result = await _userService.AddAsync(user);
+            var result = await _bankSafeService.AddAsync(bankSafe);
             if (result.Success)
             {
-                string url = Url.Action(nameof(Get), "User", new { userName = user.UserName.Value }, Request.Scheme);
+                string url = Url.Action(nameof(Get), "BankSafe", new { name = bankSafe.Name.Value }, Request.Scheme);
                 return Created(url, result.Success);
             }
             else
@@ -56,9 +55,9 @@ namespace WebSite.Controllers
             }
         }
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] User user)
+        public async Task<IActionResult> Update([FromBody] BankSafe bankSafe)
         {
-            var result = await _userService.UpdateAsync(user);
+            var result = await _bankSafeService.UpdateAsync(bankSafe);
             if (result.Success)
             {
                 return Ok(result.Success);
@@ -68,10 +67,10 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpDelete("{UserName}")]
-        public async Task<IActionResult> Delete([FromRoute] string UserName)
+        [HttpDelete("{Name}")]
+        public async Task<IActionResult> Delete([FromRoute] string Name)
         {
-            var result = await _userService.DeleteAsync(UserName);
+            var result = await _bankSafeService.DeleteAsync(Name);
             if (result.Success)
             {
                 return Ok(result.Success);

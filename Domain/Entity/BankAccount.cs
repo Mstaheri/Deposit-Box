@@ -11,16 +11,16 @@ namespace Domain.Entity
     [AudiTable]
     public class BankAccount
     {
-        public string AccountNumber { get; private set; }
+        public AccountNumber AccountNumber { get; private set; }
         public UserName UserName { get; private set; }
-        public string AccountName { get; private set; }
-        public string BankName { get; private set; }
+        public Name AccountName { get; private set; }
+        public Name BankName { get; private set; }
         public string Description { get; private set; }
         public User? User { get; private set; }
         public ICollection<BankSafeTransactions>? BankSafeTransactions { get; private set; }
         public ICollection<BankSafeDocument>? BankSafeDocuments { get; private set; }
-        public BankAccount(string accountNumber, UserName userName, string accountName,
-            string bankName, string description)
+        public BankAccount(AccountNumber accountNumber, UserName userName, Name accountName,
+            Name bankName, string description)
         {
             AccountNumber = accountNumber;
             UserName = userName;
@@ -28,8 +28,8 @@ namespace Domain.Entity
             BankName = bankName;
             Description = description;
         }
-        public void Update(string accountName,
-            string bankName, string description)
+        public void Update(Name accountName,
+            Name bankName, string description)
         {
             AccountName = accountName;
             BankName = bankName;
