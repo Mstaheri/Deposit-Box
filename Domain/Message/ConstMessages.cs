@@ -17,6 +17,7 @@ namespace Domain.Message
         public const string Successfully = "{0} is {1} Successfully";
         public const string NotNegativeOrZero = "The {0} must not be negative or zero";
         public const string NotNegative = "The {0} must not be negative";
+        public const string NotInventory = "The balance of {0} account in Bank {1} is {2}";
 
     }
 }

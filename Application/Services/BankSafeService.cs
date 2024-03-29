@@ -128,5 +128,24 @@ namespace Application.Services
             }
 
         }
+        public async Task<OperationResult<decimal>> Inventory()
+        {
+            try
+            {
+                var result = await _bankSafeRepositorie.Inventory();
+                string message = string.Format(ConstMessages.Successfully
+                        , nameof(Inventory)
+                        , "");
+                _logger.LogInformation(message);
+                return new OperationResult<decimal>(true, null, result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return new OperationResult<decimal>(false, ex.Message, -1);
+            }
+
+        }
+        
     }
 }

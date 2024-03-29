@@ -2,6 +2,7 @@ using Application.Services;
 using Application.UnitOfWork;
 using Domain.IRepositories;
 using Infrastructure.Repositories;
+using Microsoft.IdentityModel.Protocols;
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +28,12 @@ builder.Services.AddScoped<BankSafeService>();
 //UserAndNumberOfShare
 builder.Services.AddScoped<IUserAndNumberOfShareRepositorie, UserAndNumberOfShareRepositorie>();
 builder.Services.AddScoped<UserAndNumberOfShareService>();
+//BankSafeTransactions
+builder.Services.AddScoped<IBankSafeTransactionsRepositorie, BankSafeTransactionsRepositorie>();
+builder.Services.AddScoped<BankSafeTransactionsService>();
+//BankSafeDocument
+builder.Services.AddScoped<IBankSafeDocumentRepositorie, BankSafeDocumentRepositorie>();
+builder.Services.AddScoped<BankSafeDocumentService>();
 
 var app = builder.Build();
 

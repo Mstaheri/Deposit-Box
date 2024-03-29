@@ -163,5 +163,29 @@ namespace Application.test.Services
             }
 
         }
+        [Fact]
+        public async Task InventoryTestAsync()
+        {
+            _repositorMoq.Setup(p => p.Inventory())
+                .Returns(It.IsAny<Task<decimal>>);
+            BankSafeService bankSafe = new BankSafeService(_repositorMoq.Object
+                , _unitOfWorkMoq.Object, _loggerMoq.Object);
+
+
+            var result = await bankSafe.Inventory();
+
+
+            Assert.IsType<OperationResult<decimal>>(result);
+            if (result.Success)
+            {
+                Assert.Null(result.Message);
+            }
+            else
+            {
+                Assert.NotNull(result.Message);
+                Assert.Equal(result.Data , -1);
+            }
+
+        }
     }
 }

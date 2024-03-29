@@ -31,20 +31,24 @@ namespace Persistence.Config
                 .IsRequired(true);
 
             builder.Property(p => p.RegistrationDate)
+                .HasConversion(registrationDate => registrationDate.Value, value => new PersianDate(value))
                 .HasMaxLength(10)
                 .IsUnicode(true)
                 .IsRequired(true);
 
             builder.Property(p => p.DueDate)
+                .HasConversion(dueDate => dueDate.Value, value => new PersianDate(value))
                 .HasMaxLength(10)
                 .IsUnicode(true)
                 .IsRequired(true);
 
             builder.Property(p => p.Deposit)
+                .HasConversion(deposit => deposit.Value, value => new Money(value))
                 .HasMaxLength(12)
                 .IsRequired(true);
 
             builder.Property(p => p.Withdrawal)
+                .HasConversion(withdrawal => withdrawal.Value, value => new Money(value))
                 .HasMaxLength(12)
                 .IsRequired(true);
         }

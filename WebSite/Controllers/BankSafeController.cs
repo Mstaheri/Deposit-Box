@@ -14,10 +14,25 @@ namespace WebSite.Controllers
         {
             _bankSafeService = bankSafeService;
         }
+        [Route("all")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var result = await _bankSafeService.GetAllAsync();
+            if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+            else
+            {
+                return BadRequest(result.Message);
+            }
+        }
+        [Route("inventory")]
+        [HttpGet]
+        public async Task<IActionResult> Inventory()
+        {
+            var result = await _bankSafeService.Inventory();
             if (result.Success)
             {
                 return Ok(result.Data);

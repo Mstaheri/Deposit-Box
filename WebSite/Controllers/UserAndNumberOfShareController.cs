@@ -27,7 +27,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpGet("{NameBankSafe}")]
+        [HttpGet("NameBank/{NameBankSafe}")]
         public async Task<IActionResult> GetNameBank([FromRoute] string NameBankSafe)
         {
 
@@ -41,20 +41,20 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        //[HttpGet("{UserName}")]
-        //public async Task<IActionResult> GetUserName([FromRoute] string UserName)
-        //{
+        [HttpGet("UserName/{UserName}")]
+        public async Task<IActionResult> GetUserName([FromRoute] string UserName)
+        {
 
-        //    var result = await _userAndNumberOfShareService.GetUserNameAsync(UserName);
-        //    if (result.Success)
-        //    {
-        //        return Ok(result.Data);
-        //    }
-        //    else
-        //    {
-        //        return BadRequest(result.Message);
-        //    }
-        //}
+            var result = await _userAndNumberOfShareService.GetUserNameAsync(UserName);
+            if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+            else
+            {
+                return BadRequest(result.Message);
+            }
+        }
         [HttpGet("{NameBankSafe}/{UserName}")]
         public async Task<IActionResult> GetNameBankAndUserName([FromRoute] string NameBankSafe , string UserName)
         {

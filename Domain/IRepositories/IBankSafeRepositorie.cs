@@ -14,5 +14,7 @@ namespace Domain.IRepositories
         Task DeleteAsync(Name name);
         Task<BankSafe> GetAsync(Name name);
         Task<List<BankSafe>> GetAllAsync();
+        Task<decimal> Inventory();
+        Task<decimal> InventoryBankAccount(AccountNumber accountNumber , Name nameBankSafe);
     }
 }

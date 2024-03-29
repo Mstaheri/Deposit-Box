@@ -11,7 +11,7 @@ namespace Domain.ValueObjects
     public sealed class Money : ValueObject
     {
         public decimal Value { get; private set; }
-        public Money(decimal value)
+        public Money(decimal value = 0)
         {
             var result = CheckMoney(value);
             if (result.Success == true)
@@ -44,7 +44,7 @@ namespace Domain.ValueObjects
         public static implicit operator Money(int value)
         => new Money(value);
 
-        public static implicit operator decimal(Money number)
-            => number.Value;
+        public static implicit operator decimal(Money money)
+            => money.Value;
     }
 }

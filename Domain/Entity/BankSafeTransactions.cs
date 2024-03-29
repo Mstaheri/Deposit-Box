@@ -15,12 +15,12 @@ namespace Domain.Entity
         public Guid Code { get; private set; }
         public Name NameBankSafe { get; private set; }
         public AccountNumber AccountNumber { get; private set; }
-        public decimal Deposit { get; private set; }
-        public decimal Withdrawal { get; private set; }
-        public BankAccount BankAccount { get; private set; }
-        public BankSafe BankSafe { get; private set; }
+        public Money Deposit { get; private set; }
+        public Money Withdrawal { get; private set; }
+        public BankAccount? BankAccount { get; private set; }
+        public BankSafe? BankSafe { get; private set; }
         public BankSafeTransactions(Name nameBankSafe, AccountNumber accountNumber,
-            decimal deposit = 0, decimal withdrawal = 0)
+            Money deposit, Money withdrawal)
         {
             Code = Guid.NewGuid();
             NameBankSafe = nameBankSafe;
@@ -32,11 +32,11 @@ namespace Domain.Entity
             }
             else
             {
-                new Exception("");
+                throw new Exception("");
             }
             
         }
-        public void Update(decimal deposit = 0, decimal withdrawal = 0)
+        public void Update(Money deposit, Money withdrawal)
         {
             if (deposit == 0 && withdrawal != 0 || deposit != 0 && withdrawal == 0)
             {
@@ -45,7 +45,7 @@ namespace Domain.Entity
             }
             else
             {
-                new Exception("");
+                throw new Exception("");
             }
         }
 

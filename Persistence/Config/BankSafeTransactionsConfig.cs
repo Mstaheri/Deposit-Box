@@ -31,10 +31,12 @@ namespace Persistence.Config
                 .IsRequired(true);
 
             builder.Property(p => p.Deposit)
+                .HasConversion(deposit => deposit.Value, value => new Money(value))
                 .HasMaxLength(12)
                 .IsRequired(true);
 
             builder.Property(p => p.Withdrawal)
+                .HasConversion(withdrawal => withdrawal.Value, value => new Money(value))
                 .HasMaxLength(12)
                 .IsRequired(true);
         }
