@@ -2,6 +2,7 @@
 using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Persistence.Convertors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,36 +20,36 @@ namespace Persistence.Config
             builder.HasKey(p => p.Code);
 
             builder.Property(p => p.NameBankSafe)
-                .HasConversion(nameBankSafe => nameBankSafe.Value, value => new Name(value))
+                .HasConversion<NameConverter>()
                 .HasMaxLength(50)
                 .IsUnicode(true)
                 .IsRequired(true);
 
             builder.Property(p => p.AccountNumber)
-                .HasConversion(accountNumber => accountNumber.Value, value => new AccountNumber(value))
+                .HasConversion<AccountNumberConverter>()
                 .HasMaxLength(16)
                 .IsUnicode(true)
                 .IsRequired(true);
 
             builder.Property(p => p.RegistrationDate)
-                .HasConversion(registrationDate => registrationDate.Value, value => new PersianDate(value))
+                .HasConversion<PersianDateConverter>()
                 .HasMaxLength(10)
                 .IsUnicode(true)
                 .IsRequired(true);
 
             builder.Property(p => p.DueDate)
-                .HasConversion(dueDate => dueDate.Value, value => new PersianDate(value))
+                .HasConversion<PersianDateConverter>()
                 .HasMaxLength(10)
                 .IsUnicode(true)
                 .IsRequired(true);
 
             builder.Property(p => p.Deposit)
-                .HasConversion(deposit => deposit.Value, value => new Money(value))
+                .HasConversion<MoneyConverter>()
                 .HasMaxLength(12)
                 .IsRequired(true);
 
             builder.Property(p => p.Withdrawal)
-                .HasConversion(withdrawal => withdrawal.Value, value => new Money(value))
+                .HasConversion<MoneyConverter>()
                 .HasMaxLength(12)
                 .IsRequired(true);
         }

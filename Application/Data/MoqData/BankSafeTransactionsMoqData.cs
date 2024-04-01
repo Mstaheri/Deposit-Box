@@ -11,11 +11,11 @@ namespace Application.Data.MoqData
     {
         public Task<BankSafeTransactions> Get()
         {
-            BankSafeTransactions bankAccount = new BankSafeTransactions("ali",
+            BankSafeTransactions bankSafeTransactions = new BankSafeTransactions("ali",
                 "1234123412341234", 1122,
                 0);
 
-            return Task.FromResult(bankAccount);
+            return Task.FromResult(bankSafeTransactions);
         }
         public Task<List<BankSafeTransactions>> GetAll()
         {

@@ -2,6 +2,7 @@
 using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Persistence.Convertors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,26 +30,30 @@ namespace Persistence.Config
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.Property(p => p.NameBankSafe)
-                .HasConversion(nameBankSafe => nameBankSafe.Value, value => new Name(value))
+                .HasConversion<NameConverter>()
                 .HasMaxLength(50)
                 .IsUnicode(true)
                 .IsRequired(true);
 
             builder.Property(p => p.FirstName)
+                .HasConversion<NameConverter>()
                 .HasMaxLength(50)
                 .IsUnicode(true)
                 .IsRequired(true);
 
             builder.Property(p => p.LastName)
+                .HasConversion<NameConverter>()
                .HasMaxLength(50)
                .IsUnicode(true)
                .IsRequired(true);
 
             builder.Property(p => p.NumberOfInstallments)
+               .HasConversion<NumberConverter>()
                .HasMaxLength(4)
                .IsRequired(true);
 
             builder.Property(p => p.Amount)
+               .HasConversion<MoneyConverter>()
                .HasMaxLength(12)
                .IsRequired(true);
 

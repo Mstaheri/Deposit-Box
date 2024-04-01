@@ -13,15 +13,15 @@ namespace Domain.Entity
     {
         public Guid Code { get; private set; }
         public Name NameBankSafe { get; private set; }
-        public string FirstName { get; private set; }
-        public string LastName { get; private set; }
-        public int NumberOfInstallments { get; private set; }
-        public decimal Amount { get; private set; }
+        public Name FirstName { get; private set; }
+        public Name LastName { get; private set; }
+        public Number NumberOfInstallments { get; private set; }
+        public Money Amount { get; private set; }
         public int Wage { get; private set; }
         public BankSafe BankSafe { get; private set; }
         public ICollection<LoanTransactions> LoanTransactions { get; private set; }
         public ICollection<LoanDocument> LoanDocuments { get; private set; }
-        public Loan(Name nameBankSafe, string firstName , string lastName, int numberOfInstallments, decimal amount)
+        public Loan(Name nameBankSafe, Name firstName , Name lastName, Number numberOfInstallments, Money amount)
         {
             Code = Guid.NewGuid();
             NameBankSafe = nameBankSafe;
@@ -30,8 +30,8 @@ namespace Domain.Entity
             NumberOfInstallments = numberOfInstallments;
             Amount = amount;
         }
-        public void Update(string firstName , string lastName ,
-            int numberOfInstallments, decimal amount)
+        public void Update(Name firstName , Name lastName ,
+            Number numberOfInstallments, Money amount)
         {
             FirstName = firstName;
             LastName = lastName;

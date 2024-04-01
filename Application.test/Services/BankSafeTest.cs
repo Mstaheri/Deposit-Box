@@ -55,7 +55,7 @@ namespace Application.test.Services
             }
         }
         [Fact]
-        [Trait("Service", "BankAccount")]
+        [Trait("Service", "BankSafe")]
         public async Task UpdateTestAsync()
         {
             var data = await _moqData.Get();
@@ -81,7 +81,7 @@ namespace Application.test.Services
         }
 
         [Theory]
-        [Trait("Service", "BankAccount")]
+        [Trait("Service", "BankSafe")]
         [InlineData("Omid")]
         [InlineData("")]
         public async Task DeleteTestAsync(string name)
@@ -108,7 +108,7 @@ namespace Application.test.Services
         }
 
         [Fact]
-        [Trait("Service", "BankAccount")]
+        [Trait("Service", "BankSafe")]
         public async Task GetAllTestAsync()
         {
             _repositorMoq.Setup(p => p.GetAllAsync())
@@ -134,7 +134,7 @@ namespace Application.test.Services
 
         }
         [Theory]
-        [Trait("Service", "BankAccount")]
+        [Trait("Service", "BankSafe")]
         [InlineData("omid")]
         [InlineData("")]
         [InlineData("MSI")]
@@ -164,6 +164,7 @@ namespace Application.test.Services
 
         }
         [Fact]
+        [Trait("Service", "BankSafe")]
         public async Task InventoryTestAsync()
         {
             _repositorMoq.Setup(p => p.Inventory())

@@ -2,6 +2,7 @@
 using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Persistence.Convertors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,25 +30,25 @@ namespace Persistence.Config
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(p => p.AccountNumber)
-                .HasConversion(accountNumber => accountNumber.Value, value => new AccountNumber(value))
+                .HasConversion<AccountNumberConverter>()
                 .HasMaxLength(16)
                 .IsUnicode(true)
                 .IsRequired(true);
 
             builder.Property(p => p.UserName)
-                .HasConversion(userName => userName.Value, value => new UserName(value))
+                .HasConversion<UserNameConverter>()
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .IsRequired(true);
 
             builder.Property(p => p.AccountName)
-                .HasConversion(acountName => acountName.Value, value => new Name(value))
+                .HasConversion<NameConverter>()
                 .HasMaxLength(50)
                 .IsUnicode(true)
                 .IsRequired(true);
 
             builder.Property(p => p.BankName)
-                .HasConversion(bankName => bankName.Value, value => new Name(value))
+                .HasConversion<NameConverter>()
                 .HasMaxLength(50)
                 .IsUnicode(true)
                 .IsRequired(true);
