@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Domain.Entity
 {
     [AudiTable]
-    public class LoanDocument
+    public class LoanDocument : IEntity
     {
         public Guid Code { get; private set; }
         public Guid CodeLoan { get; private set; }

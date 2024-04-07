@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Domain.Entity
 {
     [AudiTable]
-    public class BankSafeTransactions
+    public class BankSafeTransactions : IEntity
     {
         public Guid Code { get; private set; }
         public Name NameBankSafe { get; private set; }

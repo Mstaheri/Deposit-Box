@@ -30,7 +30,7 @@ namespace Infrastructure.Repositories
                     .FirstOrDefaultAsync(p => p.AccountNumber == bankAccount.AccountNumber);
                 if (resultBankAccounts == null)
                 {
-                    await _bankAccounts.AddAsync(bankAccount);
+                    _bankAccounts.Add(bankAccount);
                 }
                 else
                 {

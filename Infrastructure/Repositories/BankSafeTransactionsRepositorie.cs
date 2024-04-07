@@ -47,7 +47,7 @@ namespace Infrastructure.Repositories
                             throw new Exception(message);
                         }
                     }
-                    await _bankSafeTransactions.AddAsync(bankSafeTransactions);
+                    _bankSafeTransactions.Add(bankSafeTransactions);
                 }
                 else
                 {

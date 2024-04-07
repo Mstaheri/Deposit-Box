@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Domain.Entity
 {
     [AudiTable]
-    public class User
+    public class User : IEntity
     {
         public Name FirstName { get; private set; }
         public Name LastName { get; private set; }

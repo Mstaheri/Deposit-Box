@@ -10,7 +10,7 @@ namespace Domain.IRepositories
 {
     public interface IBankSafeRepositorie
     {
-        ValueTask AddAsync(BankSafe bankSafe);
+        void Add(BankSafe bankSafe);
         Task DeleteAsync(Name name);
         Task<BankSafe> GetAsync(Name name);
         Task<List<BankSafe>> GetAllAsync();

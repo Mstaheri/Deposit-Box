@@ -24,9 +24,9 @@ namespace Infrastructure.Repositories
             _bankSafeTransactions= unitOfWork.Set<BankSafeTransactions>();
             _bankSafeDocument= unitOfWork.Set<BankSafeDocument>();
         }
-        public async ValueTask AddAsync(BankSafe bankSafe)
+        public void Add(BankSafe bankSafe)
         {
-            await _bankSafe.AddAsync(bankSafe);
+            _bankSafe.Add(bankSafe);
         }
 
         public async Task DeleteAsync(Name name)

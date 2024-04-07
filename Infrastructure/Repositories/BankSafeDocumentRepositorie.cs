@@ -47,7 +47,7 @@ namespace Infrastructure.Repositories
                             throw new Exception(message);
                         }
                     }
-                    await _bankSafeDocument.AddAsync(bankSafeDocument);
+                     _bankSafeDocument.Add(bankSafeDocument);
                 }
                 else
                 {

@@ -33,7 +33,7 @@ namespace Infrastructure.Repositories
                 var resultBankSafe = await _bankSafeRepositorie.GetAsync(userAndNumberOfShare.NameBankSafe);
                 if (resultBankSafe != null)
                 {
-                    await _userAndNumberOfShare.AddAsync(userAndNumberOfShare);
+                    _userAndNumberOfShare.Add(userAndNumberOfShare);
                 }
                 else
                 {

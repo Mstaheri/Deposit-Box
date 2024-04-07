@@ -27,7 +27,7 @@ namespace Infrastructure.Repositories
                    .FirstOrDefaultAsync(p => p.UserName == user.UserName);
             if (resultUsers == null)
             {
-                await _users.AddAsync(user);
+                _users.Add(user);
             }
             else
             {

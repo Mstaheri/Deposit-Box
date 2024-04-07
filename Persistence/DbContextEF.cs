@@ -30,6 +30,7 @@ namespace Persistence
         public DbSet<LoanTransactions> LoanTransactions { get; set; }
         public DbSet<LoanDocument> LoanDocuments { get; set; }
 
+        
         public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
         {
             return Database.BeginTransactionAsync(cancellationToken);

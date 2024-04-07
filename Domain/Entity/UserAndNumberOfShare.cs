@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Domain.Entity
 {
     [AudiTable]
-    public class UserAndNumberOfShare
+    public class UserAndNumberOfShare : IEntity
     {
         public Name NameBankSafe { get; private set; }
         public UserName UserName { get; private set; }

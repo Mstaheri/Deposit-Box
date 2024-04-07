@@ -30,7 +30,7 @@ namespace Application.Services
         {
             try
             {
-                await _bankSafeRepositorie.AddAsync(bankSafe);
+                _bankSafeRepositorie.Add(bankSafe);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                     , bankSafe.Name.Value
