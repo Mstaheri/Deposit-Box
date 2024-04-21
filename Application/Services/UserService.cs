@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Storage;
-using Domain.OperationResults;
 using Domain.Message;
 using Domain.ValueObjects;
+using Domain.Exceptions;
 
 namespace Application.Services
 {
@@ -32,7 +32,7 @@ namespace Application.Services
         {
             try
             {
-                await _userRepositorie.AddAsync(user);
+                await _userRepositorie.AddAsync(user , cancellationToken);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                     , user.UserName.Value 
@@ -52,7 +52,7 @@ namespace Application.Services
         {
             try
             {
-                var result = await _userRepositorie.GetAsync(user.UserName);
+                var result = await _userRepositorie.GetAsync(user.UserName , cancellationToken);
                 if (result != null)
                 {
                     result.Update(user.FirstName, user.LastName, user.PhoneNumber
@@ -81,7 +81,7 @@ namespace Application.Services
         {
             try
             {
-                await _userRepositorie.DeleteAsync(UserName);
+                await _userRepositorie.DeleteAsync(UserName, cancellationToken);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                         , UserName
@@ -95,11 +95,11 @@ namespace Application.Services
                 return new OperationResult(false, ex.Message);
             }
         }
-        public async Task<OperationResult<List<User>>> GetAllAsync()
+        public async Task<OperationResult<List<User>>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             try
             {
-                var result = await _userRepositorie.GetAllAsync();
+                var result = await _userRepositorie.GetAllAsync(cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                         , nameof(GetAllAsync)
                         , "");
@@ -113,11 +113,12 @@ namespace Application.Services
             }
             
         }
-        public async Task<OperationResult<User>> GetAsync(string userName)
+        public async Task<OperationResult<User>> GetAsync(string userName 
+            , CancellationToken cancellationToken = default)
         {
             try
             {
-                var result = await _userRepositorie.GetAsync(userName);
+                var result = await _userRepositorie.GetAsync(userName, cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                         , nameof(GetAsync)
                         , "");

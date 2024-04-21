@@ -21,10 +21,10 @@ namespace Infrastructure.Repositories
             _users = unitOfWork.Set<User>();
         }
 
-        public async ValueTask AddAsync(User user)
+        public async ValueTask AddAsync(User user, CancellationToken cancellationToken)
         {
             var resultUsers = await _users
-                   .FirstOrDefaultAsync(p => p.UserName == user.UserName);
+                   .FirstOrDefaultAsync(p => p.UserName == user.UserName , cancellationToken);
             if (resultUsers == null)
             {
                 _users.Add(user);
@@ -37,9 +37,9 @@ namespace Infrastructure.Repositories
             
         }
 
-        public async Task DeleteAsync(UserName userName)
+        public async Task DeleteAsync(UserName userName, CancellationToken cancellationToken)
         {
-            var result = await _users.FirstOrDefaultAsync(p => p.UserName == userName);
+            var result = await _users.FirstOrDefaultAsync(p => p.UserName == userName, cancellationToken);
             if (result != null)
             {
                 _users.Remove(result);
@@ -51,15 +51,15 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<List<User>> GetAllAsync()
+        public async Task<List<User>> GetAllAsync(CancellationToken cancellationToken)
         {
-            var result = await _users.ToListAsync();
+            var result = await _users.ToListAsync(cancellationToken);
             return result;
         }
 
-        public async Task<User> GetAsync(UserName userName)
+        public async Task<User> GetAsync(UserName userName, CancellationToken cancellationToken)
         {
-            var result = await _users.FirstOrDefaultAsync(p => p.UserName == userName);
+            var result = await _users.FirstOrDefaultAsync(p => p.UserName == userName, cancellationToken);
             return result;
         }
     }

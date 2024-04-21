@@ -16,9 +16,9 @@ namespace WebSite.Controllers
         }
         [Route("all")]
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
-            var result = await _bankSafeService.GetAllAsync();
+            var result = await _bankSafeService.GetAllAsync(cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -30,9 +30,9 @@ namespace WebSite.Controllers
         }
         [Route("inventory")]
         [HttpGet]
-        public async Task<IActionResult> Inventory()
+        public async Task<IActionResult> Inventory(CancellationToken cancellationToken)
         {
-            var result = await _bankSafeService.Inventory();
+            var result = await _bankSafeService.Inventory(cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -43,9 +43,10 @@ namespace WebSite.Controllers
             }
         }
         [HttpGet("{Name}")]
-        public async Task<IActionResult> Get([FromRoute] string Name)
+        public async Task<IActionResult> Get([FromRoute] string Name ,
+            CancellationToken cancellationToken)
         {
-            var result = await _bankSafeService.GetAsync(Name);
+            var result = await _bankSafeService.GetAsync(Name , cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -56,9 +57,10 @@ namespace WebSite.Controllers
             }
         }
         [HttpPost()]
-        public async Task<IActionResult> Insert([FromBody] BankSafe bankSafe)
+        public async Task<IActionResult> Insert([FromBody] BankSafe bankSafe ,
+            CancellationToken cancellationToken)
         {
-            var result = await _bankSafeService.AddAsync(bankSafe);
+            var result = await _bankSafeService.AddAsync(bankSafe, cancellationToken);
             if (result.Success)
             {
                 string url = Url.Action(nameof(Get), "BankSafe", new { name = bankSafe.Name.Value }, Request.Scheme);
@@ -70,9 +72,10 @@ namespace WebSite.Controllers
             }
         }
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] BankSafe bankSafe)
+        public async Task<IActionResult> Update([FromBody] BankSafe bankSafe,
+            CancellationToken cancellationToken)
         {
-            var result = await _bankSafeService.UpdateAsync(bankSafe);
+            var result = await _bankSafeService.UpdateAsync(bankSafe, cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Success);
@@ -83,9 +86,10 @@ namespace WebSite.Controllers
             }
         }
         [HttpDelete("{Name}")]
-        public async Task<IActionResult> Delete([FromRoute] string Name)
+        public async Task<IActionResult> Delete([FromRoute] string Name,
+            CancellationToken cancellationToken)
         {
-            var result = await _bankSafeService.DeleteAsync(Name);
+            var result = await _bankSafeService.DeleteAsync(Name, cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Success);

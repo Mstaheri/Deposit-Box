@@ -2,8 +2,8 @@
 using Application.Services;
 using Application.UnitOfWork;
 using Domain.Entity;
+using Domain.Exceptions;
 using Domain.IRepositories;
-using Domain.OperationResults;
 using Domain.ValueObjects;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -33,7 +33,7 @@ namespace Application.test.Services
         public async Task AddTestAsync()
         {
             var data = await _moqData.Get();
-            _repositorMoq.Setup(repo => repo.AddAsync(It.IsAny<UserAndNumberOfShare>()))
+            _repositorMoq.Setup(repo => repo.AddAsync(It.IsAny<UserAndNumberOfShare>() , It.IsAny<CancellationToken>()))
                 .Returns(() => ValueTask.CompletedTask);
             UserAndNumberOfShareService userAndNumberOfShare = new UserAndNumberOfShareService(_unitOfWorkMoq.Object
                 , _repositorMoq.Object
@@ -62,7 +62,7 @@ namespace Application.test.Services
         [InlineData("MST", "لیبل")]
         public async Task DeleteTestAsync(string nameBankSafe ,string userName)
         {
-            _repositorMoq.Setup(repo => repo.DeleteAsync(It.IsAny<Name>(),It.IsAny<UserName>()))
+            _repositorMoq.Setup(repo => repo.DeleteAsync(It.IsAny<Name>(),It.IsAny<UserName>(), It.IsAny<CancellationToken>()))
                 .Returns(() => Task.CompletedTask);
             UserAndNumberOfShareService userAndNumberOfShare = new UserAndNumberOfShareService(_unitOfWorkMoq.Object
                 , _repositorMoq.Object
@@ -90,7 +90,7 @@ namespace Application.test.Services
         {
             var data = await _moqData.Get();
             _repositorMoq.Setup(repo => repo.GetNameBankAndUserNameAsync
-            (It.IsAny<Name>() , It.IsAny<UserName>()))
+            (It.IsAny<Name>() , It.IsAny<UserName>(), It.IsAny<CancellationToken>()))
                 .Returns(_moqData.Get());
             UserAndNumberOfShareService userAndNumberOfShare = new UserAndNumberOfShareService(_unitOfWorkMoq.Object
                 , _repositorMoq.Object
@@ -116,7 +116,7 @@ namespace Application.test.Services
         [Trait("Services", "User")]
         public async Task GetAllTestAsync()
         {
-            _repositorMoq.Setup(repo => repo.GetAllAsync())
+            _repositorMoq.Setup(repo => repo.GetAllAsync(It.IsAny<CancellationToken>()))
                 .Returns(_moqData.GetAll());
             UserAndNumberOfShareService userAndNumberOfShare = new UserAndNumberOfShareService(_unitOfWorkMoq.Object
                 , _repositorMoq.Object
@@ -146,7 +146,7 @@ namespace Application.test.Services
         [InlineData("لیبل")]
         public async Task GetUserNameTestAsync(string userName)
         {
-            _repositorMoq.Setup(p => p.GetUserNameAsync(It.IsAny<UserName>()))
+            _repositorMoq.Setup(p => p.GetUserNameAsync(It.IsAny<UserName>(), It.IsAny<CancellationToken>()))
                 .Returns(_moqData.Get());
             UserAndNumberOfShareService userAndNumberOfShare = new UserAndNumberOfShareService(_unitOfWorkMoq.Object
                 , _repositorMoq.Object
@@ -177,7 +177,7 @@ namespace Application.test.Services
         [InlineData("محمد")]
         public async Task GetNameBankTestAsync(string name)
         {
-            _repositorMoq.Setup(p => p.GetNameBankAsync(It.IsAny<Name>()))
+            _repositorMoq.Setup(p => p.GetNameBankAsync(It.IsAny<Name>(), It.IsAny<CancellationToken>()))
                 .Returns(_moqData.Get());
             UserAndNumberOfShareService userAndNumberOfShare = new UserAndNumberOfShareService(_unitOfWorkMoq.Object
                 , _repositorMoq.Object
@@ -209,7 +209,7 @@ namespace Application.test.Services
         public async Task GetNameBankAndUserNameTestAsync(string nameBankSafe ,string userName)
         {
             _repositorMoq.Setup(p => p.GetNameBankAndUserNameAsync
-            (It.IsAny<Name>() , It.IsAny<UserName>()))
+            (It.IsAny<Name>() , It.IsAny<UserName>(), It.IsAny<CancellationToken>()))
                 .Returns(_moqData.Get());
             UserAndNumberOfShareService userAndNumberOfShare = new UserAndNumberOfShareService(_unitOfWorkMoq.Object
                 , _repositorMoq.Object

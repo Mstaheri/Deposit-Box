@@ -29,9 +29,9 @@ namespace Infrastructure.Repositories
             _bankSafe.Add(bankSafe);
         }
 
-        public async Task DeleteAsync(Name name)
+        public async Task DeleteAsync(Name name , CancellationToken cancellationToken)
         {
-            var result = await _bankSafe.FirstOrDefaultAsync(p => p.Name == name);
+            var result = await _bankSafe.FirstOrDefaultAsync(p => p.Name == name , cancellationToken);
             if (result != null)
             {
                 _bankSafe.Remove(result);
@@ -43,39 +43,44 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<List<BankSafe>> GetAllAsync()
+        public async Task<List<BankSafe>> GetAllAsync(CancellationToken cancellationToken)
         {
-            var result = await _bankSafe.ToListAsync();
+            var result = await _bankSafe.ToListAsync(cancellationToken);
             return result;
         }
 
-        public async Task<BankSafe> GetAsync(Name name)
+        public async Task<BankSafe> GetAsync(Name name , CancellationToken cancellationToken)
         {
-            var result = await _bankSafe.FirstOrDefaultAsync(p => p.Name == name);
+            var result = await _bankSafe.FirstOrDefaultAsync(p => p.Name == name , cancellationToken);
             return result;
         }
 
-        public async Task<decimal> Inventory()
+        public async Task<decimal> Inventory(CancellationToken cancellationToken)
         {
-            var inventoryTransactions = await _bankSafeTransactions.SumAsync(p => p.Deposit - p.Withdrawal);
-            var inventoryDocument = await _bankSafeDocument.Where(p => p.Situation == SituationTypes.Confirmed)
-                .SumAsync(p => p.Deposit - p.Withdrawal);
+            var inventoryTransactions = await _bankSafeTransactions
+                .SumAsync(p => p.Deposit - p.Withdrawal ,cancellationToken);
+
+            var inventoryDocument = await _bankSafeDocument
+                .Where(p => p.Situation == SituationTypes.Confirmed)
+                .SumAsync(p => p.Deposit - p.Withdrawal, cancellationToken);
+
             decimal inventory = inventoryTransactions + inventoryDocument;
             return inventory;
         }
 
-        public async Task<decimal> InventoryBankAccount(AccountNumber accountNumber, Name nameBankSafe)
+        public async Task<decimal> InventoryBankAccount(AccountNumber accountNumber, Name nameBankSafe
+            , CancellationToken cancellationToken)
         {
             var inventoryTransactions = await _bankSafeTransactions
                             .Where(p => p.AccountNumber == accountNumber
                              && p.NameBankSafe == nameBankSafe)
-                            .SumAsync(p => p.Deposit - p.Withdrawal);
+                            .SumAsync(p => p.Deposit - p.Withdrawal, cancellationToken);
 
             var inventoryDocument = await _bankSafeDocument
                             .Where(p => p.AccountNumber == accountNumber
                              && p.NameBankSafe == nameBankSafe
                              && p.Situation == SituationTypes.Confirmed)
-                            .SumAsync(p => p.Deposit - p.Withdrawal);
+                            .SumAsync(p => p.Deposit - p.Withdrawal, cancellationToken);
 
             decimal inventory = inventoryTransactions + inventoryDocument;
             return inventory;

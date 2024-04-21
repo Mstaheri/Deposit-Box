@@ -16,9 +16,9 @@ namespace WebSite.Controllers
             _bankAccountService = bankAccountService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
-            var result = await _bankAccountService.GetAllAsync();
+            var result = await _bankAccountService.GetAllAsync(cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -29,10 +29,11 @@ namespace WebSite.Controllers
             }
         }
         [HttpGet("{AccountNumber}")]
-        public async Task<IActionResult> Get([FromRoute] string AccountNumber)
+        public async Task<IActionResult> Get([FromRoute] string AccountNumber ,
+            CancellationToken cancellationToken)
         {
             
-            var result = await _bankAccountService.GetAsync(AccountNumber);
+            var result = await _bankAccountService.GetAsync(AccountNumber , cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -43,9 +44,10 @@ namespace WebSite.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> Insert([FromBody] BankAccount bankAccount)
+        public async Task<IActionResult> Insert([FromBody] BankAccount bankAccount ,
+            CancellationToken cancellationToken)
         {
-            var result = await _bankAccountService.AddAsync(bankAccount);
+            var result = await _bankAccountService.AddAsync(bankAccount , cancellationToken);
             if (result.Success)
             {
                 string url = Url.Action(nameof(Get), "bankAccount", new { accountNumber = bankAccount.AccountNumber.Value }, Request.Scheme);
@@ -57,9 +59,10 @@ namespace WebSite.Controllers
             }
         }
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] BankAccount bankAccount)
+        public async Task<IActionResult> Update([FromBody] BankAccount bankAccount ,
+            CancellationToken cancellationToken)
         {
-            var result = await _bankAccountService.UpdateAsync(bankAccount);
+            var result = await _bankAccountService.UpdateAsync(bankAccount , cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Success);
@@ -70,9 +73,10 @@ namespace WebSite.Controllers
             }
         }
         [HttpDelete("{AccountNumber}")]
-        public async Task<IActionResult> Delete([FromRoute] string AccountNumber)
+        public async Task<IActionResult> Delete([FromRoute] string AccountNumber ,
+            CancellationToken cancellationToken)
         {
-            var result = await _bankAccountService.DeleteAsync(AccountNumber);
+            var result = await _bankAccountService.DeleteAsync(AccountNumber , cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Success);

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Domain.OperationResults
+namespace Domain.Exceptions
 {
     public class OperationResult
     {

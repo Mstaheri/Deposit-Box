@@ -10,11 +10,11 @@ namespace Domain.IRepositories
 {
     public interface IUserAndNumberOfShareRepositorie
     {
-        ValueTask AddAsync(UserAndNumberOfShare userAndNumberOfShare);
-        Task DeleteAsync(Name nameBankSafe , UserName userName);
-        Task<UserAndNumberOfShare> GetNameBankAsync(Name nameBankSafe);
-        Task<UserAndNumberOfShare> GetUserNameAsync(UserName userName);
-        Task<UserAndNumberOfShare> GetNameBankAndUserNameAsync(Name nameBankSafe, UserName userName);
-        Task<List<UserAndNumberOfShare>> GetAllAsync();
+        ValueTask AddAsync(UserAndNumberOfShare userAndNumberOfShare, CancellationToken cancellationToken);
+        Task DeleteAsync(Name nameBankSafe , UserName userName, CancellationToken cancellationToken);
+        Task<UserAndNumberOfShare> GetNameBankAsync(Name nameBankSafe, CancellationToken cancellationToken);
+        Task<UserAndNumberOfShare> GetUserNameAsync(UserName userName, CancellationToken cancellationToken);
+        Task<UserAndNumberOfShare> GetNameBankAndUserNameAsync(Name nameBankSafe, UserName userName, CancellationToken cancellationToken);
+        Task<List<UserAndNumberOfShare>> GetAllAsync(CancellationToken cancellationToken);
     }
 }

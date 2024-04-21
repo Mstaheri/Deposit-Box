@@ -10,9 +10,9 @@ namespace Domain.IRepositories
 {
     public interface IUserRepositorie
     {
-        ValueTask AddAsync(User user);
-        Task DeleteAsync(UserName userName);
-        Task<User> GetAsync(UserName userName);
-        Task<List<User>> GetAllAsync();
+        ValueTask AddAsync(User user, CancellationToken cancellationToken);
+        Task DeleteAsync(UserName userName, CancellationToken cancellationToken);
+        Task<User> GetAsync(UserName userName, CancellationToken cancellationToken);
+        Task<List<User>> GetAllAsync(CancellationToken cancellationToken);
     }
 }

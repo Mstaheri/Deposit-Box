@@ -1,8 +1,8 @@
 ﻿using Application.UnitOfWork;
 using Domain.Entity;
+using Domain.Exceptions;
 using Domain.IRepositories;
 using Domain.Message;
-using Domain.OperationResults;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -50,7 +50,7 @@ namespace Application.Services
         {
             try
             {
-                var result = await _bankSafeRepositorie.GetAsync(bankSafe.Name);
+                var result = await _bankSafeRepositorie.GetAsync(bankSafe.Name, cancellationToken);
                 if (result != null)
                 {
                     result.Update(bankSafe.SharePrice);
@@ -78,7 +78,7 @@ namespace Application.Services
         {
             try
             {
-                await _bankSafeRepositorie.DeleteAsync(name);
+                await _bankSafeRepositorie.DeleteAsync(name, cancellationToken);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                         , name
@@ -92,11 +92,11 @@ namespace Application.Services
                 return new OperationResult(false, ex.Message);
             }
         }
-        public async Task<OperationResult<List<BankSafe>>> GetAllAsync()
+        public async Task<OperationResult<List<BankSafe>>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             try
             {
-                var result = await _bankSafeRepositorie.GetAllAsync();
+                var result = await _bankSafeRepositorie.GetAllAsync(cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                         , nameof(GetAllAsync)
                         , "");
@@ -110,11 +110,12 @@ namespace Application.Services
             }
 
         }
-        public async Task<OperationResult<BankSafe>> GetAsync(string name)
+        public async Task<OperationResult<BankSafe>> GetAsync(string name,
+            CancellationToken cancellationToken = default)
         {
             try
             {
-                var result = await _bankSafeRepositorie.GetAsync(name);
+                var result = await _bankSafeRepositorie.GetAsync(name, cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                         , nameof(GetAsync)
                         , "");
@@ -128,11 +129,11 @@ namespace Application.Services
             }
 
         }
-        public async Task<OperationResult<decimal>> Inventory()
+        public async Task<OperationResult<decimal>> Inventory(CancellationToken cancellationToken = default)
         {
             try
             {
-                var result = await _bankSafeRepositorie.Inventory();
+                var result = await _bankSafeRepositorie.Inventory(cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                         , nameof(Inventory)
                         , "");

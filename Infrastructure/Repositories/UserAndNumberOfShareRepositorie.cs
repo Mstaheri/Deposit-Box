@@ -25,12 +25,14 @@ namespace Infrastructure.Repositories
             _UserRepositorie = userRepositorie;
             _bankSafeRepositorie = bankSafeRepositorie;
         }
-        public async ValueTask AddAsync(UserAndNumberOfShare userAndNumberOfShare)
+        public async ValueTask AddAsync(UserAndNumberOfShare userAndNumberOfShare, CancellationToken cancellationToken)
         {
-            var resultUser = await _UserRepositorie.GetAsync(userAndNumberOfShare.UserName);
+            var resultUser = await _UserRepositorie
+                .GetAsync(userAndNumberOfShare.UserName , cancellationToken);
             if (resultUser != null)
             {
-                var resultBankSafe = await _bankSafeRepositorie.GetAsync(userAndNumberOfShare.NameBankSafe);
+                var resultBankSafe = await _bankSafeRepositorie
+                    .GetAsync(userAndNumberOfShare.NameBankSafe, cancellationToken);
                 if (resultBankSafe != null)
                 {
                     _userAndNumberOfShare.Add(userAndNumberOfShare);
@@ -48,10 +50,10 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task DeleteAsync(Name nameBankSafe, UserName userName)
+        public async Task DeleteAsync(Name nameBankSafe, UserName userName , CancellationToken cancellationToken)
         {
             var result = await _userAndNumberOfShare
-               .FirstOrDefaultAsync(p => p.NameBankSafe == nameBankSafe && p.UserName == userName);
+               .FirstOrDefaultAsync(p => p.NameBankSafe == nameBankSafe && p.UserName == userName, cancellationToken);
             if (result != null)
             {
                 _userAndNumberOfShare.Remove(result);
@@ -63,30 +65,31 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<List<UserAndNumberOfShare>> GetAllAsync()
+        public async Task<List<UserAndNumberOfShare>> GetAllAsync(CancellationToken cancellationToken)
         {
-            var result = await _userAndNumberOfShare.ToListAsync();
+            var result = await _userAndNumberOfShare.ToListAsync(cancellationToken);
             return result;
         }
 
-        public async Task<UserAndNumberOfShare> GetNameBankAsync(Name nameBankSafe)
+        public async Task<UserAndNumberOfShare> GetNameBankAsync(Name nameBankSafe, CancellationToken cancellationToken)
         {
             var result = await _userAndNumberOfShare
-                .FirstOrDefaultAsync(p => p.NameBankSafe == nameBankSafe);
+                .FirstOrDefaultAsync(p => p.NameBankSafe == nameBankSafe, cancellationToken);
             return result;
         }
 
-        public async Task<UserAndNumberOfShare> GetUserNameAsync(UserName userName)
+        public async Task<UserAndNumberOfShare> GetUserNameAsync(UserName userName, CancellationToken cancellationToken)
         {
             var result = await _userAndNumberOfShare
-                .FirstOrDefaultAsync(p => p.UserName == userName);
+                .FirstOrDefaultAsync(p => p.UserName == userName, cancellationToken);
             return result;
         }
 
-        public async Task<UserAndNumberOfShare> GetNameBankAndUserNameAsync(Name nameBankSafe, UserName userName)
+        public async Task<UserAndNumberOfShare> GetNameBankAndUserNameAsync(Name nameBankSafe, UserName userName
+            , CancellationToken cancellationToken)
         {
             var result = await _userAndNumberOfShare
-                .FirstOrDefaultAsync(p => p.UserName == userName && p.NameBankSafe == nameBankSafe);
+                .FirstOrDefaultAsync(p => p.UserName == userName && p.NameBankSafe == nameBankSafe, cancellationToken);
             return result;
         }
     }

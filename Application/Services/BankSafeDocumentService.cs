@@ -1,13 +1,14 @@
 ﻿using Application.UnitOfWork;
 using Domain.Entity;
+using Domain.Exceptions;
 using Domain.IRepositories;
 using Domain.Message;
-using Domain.OperationResults;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Application.Services
@@ -31,7 +32,7 @@ namespace Application.Services
         {
             try
             {
-                await _bankSafeDocumentRepositorie.AddAsync(bankSafeDocument);
+                await _bankSafeDocumentRepositorie.AddAsync(bankSafeDocument, cancellationToken);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                         , bankSafeDocument.Code
@@ -45,11 +46,11 @@ namespace Application.Services
                 return new OperationResult(false, ex.Message);
             }
         }
-        public async Task<OperationResult<List<BankSafeDocument>>> GetAllAsync()
+        public async Task<OperationResult<List<BankSafeDocument>>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             try
             {
-                var result = await _bankSafeDocumentRepositorie.GetAllAsync();
+                var result = await _bankSafeDocumentRepositorie.GetAllAsync(cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                         , nameof(GetAllAsync)
                         , "");
@@ -62,11 +63,12 @@ namespace Application.Services
                 return new OperationResult<List<BankSafeDocument>>(false, ex.Message, null);
             }
         }
-        public async Task<OperationResult<BankSafeDocument>> GetAsync(Guid code)
+        public async Task<OperationResult<BankSafeDocument>> GetAsync(Guid code
+            , CancellationToken cancellationToken = default)
         {
             try
             {
-                var result = await _bankSafeDocumentRepositorie.GetAsync(code);
+                var result = await _bankSafeDocumentRepositorie.GetAsync(code, cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                         , nameof(GetAsync)
                         , "");

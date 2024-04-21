@@ -2,8 +2,8 @@
 using Application.Services;
 using Application.UnitOfWork;
 using Domain.Entity;
+using Domain.Exceptions;
 using Domain.IRepositories;
-using Domain.OperationResults;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
@@ -33,7 +33,7 @@ namespace Application.test.Services
         public async Task AddTestAsync()
         {
             var data = await _moqData.Get();
-            _repositorMoq.Setup(p => p.AddAsync(It.IsAny<BankSafeDocument>()))
+            _repositorMoq.Setup(p => p.AddAsync(It.IsAny<BankSafeDocument>() , It.IsAny<CancellationToken>()))
                 .Returns(() => ValueTask.CompletedTask);
             BankSafeDocumentService bankSafeDocumentService = new BankSafeDocumentService(_unitOfWorkMoq.Object,
                 _repositorMoq.Object,
@@ -58,7 +58,7 @@ namespace Application.test.Services
         [Trait("Service", "BankSafeDocument")]
         public async Task GetAllTestAsync()
         {
-            _repositorMoq.Setup(p => p.GetAllAsync())
+            _repositorMoq.Setup(p => p.GetAllAsync(It.IsAny<CancellationToken>()))
                 .Returns(_moqData.GetAll());
             BankSafeDocumentService bankSafeDocumentService = new BankSafeDocumentService(_unitOfWorkMoq.Object,
                 _repositorMoq.Object,
@@ -88,7 +88,7 @@ namespace Application.test.Services
         [InlineData("17466fd3-e221-413d-a419-dd4690bf7bc1")]
         public async Task GetTestAsync(Guid code)
         {
-            _repositorMoq.Setup(p => p.GetAsync(It.IsAny<Guid>()))
+            _repositorMoq.Setup(p => p.GetAsync(It.IsAny<Guid>() , It.IsAny<CancellationToken>()))
                 .Returns(_moqData.Get());
             BankSafeDocumentService bankSafeDocumentService = new BankSafeDocumentService(_unitOfWorkMoq.Object,
                 _repositorMoq.Object,

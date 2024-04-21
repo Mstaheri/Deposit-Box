@@ -15,9 +15,9 @@ namespace WebSite.Controllers
             _bankSafeDocumentService = bankSafeDocumentService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
-            var result = await _bankSafeDocumentService.GetAllAsync();
+            var result = await _bankSafeDocumentService.GetAllAsync(cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -28,10 +28,11 @@ namespace WebSite.Controllers
             }
         }
         [HttpGet("{Code}")]
-        public async Task<IActionResult> Get([FromRoute] Guid Code)
+        public async Task<IActionResult> Get([FromRoute] Guid Code
+            , CancellationToken cancellationToken)
         {
 
-            var result = await _bankSafeDocumentService.GetAsync(Code);
+            var result = await _bankSafeDocumentService.GetAsync(Code , cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -42,9 +43,10 @@ namespace WebSite.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> Insert([FromBody] BankSafeDocument bankSafeDocument)
+        public async Task<IActionResult> Insert([FromBody] BankSafeDocument bankSafeDocument,
+            CancellationToken cancellationToken)
         {
-            var result = await _bankSafeDocumentService.AddAsync(bankSafeDocument);
+            var result = await _bankSafeDocumentService.AddAsync(bankSafeDocument , cancellationToken);
             if (result.Success)
             {
                 string url = Url.Action(nameof(Get), "BankSafeDocument",

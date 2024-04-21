@@ -11,8 +11,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Data.MoqData;
-using Domain.OperationResults;
 using Domain.ValueObjects;
+using Domain.Exceptions;
 
 namespace Application.test.Services
 {
@@ -34,7 +34,7 @@ namespace Application.test.Services
         public async Task AddTestAsync()
         {
             var data = await _moqData.Get();
-            _repositorMoq.Setup(repo => repo.AddAsync(It.IsAny<User>()))
+            _repositorMoq.Setup(repo => repo.AddAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()))
                 .Returns(() => ValueTask.CompletedTask);
             UserService user = new UserService(_repositorMoq.Object
                 , _unitOfWorkMoq.Object
@@ -62,7 +62,7 @@ namespace Application.test.Services
         [InlineData("Estaheri")]
         public async Task DeleteTestAsync(string userName)
         {
-            _repositorMoq.Setup(repo => repo.DeleteAsync(It.IsAny<UserName>()))
+            _repositorMoq.Setup(repo => repo.DeleteAsync(It.IsAny<UserName>(), It.IsAny<CancellationToken>()))
                 .Returns(() => Task.CompletedTask);
             UserService user = new UserService(_repositorMoq.Object
                 , _unitOfWorkMoq.Object
@@ -89,7 +89,7 @@ namespace Application.test.Services
         public async Task UpdateTestAsync()
         {
             var data = await _moqData.Get();
-            _repositorMoq.Setup(repo => repo.GetAsync(It.IsAny<UserName>()))
+            _repositorMoq.Setup(repo => repo.GetAsync(It.IsAny<UserName>(), It.IsAny<CancellationToken>()))
                 .Returns(_moqData.Get());
             UserService user = new UserService(_repositorMoq.Object
                 , _unitOfWorkMoq.Object
@@ -115,7 +115,7 @@ namespace Application.test.Services
         [Trait("Services", "User")]
         public async Task GetAllTestAsync()
         {
-            _repositorMoq.Setup(repo => repo.GetAllAsync())
+            _repositorMoq.Setup(repo => repo.GetAllAsync(It.IsAny<CancellationToken>()))
                 .Returns(_moqData.GetAll());
             UserService user = new UserService(_repositorMoq.Object
                 , _unitOfWorkMoq.Object
@@ -145,7 +145,7 @@ namespace Application.test.Services
         [InlineData("لیبل")]
         public async Task GetTestAsync(string userName)
         {
-            _repositorMoq.Setup(p => p.GetAsync(It.IsAny<UserName>()))
+            _repositorMoq.Setup(p => p.GetAsync(It.IsAny<UserName>(), It.IsAny<CancellationToken>()))
                 .Returns(_moqData.Get());
             UserService user = new UserService(_repositorMoq.Object
                 , _unitOfWorkMoq.Object

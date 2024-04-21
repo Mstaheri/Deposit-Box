@@ -25,18 +25,21 @@ namespace Infrastructure.Repositories
             _bankSafeRepositorie = bankSafeRepositorie;
             _bankAccountRepositorie = bankAccountRepositorie;
         }
-        public async ValueTask AddAsync(BankSafeTransactions bankSafeTransactions)
+        public async ValueTask AddAsync(BankSafeTransactions bankSafeTransactions , CancellationToken cancellationToken)
         {
-            var resultbankAccount = await _bankAccountRepositorie.GetAsync(bankSafeTransactions.AccountNumber);
+            var resultbankAccount = await _bankAccountRepositorie
+                .GetAsync(bankSafeTransactions.AccountNumber, cancellationToken);
             if (resultbankAccount != null)
             {
-                var resultBankSafe = await _bankSafeRepositorie.GetAsync(bankSafeTransactions.NameBankSafe);
+                var resultBankSafe = await _bankSafeRepositorie
+                    .GetAsync(bankSafeTransactions.NameBankSafe, cancellationToken);
                 if (resultBankSafe != null)
                 {
                     if (bankSafeTransactions.Withdrawal.Value != 0)
                     {
-                        var inventory = await _bankSafeRepositorie.InventoryBankAccount(bankSafeTransactions.AccountNumber,
-                            bankSafeTransactions.NameBankSafe);
+                        var inventory = await _bankSafeRepositorie
+                            .InventoryBankAccount(bankSafeTransactions.AccountNumber,
+                            bankSafeTransactions.NameBankSafe , cancellationToken);
 
                         if (inventory < bankSafeTransactions.Withdrawal.Value)
                         {
@@ -62,15 +65,16 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<List<BankSafeTransactions>> GetAllAsync()
+        public async Task<List<BankSafeTransactions>> GetAllAsync(CancellationToken cancellationToken)
         {
-            var result = await _bankSafeTransactions.ToListAsync();
+            var result = await _bankSafeTransactions.ToListAsync(cancellationToken);
             return result;
         }
 
-        public async Task<BankSafeTransactions> GetAsync(Guid code)
+        public async Task<BankSafeTransactions> GetAsync(Guid code , CancellationToken cancellationToken)
         {
-            var result = await _bankSafeTransactions.FirstOrDefaultAsync(p => p.Code == code);
+            var result = await _bankSafeTransactions
+                .FirstOrDefaultAsync(p => p.Code == code , cancellationToken);
             return result;
         }
     }

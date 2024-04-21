@@ -2,8 +2,8 @@
 using Application.Services;
 using Application.UnitOfWork;
 using Domain.Entity;
+using Domain.Exceptions;
 using Domain.IRepositories;
-using Domain.OperationResults;
 using Domain.ValueObjects;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -34,8 +34,7 @@ namespace Application.test.Services
         public async Task AddTestAsync()
         {
             var data = await _moqData.Get();
-            _repositorMoq.Setup(p => p.AddAsync(It.IsAny<BankSafe>()))
-                .Returns(() => ValueTask.CompletedTask);
+            _repositorMoq.Setup(p => p.Add(It.IsAny<BankSafe>()));
             BankSafeService bankSafe = new BankSafeService(_repositorMoq.Object
                 , _unitOfWorkMoq.Object, _loggerMoq.Object);
 
@@ -59,7 +58,7 @@ namespace Application.test.Services
         public async Task UpdateTestAsync()
         {
             var data = await _moqData.Get();
-            _repositorMoq.Setup(p => p.GetAsync(It.IsAny<Name>()))
+            _repositorMoq.Setup(p => p.GetAsync(It.IsAny<Name>(), It.IsAny<CancellationToken>()))
                 .Returns(_moqData.Get());
             BankSafeService bankSafe = new BankSafeService(_repositorMoq.Object
                 , _unitOfWorkMoq.Object, _loggerMoq.Object);
@@ -86,7 +85,7 @@ namespace Application.test.Services
         [InlineData("")]
         public async Task DeleteTestAsync(string name)
         {
-            _repositorMoq.Setup(p => p.DeleteAsync(It.IsAny<Name>()))
+            _repositorMoq.Setup(p => p.DeleteAsync(It.IsAny<Name>(), It.IsAny<CancellationToken>()))
                 .Returns(() => Task.CompletedTask);
             BankSafeService bankSafe = new BankSafeService(_repositorMoq.Object
                 , _unitOfWorkMoq.Object, _loggerMoq.Object);
@@ -111,7 +110,7 @@ namespace Application.test.Services
         [Trait("Service", "BankSafe")]
         public async Task GetAllTestAsync()
         {
-            _repositorMoq.Setup(p => p.GetAllAsync())
+            _repositorMoq.Setup(p => p.GetAllAsync(It.IsAny<CancellationToken>()))
                 .Returns(_moqData.GetAll());
             BankSafeService bankSafe = new BankSafeService(_repositorMoq.Object
                 , _unitOfWorkMoq.Object, _loggerMoq.Object);
@@ -141,7 +140,7 @@ namespace Application.test.Services
         [InlineData(":D")]
         public async Task GetTestAsync(string name)
         {
-            _repositorMoq.Setup(p => p.GetAsync(It.IsAny<Name>()))
+            _repositorMoq.Setup(p => p.GetAsync(It.IsAny<Name>(), It.IsAny<CancellationToken>()))
                 .Returns(_moqData.Get());
             BankSafeService bankSafe = new BankSafeService(_repositorMoq.Object
                 , _unitOfWorkMoq.Object, _loggerMoq.Object);
@@ -167,7 +166,7 @@ namespace Application.test.Services
         [Trait("Service", "BankSafe")]
         public async Task InventoryTestAsync()
         {
-            _repositorMoq.Setup(p => p.Inventory())
+            _repositorMoq.Setup(p => p.Inventory(It.IsAny<CancellationToken>()))
                 .Returns(It.IsAny<Task<decimal>>);
             BankSafeService bankSafe = new BankSafeService(_repositorMoq.Object
                 , _unitOfWorkMoq.Object, _loggerMoq.Object);

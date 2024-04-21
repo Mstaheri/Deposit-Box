@@ -1,4 +1,5 @@
 ﻿using Domain.Attributes;
+using Domain.Common;
 using Domain.Enum;
 using Domain.ValueObjects;
 using System;

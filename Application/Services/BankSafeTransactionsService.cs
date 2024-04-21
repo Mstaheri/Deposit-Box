@@ -1,8 +1,8 @@
 ﻿using Application.UnitOfWork;
 using Domain.Entity;
+using Domain.Exceptions;
 using Domain.IRepositories;
 using Domain.Message;
-using Domain.OperationResults;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -31,7 +31,7 @@ namespace Application.Services
         {
             try
             {
-                await _bankSafeTransactionsRepositorie.AddAsync(bankSafeRepositorie);
+                await _bankSafeTransactionsRepositorie.AddAsync(bankSafeRepositorie , cancellationToken);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                         , bankSafeRepositorie.Code
@@ -45,11 +45,11 @@ namespace Application.Services
                 return new OperationResult(false, ex.Message);
             }
         }
-        public async Task<OperationResult<List<BankSafeTransactions>>> GetAllAsync()
+        public async Task<OperationResult<List<BankSafeTransactions>>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             try
             {
-                var result = await _bankSafeTransactionsRepositorie.GetAllAsync();
+                var result = await _bankSafeTransactionsRepositorie.GetAllAsync(cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                         , nameof(GetAllAsync)
                         , "");
@@ -62,11 +62,12 @@ namespace Application.Services
                 return new OperationResult<List<BankSafeTransactions>>(false, ex.Message, null);
             }
         }
-        public async Task<OperationResult<BankSafeTransactions>> GetAsync(Guid code)
+        public async Task<OperationResult<BankSafeTransactions>> GetAsync(Guid code,
+            CancellationToken cancellationToken = default)
         {
             try
             {
-                var result = await _bankSafeTransactionsRepositorie.GetAsync(code);
+                var result = await _bankSafeTransactionsRepositorie.GetAsync(code, cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                         , nameof(GetAsync)
                         , "");

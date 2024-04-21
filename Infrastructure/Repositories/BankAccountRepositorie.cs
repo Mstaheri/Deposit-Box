@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Message;
 using Domain.ValueObjects;
+using System.Threading;
 
 namespace Infrastructure.Repositories
 {
@@ -21,13 +22,13 @@ namespace Infrastructure.Repositories
             _bankAccounts = UnitOfWork.Set<BankAccount>();
             _userRepositorie = userRepositorie;
         }
-        public async ValueTask AddAsync(BankAccount bankAccount)
+        public async ValueTask AddAsync(BankAccount bankAccount , CancellationToken cancellationToken)
         {
-            var resultUser = await _userRepositorie.GetAsync(bankAccount.UserName);
+            var resultUser = await _userRepositorie.GetAsync(bankAccount.UserName , cancellationToken);
             if (resultUser != null)
             {
                 var resultBankAccounts = await _bankAccounts
-                    .FirstOrDefaultAsync(p => p.AccountNumber == bankAccount.AccountNumber);
+                    .FirstOrDefaultAsync(p => p.AccountNumber == bankAccount.AccountNumber , cancellationToken);
                 if (resultBankAccounts == null)
                 {
                     _bankAccounts.Add(bankAccount);
@@ -46,10 +47,10 @@ namespace Infrastructure.Repositories
             
         }
 
-        public async Task DeleteAsync(AccountNumber accountNumber)
+        public async Task DeleteAsync(AccountNumber accountNumber, CancellationToken cancellationToken)
         {
 
-            var result = await _bankAccounts.FirstOrDefaultAsync(p => p.AccountNumber == accountNumber);
+            var result = await _bankAccounts.FirstOrDefaultAsync(p => p.AccountNumber == accountNumber , cancellationToken);
             if (result != null)
             {
                 _bankAccounts.Remove(result);
@@ -62,15 +63,15 @@ namespace Infrastructure.Repositories
             
         }
 
-        public async Task<List<BankAccount>> GetAllAsync()
+        public async Task<List<BankAccount>> GetAllAsync(CancellationToken cancellationToken)
         {
-            var result = await _bankAccounts.ToListAsync();
+            var result = await _bankAccounts.ToListAsync(cancellationToken);
             return result;
         }
 
-        public async Task<BankAccount> GetAsync(AccountNumber accountNumber)
+        public async Task<BankAccount> GetAsync(AccountNumber accountNumber , CancellationToken cancellationToken)
         {
-            var result = await _bankAccounts.FirstOrDefaultAsync(p => p.AccountNumber == accountNumber);
+            var result = await _bankAccounts.FirstOrDefaultAsync(p => p.AccountNumber == accountNumber , cancellationToken);
             return result;
         }
     }

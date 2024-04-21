@@ -11,10 +11,10 @@ namespace Domain.IRepositories
     public interface IBankSafeRepositorie
     {
         void Add(BankSafe bankSafe);
-        Task DeleteAsync(Name name);
-        Task<BankSafe> GetAsync(Name name);
-        Task<List<BankSafe>> GetAllAsync();
-        Task<decimal> Inventory();
-        Task<decimal> InventoryBankAccount(AccountNumber accountNumber , Name nameBankSafe);
+        Task DeleteAsync(Name name, CancellationToken cancellationToken);
+        Task<BankSafe> GetAsync(Name name , CancellationToken cancellationToken);
+        Task<List<BankSafe>> GetAllAsync(CancellationToken cancellationToken);
+        Task<decimal> Inventory(CancellationToken cancellationToken);
+        Task<decimal> InventoryBankAccount(AccountNumber accountNumber , Name nameBankSafe, CancellationToken cancellationToken);
     }
 }

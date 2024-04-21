@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
@@ -25,18 +26,21 @@ namespace Infrastructure.Repositories
             _bankSafeRepositorie = bankSafeRepositorie;
             _bankAccountRepositorie = bankAccountRepositorie;
         }
-        public async ValueTask AddAsync(BankSafeDocument bankSafeDocument)
+        public async ValueTask AddAsync(BankSafeDocument bankSafeDocument ,CancellationToken cancellationToken)
         {
-            var resultbankAccount = await _bankAccountRepositorie.GetAsync(bankSafeDocument.AccountNumber);
+            var resultbankAccount = await _bankAccountRepositorie
+                .GetAsync(bankSafeDocument.AccountNumber , cancellationToken);
             if (resultbankAccount != null)
             {
-                var resultBankSafe = await _bankSafeRepositorie.GetAsync(bankSafeDocument.NameBankSafe);
+                var resultBankSafe = await _bankSafeRepositorie
+                    .GetAsync(bankSafeDocument.NameBankSafe, cancellationToken);
                 if (resultBankSafe != null)
                 {
                     if (bankSafeDocument.Withdrawal.Value != 0)
                     {
-                        var inventory = await _bankSafeRepositorie.InventoryBankAccount(bankSafeDocument.AccountNumber,
-                            bankSafeDocument.NameBankSafe);
+                        var inventory = await _bankSafeRepositorie
+                            .InventoryBankAccount(bankSafeDocument.AccountNumber,
+                            bankSafeDocument.NameBankSafe , cancellationToken);
 
                         if (inventory < bankSafeDocument.Withdrawal.Value)
                         {
@@ -62,15 +66,15 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<List<BankSafeDocument>> GetAllAsync()
+        public async Task<List<BankSafeDocument>> GetAllAsync(CancellationToken cancellationToken)
         {
-            var result = await _bankSafeDocument.ToListAsync();
+            var result = await _bankSafeDocument.ToListAsync(cancellationToken);
             return result;
         }
 
-        public async Task<BankSafeDocument> GetAsync(Guid code)
+        public async Task<BankSafeDocument> GetAsync(Guid code , CancellationToken cancellationToken)
         {
-            var result = await _bankSafeDocument.FirstOrDefaultAsync(p => p.Code == code);
+            var result = await _bankSafeDocument.FirstOrDefaultAsync(p => p.Code == code, cancellationToken);
             return result;
         }
     }

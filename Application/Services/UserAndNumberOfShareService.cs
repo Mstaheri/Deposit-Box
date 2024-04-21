@@ -1,8 +1,8 @@
 ﻿using Application.UnitOfWork;
 using Domain.Entity;
+using Domain.Exceptions;
 using Domain.IRepositories;
 using Domain.Message;
-using Domain.OperationResults;
 using Domain.ValueObjects;
 using Microsoft.Extensions.Logging;
 using System;
@@ -32,7 +32,7 @@ namespace Application.Services
         {
             try
             {
-                await _userAndNumberOfShareRepositorie.AddAsync(userAndNumberOfShare);
+                await _userAndNumberOfShareRepositorie.AddAsync(userAndNumberOfShare, cancellationToken);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                         , userAndNumberOfShare.NameBankSafe.Value+","+ userAndNumberOfShare.UserName.Value
@@ -52,7 +52,7 @@ namespace Application.Services
             try
             {
                 var result = await _userAndNumberOfShareRepositorie.GetNameBankAndUserNameAsync
-                    (userAndNumberOfShare.NameBankSafe , userAndNumberOfShare.UserName);
+                    (userAndNumberOfShare.NameBankSafe , userAndNumberOfShare.UserName , cancellationToken);
                 if (result != null)
                 {
                     result.Update(userAndNumberOfShare.NumberOfShares);
@@ -81,7 +81,7 @@ namespace Application.Services
         {
             try
             {
-                await _userAndNumberOfShareRepositorie.DeleteAsync(nameBankSafe, userName);
+                await _userAndNumberOfShareRepositorie.DeleteAsync(nameBankSafe, userName, cancellationToken);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                         , nameBankSafe +","+ userName
@@ -95,11 +95,11 @@ namespace Application.Services
                 return new OperationResult(false, ex.Message);
             }
         }
-        public async Task<OperationResult<List<UserAndNumberOfShare>>> GetAllAsync()
+        public async Task<OperationResult<List<UserAndNumberOfShare>>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             try
             {
-                var result = await _userAndNumberOfShareRepositorie.GetAllAsync();
+                var result = await _userAndNumberOfShareRepositorie.GetAllAsync(cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                         , nameof(GetAllAsync)
                         , "");
@@ -112,11 +112,12 @@ namespace Application.Services
                 return new OperationResult<List<UserAndNumberOfShare>>(false, ex.Message, null);
             }
         }
-        public async Task<OperationResult<UserAndNumberOfShare>> GetNameBankAsync(string nameBankSafe)
+        public async Task<OperationResult<UserAndNumberOfShare>> GetNameBankAsync(string nameBankSafe,
+            CancellationToken cancellationToken = default)
         {
             try
             {
-                var result = await _userAndNumberOfShareRepositorie.GetNameBankAsync(nameBankSafe);
+                var result = await _userAndNumberOfShareRepositorie.GetNameBankAsync(nameBankSafe , cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                         , nameof(GetNameBankAsync)
                         , "");
@@ -129,11 +130,12 @@ namespace Application.Services
                 return new OperationResult<UserAndNumberOfShare>(false, ex.Message, null);
             }
         }
-        public async Task<OperationResult<UserAndNumberOfShare>> GetUserNameAsync(string nameBankSafe)
+        public async Task<OperationResult<UserAndNumberOfShare>> GetUserNameAsync(string nameBankSafe,
+            CancellationToken cancellationToken = default)
         {
             try
             {
-                var result = await _userAndNumberOfShareRepositorie.GetUserNameAsync(nameBankSafe);
+                var result = await _userAndNumberOfShareRepositorie.GetUserNameAsync(nameBankSafe , cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                         , nameof(GetUserNameAsync)
                         , "");
@@ -147,12 +149,12 @@ namespace Application.Services
             }
         }
         public async Task<OperationResult<UserAndNumberOfShare>> GetNameBankAndUserNameAsync
-            (string nameBankSafe , string userName)
+            (string nameBankSafe , string userName , CancellationToken cancellationToken = default)
         {
             try
             {
                 var result = await _userAndNumberOfShareRepositorie.GetNameBankAndUserNameAsync
-                    (nameBankSafe , userName);
+                    (nameBankSafe , userName , cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                         , nameof(GetNameBankAndUserNameAsync)
                         , "");

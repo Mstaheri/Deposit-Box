@@ -8,9 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Storage;
-using Domain.OperationResults;
 using Domain.Message;
 using Domain.ValueObjects;
+using System.Threading;
+using Domain.Exceptions;
 
 namespace Application.Services
 {
@@ -33,7 +34,7 @@ namespace Application.Services
         {
             try
             {
-                await _bankAccountRepositorie.AddAsync(bankAccount);
+                await _bankAccountRepositorie.AddAsync(bankAccount , cancellationToken);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                         , bankAccount.AccountNumber.Value
@@ -52,7 +53,7 @@ namespace Application.Services
         {
             try
             {
-                var result = await _bankAccountRepositorie.GetAsync(bankAccount.AccountNumber);
+                var result = await _bankAccountRepositorie.GetAsync(bankAccount.AccountNumber , cancellationToken);
                 if (result != null)
                 {
                     result.Update(bankAccount.AccountName, bankAccount.BankName, bankAccount.Description);
@@ -60,7 +61,7 @@ namespace Application.Services
                     string message = string.Format(ConstMessages.Successfully
                         , bankAccount.AccountNumber.Value
                         , nameof(UpdateAsync));
-                    _Logger.LogInformation(message);
+                    _Logger.LogInformation(message, cancellationToken);
                     return new OperationResult(true, null);
                 }
                 else
@@ -71,7 +72,7 @@ namespace Application.Services
             }
             catch (Exception ex)
             {
-                _Logger.LogError(ex, ex.Message);
+                _Logger.LogError(ex, ex.Message , cancellationToken);
                 return new OperationResult(false, ex.Message);
             } 
         }
@@ -80,51 +81,52 @@ namespace Application.Services
         {
             try
             {
-                await _bankAccountRepositorie.DeleteAsync(accountNumber);
+                await _bankAccountRepositorie.DeleteAsync(accountNumber, cancellationToken);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                         , accountNumber
                         , nameof(DeleteAsync));
-                _Logger.LogInformation(message);
+                _Logger.LogInformation(message, cancellationToken);
                 return new OperationResult(true,null);
             }
             catch (Exception ex)
             {
-                _Logger.LogError(ex , ex.Message);
+                _Logger.LogError(ex , ex.Message , cancellationToken);
                 return new OperationResult(false, ex.Message);
             }
         }
-        public async Task<OperationResult<List<BankAccount>>> GetAllAsync()
+        public async Task<OperationResult<List<BankAccount>>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             try
             {
-                var result = await _bankAccountRepositorie.GetAllAsync();
+                var result = await _bankAccountRepositorie.GetAllAsync(cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                         , nameof(GetAllAsync)
                         , "");
-                _Logger.LogInformation(message);
+                _Logger.LogInformation(message, cancellationToken);
                 return new OperationResult<List<BankAccount>>(true, null, result);
             }
             catch (Exception ex)
             {
-                _Logger.LogError(ex, ex.Message);
+                _Logger.LogError(ex, ex.Message , cancellationToken);
                 return new OperationResult<List<BankAccount>>(false, ex.Message, null);
             }
         }
-        public async Task<OperationResult<BankAccount>> GetAsync(string accountNumber)
+        public async Task<OperationResult<BankAccount>> GetAsync(string accountNumber,
+            CancellationToken cancellationToken = default)
         {
             try
             {
-                var result = await _bankAccountRepositorie.GetAsync(accountNumber);
+                var result = await _bankAccountRepositorie.GetAsync(accountNumber , cancellationToken);
                 string message = string.Format(ConstMessages.Successfully
                         , nameof(GetAsync)
                         , "");
-                _Logger.LogInformation(message);
+                _Logger.LogInformation(message, cancellationToken);
                 return new OperationResult<BankAccount>(true, null, result);
             }
             catch (Exception ex)
             {
-                _Logger.LogError(ex, ex.Message);
+                _Logger.LogError(ex, ex.Message , cancellationToken);
                 return new OperationResult<BankAccount>(false, ex.Message, null);
             }
         }
