@@ -10,8 +10,8 @@ namespace Domain.IRepositories
 {
     public interface IBankSafeTransactionsRepositorie
     {
-        ValueTask AddAsync(BankSafeTransactions bankSafeTransactions, CancellationToken cancellationToken);
-        Task<BankSafeTransactions> GetAsync(Guid code, CancellationToken cancellationToken);
-        Task<List<BankSafeTransactions>> GetAllAsync(CancellationToken cancellationToken);
+        ValueTask AddAsync(BankSafeTransaction bankSafeTransactions, CancellationToken cancellationToken);
+        Task<BankSafeTransaction> GetAsync(Guid code, CancellationToken cancellationToken);
+        Task<List<BankSafeTransaction>> GetAllAsync(CancellationToken cancellationToken);
     }
 }

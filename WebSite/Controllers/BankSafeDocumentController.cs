@@ -1,4 +1,6 @@
 ﻿using Application.Services;
+using Application.Services.BankSafeDocuments.Command.AddBankSafeDocuments;
+using Application.Services.BankSafeDocuments.Queries.GetAllBankSafeDocuments;
 using Domain.Entity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,17 +9,13 @@ namespace WebSite.Controllers
 {
     [Route("api/BankSafeDocument")]
     [ApiController]
-    public class BankSafeDocumentController : ControllerBase
+    public class BankSafeDocumentController : BaseController
     {
-        private readonly BankSafeDocumentService _bankSafeDocumentService;
-        public BankSafeDocumentController(BankSafeDocumentService bankSafeDocumentService)
-        {
-            _bankSafeDocumentService = bankSafeDocumentService;
-        }
         [HttpGet]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
-            var result = await _bankSafeDocumentService.GetAllAsync(cancellationToken);
+            var getAllBankSafeDocumentsQuery = new GetAllBankSafeDocumentsQuery();
+            var result = await Mediator.Send(getAllBankSafeDocumentsQuery, cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -28,11 +26,10 @@ namespace WebSite.Controllers
             }
         }
         [HttpGet("{Code}")]
-        public async Task<IActionResult> Get([FromRoute] Guid Code
+        public async Task<IActionResult> Get([FromRoute] GetAllBankSafeDocumentsQuery getAllBankSafeDocumentsQuery
             , CancellationToken cancellationToken)
         {
-
-            var result = await _bankSafeDocumentService.GetAsync(Code , cancellationToken);
+            var result = await Mediator.Send(getAllBankSafeDocumentsQuery, cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -43,14 +40,14 @@ namespace WebSite.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> Insert([FromBody] BankSafeDocument bankSafeDocument,
+        public async Task<IActionResult> Insert([FromBody] AddBankSafeDocumentsCommand addBankSafeDocumentsCommand,
             CancellationToken cancellationToken)
         {
-            var result = await _bankSafeDocumentService.AddAsync(bankSafeDocument , cancellationToken);
+            var result = await Mediator.Send(addBankSafeDocumentsCommand, cancellationToken);
             if (result.Success)
             {
                 string url = Url.Action(nameof(Get), "BankSafeDocument",
-                    new { Code = bankSafeDocument.Code }, Request.Scheme);
+                    new { Code = result.Data }, Request.Scheme);
                 return Created(url, result.Success);
             }
             else

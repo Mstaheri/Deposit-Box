@@ -1,5 +1,13 @@
 ﻿using Application.Services;
+using Application.Services.UserAndNumberOfShares.Commands.AddUserAndNumberOfShare;
+using Application.Services.UserAndNumberOfShares.Commands.DeleteUserAndNumberOfShare;
+using Application.Services.UserAndNumberOfShares.Commands.UpdateUserAndNumberOfShare;
+using Application.Services.UserAndNumberOfShares.Queries.GetAllUserAndNumberOfShare;
+using Application.Services.UserAndNumberOfShares.Queries.GetByNameBankAndUserName;
+using Application.Services.UserAndNumberOfShares.Queries.GetByUserName;
+using Application.Services.UserAndNumberOfShares.Queries.GetUserAndNumberOfShare;
 using Domain.Entity;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,17 +15,13 @@ namespace WebSite.Controllers
 {
     [Route("api/UserAndNumberOfShare")]
     [ApiController]
-    public class UserAndNumberOfShareController : ControllerBase
+    public class UserAndNumberOfShareController : BaseController
     {
-        private readonly UserAndNumberOfShareService _userAndNumberOfShareService;
-        public UserAndNumberOfShareController(UserAndNumberOfShareService userAndNumberOfShareService)
-        {
-            _userAndNumberOfShareService = userAndNumberOfShareService;
-        }
         [HttpGet]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
-            var result = await _userAndNumberOfShareService.GetAllAsync(cancellationToken);
+            var getAllUserAndNumberOfShareQuery = new GetAllUserAndNumberOfShareQuery();
+            var result = await Mediator.Send(getAllUserAndNumberOfShareQuery, cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -31,8 +35,11 @@ namespace WebSite.Controllers
         public async Task<IActionResult> GetNameBank([FromRoute] string NameBankSafe,
             CancellationToken cancellationToken)
         {
-
-            var result = await _userAndNumberOfShareService.GetNameBankAsync(NameBankSafe, cancellationToken);
+            var getByNameBankQuery = new GetByNameBankQuery()
+            {
+                NameBankSafe = NameBankSafe,
+            };
+            var result = await Mediator.Send(getByNameBankQuery, cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -46,8 +53,11 @@ namespace WebSite.Controllers
         public async Task<IActionResult> GetUserName([FromRoute] string UserName,
             CancellationToken cancellationToken)
         {
-
-            var result = await _userAndNumberOfShareService.GetUserNameAsync(UserName, cancellationToken);
+            var getByUserNameQuery = new GetByUserNameQuery()
+            {
+                UserName = UserName,
+            };
+            var result = await Mediator.Send(getByUserNameQuery, cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -61,8 +71,12 @@ namespace WebSite.Controllers
         public async Task<IActionResult> GetNameBankAndUserName([FromRoute] string NameBankSafe , string UserName,
             CancellationToken cancellationToken)
         {
-
-            var result = await _userAndNumberOfShareService.GetNameBankAndUserNameAsync(NameBankSafe , UserName , cancellationToken);
+            var getByNameBankAndUserNameQuery = new GetByNameBankAndUserNameQuery()
+            {
+                NameBankSafe = NameBankSafe,
+                UserName = UserName,
+            };
+            var result = await Mediator.Send(getByNameBankAndUserNameQuery, cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -73,14 +87,16 @@ namespace WebSite.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> Insert([FromBody] UserAndNumberOfShare userAndNumberOfShare,
+        public async Task<IActionResult> Insert([FromBody] AddUserAndNumberOfShareCommand addUserAndNumberOfShareCommand,
             CancellationToken cancellationToken)
         {
-            var result = await _userAndNumberOfShareService.AddAsync(userAndNumberOfShare, cancellationToken);
+            var result = await Mediator.Send(addUserAndNumberOfShareCommand, cancellationToken);
             if (result.Success)
             {
                 string url = Url.Action(nameof(GetNameBankAndUserName), "userAndNumberOfShare",
-                    new { nameBankSafe = userAndNumberOfShare.NameBankSafe.Value , userName = userAndNumberOfShare.UserName.Value }, Request.Scheme);
+                    new { nameBankSafe = addUserAndNumberOfShareCommand.NameBankSafe ,
+                        userName = addUserAndNumberOfShareCommand.UserName },
+                    Request.Scheme);
                 return Created(url, result.Success);
             }
             else
@@ -89,10 +105,10 @@ namespace WebSite.Controllers
             }
         }
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] UserAndNumberOfShare userAndNumberOfShare,
+        public async Task<IActionResult> Update([FromBody] UpdateUserAndNumberOfShareCommand updateUserAndNumberOfShareCommand,
             CancellationToken cancellationToken)
         {
-            var result = await _userAndNumberOfShareService.UpdateAsync(userAndNumberOfShare, cancellationToken);
+            var result = await Mediator.Send(updateUserAndNumberOfShareCommand, cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Success);
@@ -103,10 +119,10 @@ namespace WebSite.Controllers
             }
         }
         [HttpDelete("{NameBankSafe}/{UserName}")]
-        public async Task<IActionResult> Delete([FromRoute] string NameBankSafe , string UserName,
+        public async Task<IActionResult> Delete([FromRoute] DeleteUserAndNumberOfShareCommand deleteUserAndNumberOfShareCommand,
             CancellationToken cancellationToken)
         {
-            var result = await _userAndNumberOfShareService.DeleteAsync(NameBankSafe , UserName, cancellationToken);
+            var result = await Mediator.Send(deleteUserAndNumberOfShareCommand, cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Success);

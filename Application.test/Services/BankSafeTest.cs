@@ -1,5 +1,12 @@
 ﻿using Application.Data.MoqData;
 using Application.Services;
+using Application.Services.BankAccounts.Queries.GetAllBankAccount;
+using Application.Services.BankSafes.Commands.AddBankSafe;
+using Application.Services.BankSafes.Commands.DeleteBankSafe;
+using Application.Services.BankSafes.Commands.UpdateBankSafe;
+using Application.Services.BankSafes.Queries.GetAllBankSafe;
+using Application.Services.BankSafes.Queries.GetBankSafe;
+using Application.Services.BankSafes.Queries.InventoryBankSafe;
 using Application.UnitOfWork;
 using Domain.Entity;
 using Domain.Exceptions;
@@ -13,6 +20,7 @@ using System.Linq;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Application.test.Services
 {
@@ -21,25 +29,29 @@ namespace Application.test.Services
         private readonly BankSafeMoqData _moqData;
         private readonly Mock<IBankSafeRepositorie> _repositorMoq;
         private readonly Mock<IUnitOfWork> _unitOfWorkMoq;
-        private readonly Mock<ILogger<BankSafeService>> _loggerMoq;
         public BankSafeTest()
         {
             _moqData = new BankSafeMoqData();
             _repositorMoq = new Mock<IBankSafeRepositorie>();
             _unitOfWorkMoq = new Mock<IUnitOfWork>();
-            _loggerMoq = new Mock<ILogger<BankSafeService>>();
         }
         [Fact]
         [Trait("Service", "BankSafe")]
         public async Task AddTestAsync()
         {
+            Mock<ILogger<AddBankSafeCommandHandler>> _loggerMoq = new Mock<ILogger<AddBankSafeCommandHandler>>();
             var data = await _moqData.Get();
             _repositorMoq.Setup(p => p.Add(It.IsAny<BankSafe>()));
-            BankSafeService bankSafe = new BankSafeService(_repositorMoq.Object
+            AddBankSafeCommandHandler bankSafe = new AddBankSafeCommandHandler(_repositorMoq.Object
                 , _unitOfWorkMoq.Object, _loggerMoq.Object);
 
 
-            var result = await bankSafe.AddAsync(data);
+            var addBankSafeCommand = new AddBankSafeCommand()
+            {
+                Name = data.Name,
+                SharePrice = data.SharePrice,
+            };
+            var result = await bankSafe.Handle(addBankSafeCommand , It.IsAny<CancellationToken>());
 
 
             Assert.NotNull(result);
@@ -57,14 +69,20 @@ namespace Application.test.Services
         [Trait("Service", "BankSafe")]
         public async Task UpdateTestAsync()
         {
+            Mock<ILogger<UpdateBankSafeCommandHandler>> _loggerMoq = new Mock<ILogger<UpdateBankSafeCommandHandler>>();
             var data = await _moqData.Get();
             _repositorMoq.Setup(p => p.GetAsync(It.IsAny<Name>(), It.IsAny<CancellationToken>()))
                 .Returns(_moqData.Get());
-            BankSafeService bankSafe = new BankSafeService(_repositorMoq.Object
+            UpdateBankSafeCommandHandler bankSafe = new UpdateBankSafeCommandHandler(_repositorMoq.Object
                 , _unitOfWorkMoq.Object, _loggerMoq.Object);
 
 
-            var result = await bankSafe.UpdateAsync(data);
+            var updateBankSafeCommand = new UpdateBankSafeCommand()
+            {
+                Name = data.Name,
+                SharePrice = data.SharePrice,
+            };
+            var result = await bankSafe.Handle(updateBankSafeCommand, It.IsAny<CancellationToken>());
 
 
             Assert.NotNull(result);
@@ -85,13 +103,18 @@ namespace Application.test.Services
         [InlineData("")]
         public async Task DeleteTestAsync(string name)
         {
+            Mock<ILogger<DeleteBankSafeCommandHandler>> _loggerMoq = new Mock<ILogger<DeleteBankSafeCommandHandler>>();
             _repositorMoq.Setup(p => p.DeleteAsync(It.IsAny<Name>(), It.IsAny<CancellationToken>()))
                 .Returns(() => Task.CompletedTask);
-            BankSafeService bankSafe = new BankSafeService(_repositorMoq.Object
+            DeleteBankSafeCommandHandler bankSafe = new DeleteBankSafeCommandHandler(_repositorMoq.Object
                 , _unitOfWorkMoq.Object, _loggerMoq.Object);
 
 
-            var result = await bankSafe.DeleteAsync(name);
+            var deleteBankSafeCommand = new DeleteBankSafeCommand()
+            {
+                Name = name,
+            };
+            var result = await bankSafe.Handle(deleteBankSafeCommand, It.IsAny<CancellationToken>());
 
 
             Assert.NotNull(result);
@@ -110,13 +133,15 @@ namespace Application.test.Services
         [Trait("Service", "BankSafe")]
         public async Task GetAllTestAsync()
         {
+            Mock<ILogger<GetAllBankSafeQueryHandler>> _loggerMoq = new Mock<ILogger<GetAllBankSafeQueryHandler>>();
             _repositorMoq.Setup(p => p.GetAllAsync(It.IsAny<CancellationToken>()))
                 .Returns(_moqData.GetAll());
-            BankSafeService bankSafe = new BankSafeService(_repositorMoq.Object
+            GetAllBankSafeQueryHandler bankSafe = new GetAllBankSafeQueryHandler(_repositorMoq.Object
                 , _unitOfWorkMoq.Object, _loggerMoq.Object);
 
 
-            var result = await bankSafe.GetAllAsync();
+            var getAllBankSafeQuery = new GetAllBankSafeQuery();
+            var result = await bankSafe.Handle(getAllBankSafeQuery, It.IsAny<CancellationToken>());
 
 
             Assert.IsType<OperationResult<List<BankSafe>>>(result);
@@ -140,13 +165,16 @@ namespace Application.test.Services
         [InlineData(":D")]
         public async Task GetTestAsync(string name)
         {
+            Mock<ILogger<GetBankSafeQueryHandler>> _loggerMoq = new Mock<ILogger<GetBankSafeQueryHandler>>();
             _repositorMoq.Setup(p => p.GetAsync(It.IsAny<Name>(), It.IsAny<CancellationToken>()))
                 .Returns(_moqData.Get());
-            BankSafeService bankSafe = new BankSafeService(_repositorMoq.Object
+            GetBankSafeQueryHandler bankSafe = new GetBankSafeQueryHandler(_repositorMoq.Object
                 , _unitOfWorkMoq.Object, _loggerMoq.Object);
 
 
-            var result = await bankSafe.GetAsync(name);
+            var getBankSafeQuery = new GetBankSafeQuery()
+            { Name= name };
+            var result = await bankSafe.Handle(getBankSafeQuery, It.IsAny<CancellationToken>());
 
 
             Assert.IsType<OperationResult<BankSafe>>(result);
@@ -166,13 +194,15 @@ namespace Application.test.Services
         [Trait("Service", "BankSafe")]
         public async Task InventoryTestAsync()
         {
+            Mock<ILogger<InventoryBankSafeQueryHandler>> _loggerMoq = new Mock<ILogger<InventoryBankSafeQueryHandler>>();
             _repositorMoq.Setup(p => p.Inventory(It.IsAny<CancellationToken>()))
                 .Returns(It.IsAny<Task<decimal>>);
-            BankSafeService bankSafe = new BankSafeService(_repositorMoq.Object
+            InventoryBankSafeQueryHandler bankSafe = new InventoryBankSafeQueryHandler(_repositorMoq.Object
                 , _unitOfWorkMoq.Object, _loggerMoq.Object);
 
 
-            var result = await bankSafe.Inventory();
+            var inventoryBankSafeQuery = new InventoryBankSafeQuery();
+            var result = await bankSafe.Handle(inventoryBankSafeQuery , It.IsAny<CancellationToken>());
 
 
             Assert.IsType<OperationResult<decimal>>(result);

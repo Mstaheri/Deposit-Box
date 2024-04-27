@@ -1,7 +1,7 @@
 ﻿using Application.UnitOfWork;
 using Domain.Entity;
 using Domain.IRepositories;
-using Domain.Message;
+using Domain.Exceptions;
 using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using System;

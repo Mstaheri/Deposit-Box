@@ -11,16 +11,16 @@ using System.Threading.Tasks;
 namespace Domain.Entity
 {
     [AudiTable]
-    public class BankSafeTransactions : IEntity
+    public class BankSafeTransaction : IEntity
     {
         public Guid Code { get; private set; }
         public Name NameBankSafe { get; private set; }
         public AccountNumber AccountNumber { get; private set; }
         public Money Deposit { get; private set; }
         public Money Withdrawal { get; private set; }
-        public BankAccount? BankAccount { get; private set; }
-        public BankSafe? BankSafe { get; private set; }
-        public BankSafeTransactions(Name nameBankSafe, AccountNumber accountNumber,
+        public BankAccount BankAccount { get; private set; }
+        public BankSafe BankSafe { get; private set; }
+        public BankSafeTransaction(Name nameBankSafe, AccountNumber accountNumber,
             Money deposit, Money withdrawal)
         {
             Code = Guid.NewGuid();

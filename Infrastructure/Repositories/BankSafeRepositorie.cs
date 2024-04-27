@@ -2,7 +2,7 @@
 using Domain.Entity;
 using Domain.Enum;
 using Domain.IRepositories;
-using Domain.Message;
+using Domain.Exceptions;
 using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,12 +16,12 @@ namespace Infrastructure.Repositories
     public class BankSafeRepositorie : IBankSafeRepositorie
     {
         private readonly DbSet<BankSafe> _bankSafe;
-        private readonly DbSet<BankSafeTransactions> _bankSafeTransactions;
+        private readonly DbSet<BankSafeTransaction> _bankSafeTransactions;
         private readonly DbSet<BankSafeDocument> _bankSafeDocument;
         public BankSafeRepositorie(IUnitOfWork unitOfWork)
         {
             _bankSafe = unitOfWork.Set<BankSafe>();
-            _bankSafeTransactions= unitOfWork.Set<BankSafeTransactions>();
+            _bankSafeTransactions= unitOfWork.Set<BankSafeTransaction>();
             _bankSafeDocument= unitOfWork.Set<BankSafeDocument>();
         }
         public void Add(BankSafe bankSafe)

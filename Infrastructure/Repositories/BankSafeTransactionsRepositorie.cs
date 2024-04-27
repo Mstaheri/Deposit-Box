@@ -1,7 +1,7 @@
 ﻿using Application.UnitOfWork;
 using Domain.Entity;
 using Domain.IRepositories;
-using Domain.Message;
+using Domain.Exceptions;
 using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,18 +14,18 @@ namespace Infrastructure.Repositories
 {
     public class BankSafeTransactionsRepositorie : IBankSafeTransactionsRepositorie
     {
-        private readonly DbSet<BankSafeTransactions> _bankSafeTransactions;
+        private readonly DbSet<BankSafeTransaction> _bankSafeTransactions;
         private readonly IBankSafeRepositorie _bankSafeRepositorie;
         private readonly IBankAccountRepositorie _bankAccountRepositorie;
         public BankSafeTransactionsRepositorie(IUnitOfWork unitOfWork,
             IBankSafeRepositorie bankSafeRepositorie,
             IBankAccountRepositorie bankAccountRepositorie)
         {
-            _bankSafeTransactions = unitOfWork.Set<BankSafeTransactions>();
+            _bankSafeTransactions = unitOfWork.Set<BankSafeTransaction>();
             _bankSafeRepositorie = bankSafeRepositorie;
             _bankAccountRepositorie = bankAccountRepositorie;
         }
-        public async ValueTask AddAsync(BankSafeTransactions bankSafeTransactions , CancellationToken cancellationToken)
+        public async ValueTask AddAsync(BankSafeTransaction bankSafeTransactions , CancellationToken cancellationToken)
         {
             var resultbankAccount = await _bankAccountRepositorie
                 .GetAsync(bankSafeTransactions.AccountNumber, cancellationToken);
@@ -65,13 +65,13 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<List<BankSafeTransactions>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<List<BankSafeTransaction>> GetAllAsync(CancellationToken cancellationToken)
         {
             var result = await _bankSafeTransactions.ToListAsync(cancellationToken);
             return result;
         }
 
-        public async Task<BankSafeTransactions> GetAsync(Guid code , CancellationToken cancellationToken)
+        public async Task<BankSafeTransaction> GetAsync(Guid code , CancellationToken cancellationToken)
         {
             var result = await _bankSafeTransactions
                 .FirstOrDefaultAsync(p => p.Code == code , cancellationToken);

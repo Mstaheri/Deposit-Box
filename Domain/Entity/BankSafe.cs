@@ -14,12 +14,12 @@ namespace Domain.Entity
     {
         public Name Name { get; private set; }
         public Money SharePrice { get; private set; }
-        public ICollection<UserAndNumberOfShare>? UserAndNumberOfShares { get; private set; }
-        public ICollection<BankSafeTransactions>? BankSafeTransactions { get; private set; }
-        public ICollection<BankSafeDocument>? BankSafeDocuments { get; private set; }
-        public ICollection<Loan>? loans { get; private set; }
-        public ICollection<LoanTransactions>? LoanTransactions { get; private set; }
-        public ICollection<LoanDocument>? LoanDocuments { get; private set; }
+        public ICollection<UserAndNumberOfShare> UserAndNumberOfShares { get; private set; }
+        public ICollection<BankSafeTransaction> BankSafeTransactions { get; private set; }
+        public ICollection<BankSafeDocument> BankSafeDocuments { get; private set; }
+        public ICollection<Loan> loans { get; private set; }
+        public ICollection<LoanTransactions> LoanTransactions { get; private set; }
+        public ICollection<LoanDocument> LoanDocuments { get; private set; }
         public BankSafe(Name name, Money sharePrice)
         {
             Name = name;

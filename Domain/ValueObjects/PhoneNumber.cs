@@ -1,6 +1,5 @@
 ﻿using Domain.Common;
 using Domain.Exceptions;
-using Domain.Message;
 using Domain.Validations;
 using System;
 using System.Collections.Generic;
@@ -29,8 +28,7 @@ namespace Domain.ValueObjects
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                string message = string.Format(ConstMessages.IsNull, nameof(PhoneNumber));
-                return new OperationResult(false, message);
+                return new OperationResult(true, null);
             }
             else if (value.Length != 11 || !value.StartsWith("09") || !Validation.CheckNumberFormat(value))
             {

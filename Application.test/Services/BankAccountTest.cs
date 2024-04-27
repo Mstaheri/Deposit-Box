@@ -13,6 +13,11 @@ using Application.Data.MoqData;
 using Domain.ValueObjects;
 using System.Threading;
 using Domain.Exceptions;
+using Application.Services.BankAccounts.Commands.AddBankAccount;
+using Application.Services.BankAccounts.Commands.UpdateBankAccount;
+using Application.Services.BankAccounts.Commands.DeleteBankAccount;
+using Application.Services.BankAccounts.Queries.GetAllBankAccount;
+using Application.Services.BankAccounts.Queries.GetBankAccount;
 
 namespace Application.test.Services
 {
@@ -21,28 +26,35 @@ namespace Application.test.Services
         private readonly BankAccountMoqData _moqData;
         private readonly Mock<IBankAccountRepositorie> _repositorMoq;
         private readonly Mock<IUnitOfWork> _unitOfWorkMoq;
-        private readonly Mock<ILogger<BankAccountService>> _loggerMoq;
         public BankAccountTest()
         {
             _moqData = new BankAccountMoqData();
             _repositorMoq = new Mock<IBankAccountRepositorie>();
             _unitOfWorkMoq = new Mock<IUnitOfWork>();
-            _loggerMoq = new Mock<ILogger<BankAccountService>>();
         }
 
         [Fact]
         [Trait("Service" , "BankAccount")]
         public async Task AddTestAsync()
         {
+            Mock<ILogger<AddBankAccountCommandHandler>> _loggerMoq = new Mock<ILogger<AddBankAccountCommandHandler>>();
             var data = await _moqData.Get();
             _repositorMoq.Setup(p => p.AddAsync(It.IsAny<BankAccount>() , It.IsAny<CancellationToken>()))
                 .Returns(() => ValueTask.CompletedTask);
-            BankAccountService bankAccount = new BankAccountService(_unitOfWorkMoq.Object,
+            AddBankAccountCommandHandler bankAccount = new AddBankAccountCommandHandler(_unitOfWorkMoq.Object,
                 _repositorMoq.Object,
                 _loggerMoq.Object);
 
 
-            var result = await bankAccount.AddAsync(data);
+            var addBankAccountCommand = new AddBankAccountCommand()
+            {
+                AccountNumber = data.AccountNumber,
+                UserName = data.UserName,
+                AccountName = data.AccountName,
+                BankName = data.BankName,
+                Description = data.Description
+            };
+            var result = await bankAccount.Handle(addBankAccountCommand, It.IsAny<CancellationToken>());
 
 
             Assert.NotNull(result);
@@ -61,15 +73,24 @@ namespace Application.test.Services
         [Trait("Service", "BankAccount")]
         public async Task UpdateTestAsync()
         {
+            Mock<ILogger<UpdateBankAccountCommandHandler>> _loggerMoq = new Mock<ILogger<UpdateBankAccountCommandHandler>>();
             var data = await _moqData.Get();
             _repositorMoq.Setup(p => p.GetAsync(It.IsAny<AccountNumber>(), It.IsAny<CancellationToken>()))
                 .Returns(_moqData.Get());
-            BankAccountService bankAccount = new BankAccountService(_unitOfWorkMoq.Object,
+            UpdateBankAccountCommandHandler bankAccount = new UpdateBankAccountCommandHandler(_unitOfWorkMoq.Object,
                 _repositorMoq.Object,
                 _loggerMoq.Object);
 
 
-            var result = await bankAccount.UpdateAsync(data);
+            var updateBankAccountCommand = new UpdateBankAccountCommand()
+            {
+                AccountNumber = data.AccountNumber,
+                UserName = data.UserName,
+                AccountName = data.AccountName,
+                BankName = data.BankName,
+                Description = data.Description
+            };
+            var result = await bankAccount.Handle(updateBankAccountCommand, It.IsAny<CancellationToken>());
 
 
             Assert.NotNull(result);
@@ -90,14 +111,19 @@ namespace Application.test.Services
         [InlineData("52598341331264")]
         public async Task DeleteTestAsync(string accountNumber)
         {
+            Mock<ILogger<DeleteBankAccountCommandHandler>> _loggerMoq = new Mock<ILogger<DeleteBankAccountCommandHandler>>();
             _repositorMoq.Setup(p => p.DeleteAsync(It.IsAny<AccountNumber>(), It.IsAny<CancellationToken>()))
                 .Returns(() => Task.CompletedTask);
-            BankAccountService bankAccount = new BankAccountService(_unitOfWorkMoq.Object,
+            DeleteBankAccountCommandHandler bankAccount = new DeleteBankAccountCommandHandler(_unitOfWorkMoq.Object,
                 _repositorMoq.Object,
                 _loggerMoq.Object);
 
 
-            var result = await bankAccount.DeleteAsync(accountNumber);
+            var deleteBankAccountCommand = new DeleteBankAccountCommand()
+            {
+                AccountNumber = accountNumber
+            };
+            var result = await bankAccount.Handle(deleteBankAccountCommand, It.IsAny<CancellationToken>());
 
 
             Assert.NotNull(result);
@@ -116,14 +142,16 @@ namespace Application.test.Services
         [Trait("Service", "BankAccount")]
         public async Task GetAllTestAsync()
         {
+            Mock<ILogger<GetAllBankAccountQueryHandler>> _loggerMoq = new Mock<ILogger<GetAllBankAccountQueryHandler>>();
             _repositorMoq.Setup(p => p.GetAllAsync(It.IsAny<CancellationToken>()))
                 .Returns(_moqData.GetAll());
-            BankAccountService bankAccount = new BankAccountService(_unitOfWorkMoq.Object,
+            GetAllBankAccountQueryHandler bankAccount = new GetAllBankAccountQueryHandler(_unitOfWorkMoq.Object,
                 _repositorMoq.Object,
                 _loggerMoq.Object);
 
 
-            var result = await bankAccount.GetAllAsync();
+            var getAllBankAccountQuery = new GetAllBankAccountQuery();
+            var result = await bankAccount.Handle(getAllBankAccountQuery , It.IsAny<CancellationToken>());
 
 
             Assert.IsType<OperationResult<List<BankAccount>>>(result);
@@ -147,14 +175,19 @@ namespace Application.test.Services
         [InlineData("12341111123412")]
         public async Task GetTestAsync(string accountNumber)
         {
+            Mock<ILogger<GetBankAccountQueryHandler>> _loggerMoq = new Mock<ILogger<GetBankAccountQueryHandler>>();
             _repositorMoq.Setup(p => p.GetAsync(It.IsAny<AccountNumber>(), It.IsAny<CancellationToken>()))
                 .Returns(_moqData.Get());
-            BankAccountService bankAccount = new BankAccountService(_unitOfWorkMoq.Object,
+            GetBankAccountQueryHandler bankAccount = new GetBankAccountQueryHandler(_unitOfWorkMoq.Object,
                 _repositorMoq.Object,
                 _loggerMoq.Object);
 
 
-            var result = await bankAccount.GetAsync(accountNumber);
+            var getAllBankAccountQuery = new GetBankAccountQuery()
+            {
+                AccountNumber = accountNumber,
+            };
+            var result = await bankAccount.Handle(getAllBankAccountQuery , It.IsAny<CancellationToken>());
 
 
             Assert.IsType<OperationResult<BankAccount>>(result);

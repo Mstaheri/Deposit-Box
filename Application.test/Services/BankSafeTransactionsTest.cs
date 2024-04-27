@@ -1,5 +1,10 @@
 ﻿using Application.Data.MoqData;
 using Application.Services;
+using Application.Services.BankSafeDocuments.Queries.GetAllBankSafeDocuments;
+using Application.Services.BankSafes.Queries.GetAllBankSafe;
+using Application.Services.BankSafeTransactions.Command.AddBankSafeTransaction;
+using Application.Services.BankSafeTransactions.Queries.GetAllBankSafeTransaction;
+using Application.Services.BankSafeTransactions.Queries.GetBankSafeTransaction;
 using Application.UnitOfWork;
 using Domain.Entity;
 using Domain.Exceptions;
@@ -19,32 +24,39 @@ namespace Application.test.Services
         private readonly BankSafeTransactionsMoqData _moqData;
         private readonly Mock<IBankSafeTransactionsRepositorie> _repositorMoq;
         private readonly Mock<IUnitOfWork> _unitOfWorkMoq;
-        private readonly Mock<ILogger<BankSafeTransactionsService>> _loggerMoq;
+        
         public BankSafeTransactionsTest()
         {
             _moqData = new BankSafeTransactionsMoqData();
             _repositorMoq = new Mock<IBankSafeTransactionsRepositorie>();
             _unitOfWorkMoq = new Mock<IUnitOfWork>();
-            _loggerMoq = new Mock<ILogger<BankSafeTransactionsService>>();
         }
 
         [Fact]
         [Trait("Service", "BankSafeTransactions")]
         public async Task AddTestAsync()
         {
+            Mock<ILogger<AddBankSafeTransactionCommandHandler>> _loggerMoq = new Mock<ILogger<AddBankSafeTransactionCommandHandler>>();
             var data = await _moqData.Get();
-            _repositorMoq.Setup(p => p.AddAsync(It.IsAny<BankSafeTransactions>(), It.IsAny<CancellationToken>()))
+            _repositorMoq.Setup(p => p.AddAsync(It.IsAny<BankSafeTransaction>(), It.IsAny<CancellationToken>()))
                 .Returns(() => ValueTask.CompletedTask);
-            BankSafeTransactionsService bankSafeTransactionsService = new BankSafeTransactionsService(_unitOfWorkMoq.Object,
+            AddBankSafeTransactionCommandHandler bankSafeTransactionsService = new AddBankSafeTransactionCommandHandler(_unitOfWorkMoq.Object,
                 _repositorMoq.Object,
                 _loggerMoq.Object);
 
 
-            var result = await bankSafeTransactionsService.AddAsync(data);
+            var addBankSafeTransactionCommand = new AddBankSafeTransactionCommand()
+            {
+                AccountNumber = data.AccountNumber,
+                NameBankSafe = data.NameBankSafe,
+                Withdrawal = data.Withdrawal,
+                Deposit = data.Deposit,
+            };
+            var result = await bankSafeTransactionsService.Handle(addBankSafeTransactionCommand , It.IsAny<CancellationToken>());
 
 
             Assert.NotNull(result);
-            Assert.IsType<OperationResult>(result);
+            Assert.IsType<OperationResult<Guid>>(result);
             if (result.Success)
             {
                 Assert.Null(result.Message);
@@ -58,17 +70,20 @@ namespace Application.test.Services
         [Trait("Service", "BankSafeTransactions")]
         public async Task GetAllTestAsync()
         {
+            Mock<ILogger<GetAllBankSafeTransactionQueryHandler>> _loggerMoq = new Mock<ILogger<GetAllBankSafeTransactionQueryHandler>>();
             _repositorMoq.Setup(p => p.GetAllAsync(It.IsAny<CancellationToken>()))
                 .Returns(_moqData.GetAll());
-            BankSafeTransactionsService bankSafeTransactionsService = new BankSafeTransactionsService(_unitOfWorkMoq.Object,
+            GetAllBankSafeTransactionQueryHandler bankSafeTransactionsService = new GetAllBankSafeTransactionQueryHandler(
+                _unitOfWorkMoq.Object,
                 _repositorMoq.Object,
                 _loggerMoq.Object);
 
 
-            var result = await bankSafeTransactionsService.GetAllAsync();
+            var getAllBankSafeTransactionQuery = new GetAllBankSafeTransactionQuery();
+            var result = await bankSafeTransactionsService.Handle(getAllBankSafeTransactionQuery , It.IsAny<CancellationToken>());
 
 
-            Assert.IsType<OperationResult<List<BankSafeTransactions>>>(result);
+            Assert.IsType<OperationResult<List<BankSafeTransaction>>>(result);
             if (result.Success)
             {
                 Assert.Null(result.Message);
@@ -88,17 +103,22 @@ namespace Application.test.Services
         [InlineData("17466fd3-e221-413d-a419-dd4690bf7bc1")]
         public async Task GetTestAsync(Guid code)
         {
+            Mock<ILogger<GetBankSafeTransactionCommandHandler>> _loggerMoq = new Mock<ILogger<GetBankSafeTransactionCommandHandler>>();
             _repositorMoq.Setup(p => p.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
                 .Returns(_moqData.Get());
-            BankSafeTransactionsService bankSafeTransactionsService = new BankSafeTransactionsService(_unitOfWorkMoq.Object,
+            GetBankSafeTransactionCommandHandler bankSafeTransactionsService = new GetBankSafeTransactionCommandHandler(_unitOfWorkMoq.Object,
                 _repositorMoq.Object,
                 _loggerMoq.Object);
 
 
-            var result = await bankSafeTransactionsService.GetAsync(code);
+            var getBankSafeTransactionCommand = new GetBankSafeTransactionCommand()
+            {
+                Code = code,
+            };
+            var result = await bankSafeTransactionsService.Handle(getBankSafeTransactionCommand , It.IsAny<CancellationToken>());
 
 
-            Assert.IsType<OperationResult<BankSafeTransactions>>(result);
+            Assert.IsType<OperationResult<BankSafeTransaction>>(result);
             if (result.Success)
             {
                 Assert.Null(result.Message);

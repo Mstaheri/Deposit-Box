@@ -1,4 +1,9 @@
 ﻿using Application.Services;
+using Application.Services.BankAccounts.Commands.AddBankAccount;
+using Application.Services.BankAccounts.Commands.DeleteBankAccount;
+using Application.Services.BankAccounts.Commands.UpdateBankAccount;
+using Application.Services.BankAccounts.Queries.GetAllBankAccount;
+using Application.Services.BankAccounts.Queries.GetBankAccount;
 using Domain.Entity;
 using Domain.ValueObjects;
 using Microsoft.AspNetCore.Http;
@@ -8,17 +13,13 @@ namespace WebSite.Controllers
 {
     [Route("api/BankAccount")]
     [ApiController]
-    public class BankAccountController : ControllerBase
+    public class BankAccountController : BaseController
     {
-        private readonly BankAccountService _bankAccountService;
-        public BankAccountController(BankAccountService bankAccountService)
-        {
-            _bankAccountService = bankAccountService;
-        }
         [HttpGet]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
-            var result = await _bankAccountService.GetAllAsync(cancellationToken);
+            var getAllBankAccountQuery = new GetAllBankAccountQuery();
+            var result = await Mediator.Send(getAllBankAccountQuery,cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -29,11 +30,11 @@ namespace WebSite.Controllers
             }
         }
         [HttpGet("{AccountNumber}")]
-        public async Task<IActionResult> Get([FromRoute] string AccountNumber ,
+        public async Task<IActionResult> Get([FromRoute] GetBankAccountQuery getAllBankAccountQuery,
             CancellationToken cancellationToken)
         {
             
-            var result = await _bankAccountService.GetAsync(AccountNumber , cancellationToken);
+            var result = await Mediator.Send(getAllBankAccountQuery, cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -44,13 +45,16 @@ namespace WebSite.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> Insert([FromBody] BankAccount bankAccount ,
+        public async Task<IActionResult> Insert([FromBody] AddBankAccountCommand addBankAccountCommand,
             CancellationToken cancellationToken)
         {
-            var result = await _bankAccountService.AddAsync(bankAccount , cancellationToken);
+            var result = await Mediator.Send(addBankAccountCommand, cancellationToken);
             if (result.Success)
             {
-                string url = Url.Action(nameof(Get), "bankAccount", new { accountNumber = bankAccount.AccountNumber.Value }, Request.Scheme);
+                string url = Url.Action(nameof(Get), 
+                    "bankAccount", 
+                    new { accountNumber = addBankAccountCommand.AccountNumber },
+                    Request.Scheme);
                 return Created(url, result.Success);
             }
             else
@@ -59,10 +63,10 @@ namespace WebSite.Controllers
             }
         }
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] BankAccount bankAccount ,
+        public async Task<IActionResult> Update([FromBody] UpdateBankAccountCommand updateBankAccountCommand,
             CancellationToken cancellationToken)
         {
-            var result = await _bankAccountService.UpdateAsync(bankAccount , cancellationToken);
+            var result = await Mediator.Send(updateBankAccountCommand, cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Success);
@@ -73,10 +77,10 @@ namespace WebSite.Controllers
             }
         }
         [HttpDelete("{AccountNumber}")]
-        public async Task<IActionResult> Delete([FromRoute] string AccountNumber ,
+        public async Task<IActionResult> Delete([FromRoute] DeleteBankAccountCommand deleteBankAccountCommand,
             CancellationToken cancellationToken)
         {
-            var result = await _bankAccountService.DeleteAsync(AccountNumber , cancellationToken);
+            var result = await Mediator.Send(deleteBankAccountCommand, cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Success);

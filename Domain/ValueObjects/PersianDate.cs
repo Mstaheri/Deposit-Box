@@ -1,6 +1,6 @@
 ﻿using Domain.Common;
 using Domain.Exceptions;
-using Domain.Message;
+using Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

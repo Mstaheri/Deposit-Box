@@ -1,6 +1,5 @@
 ﻿using Domain.Common;
 using Domain.Exceptions;
-using Domain.Message;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +41,7 @@ namespace Domain.ValueObjects
             yield return Value;
         }
 
-        public static implicit operator Money(int value)
+        public static implicit operator Money(decimal value)
         => new Money(value);
 
         public static implicit operator decimal(Money money)

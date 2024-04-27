@@ -1,4 +1,7 @@
 ﻿using Application.Services;
+using Application.Services.BankSafeDocuments.Queries.GetAllBankSafeDocuments;
+using Application.Services.BankSafeTransactions.Command.AddBankSafeTransaction;
+using Application.Services.BankSafeTransactions.Queries.GetAllBankSafeTransaction;
 using Domain.Entity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,17 +11,13 @@ namespace WebSite.Controllers
 {
     [Route("api/BankSafeTransactions")]
     [ApiController]
-    public class BankSafeTransactionsController : ControllerBase
+    public class BankSafeTransactionsController : BaseController
     {
-        private readonly BankSafeTransactionsService _bankSafeTransactionsService;
-        public BankSafeTransactionsController(BankSafeTransactionsService bankSafeTransactionsService)
-        {
-            _bankSafeTransactionsService = bankSafeTransactionsService;
-        }
         [HttpGet]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
-            var result = await _bankSafeTransactionsService.GetAllAsync(cancellationToken);
+            var getAllBankSafeTransactionQuery = new GetAllBankSafeTransactionQuery();
+            var result = await Mediator.Send(getAllBankSafeTransactionQuery ,cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -29,11 +28,10 @@ namespace WebSite.Controllers
             }
         }
         [HttpGet("{Code}")]
-        public async Task<IActionResult> Get([FromRoute] Guid Code ,
+        public async Task<IActionResult> Get([FromRoute] GetAllBankSafeTransactionQuery getAllBankSafeTransactionQuery,
             CancellationToken cancellationToken)
         {
-
-            var result = await _bankSafeTransactionsService.GetAsync(Code , cancellationToken);
+            var result = await Mediator.Send(getAllBankSafeTransactionQuery, cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -44,14 +42,14 @@ namespace WebSite.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> Insert([FromBody] BankSafeTransactions bankSafeTransactions,
+        public async Task<IActionResult> Insert([FromBody] AddBankSafeTransactionCommand addBankSafeTransactionCommand,
             CancellationToken cancellationToken)
         {
-            var result = await _bankSafeTransactionsService.AddAsync(bankSafeTransactions , cancellationToken);
+            var result = await Mediator.Send(addBankSafeTransactionCommand, cancellationToken);
             if (result.Success)
             {
                 string url = Url.Action(nameof(Get), "BankSafeTransactions",
-                    new { Code = bankSafeTransactions.Code }, Request.Scheme);
+                    new { Code = result.Data }, Request.Scheme);
                 return Created(url,result.Success);
             }
             else

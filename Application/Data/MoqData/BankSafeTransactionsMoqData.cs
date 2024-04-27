@@ -9,22 +9,22 @@ namespace Application.Data.MoqData
 {
     public class BankSafeTransactionsMoqData
     {
-        public Task<BankSafeTransactions> Get()
+        public Task<BankSafeTransaction> Get()
         {
-            BankSafeTransactions bankSafeTransactions = new BankSafeTransactions("ali",
+            BankSafeTransaction bankSafeTransactions = new BankSafeTransaction("ali",
                 "1234123412341234", 1122,
                 0);
 
             return Task.FromResult(bankSafeTransactions);
         }
-        public Task<List<BankSafeTransactions>> GetAll()
+        public Task<List<BankSafeTransaction>> GetAll()
         {
-            List<BankSafeTransactions> list = new List<BankSafeTransactions>()
+            List<BankSafeTransaction> list = new List<BankSafeTransaction>()
             {
-                new BankSafeTransactions("ali",
+                new BankSafeTransaction("ali",
                 "1234123412341234", 1122,
                 0) ,
-                new BankSafeTransactions("ali",
+                new BankSafeTransaction("ali",
                 "1234123412341234", 0,
                 45325)
             };

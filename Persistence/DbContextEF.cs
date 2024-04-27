@@ -23,7 +23,7 @@ namespace Persistence
         public DbSet<User> Users { get; set; }
         public DbSet<BankSafe> BankSafes { get; set; }
         public DbSet<BankAccount> BankAccounts { get; set; }
-        public DbSet<BankSafeTransactions> BankSafeTransactions { get; set; }
+        public DbSet<BankSafeTransaction> BankSafeTransactions { get; set; }
         public DbSet<BankSafeDocument> BankSafeDocuments { get; set; }
         public DbSet<UserAndNumberOfShare> UserAndNumberOfShares { get; set; }
         public DbSet<Loan> Loans { get; set; }

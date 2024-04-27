@@ -1,5 +1,12 @@
 ﻿using Application.Services;
+using Application.Services.Users.Commands.AddUser;
+using Application.Services.Users.Commands.DeleteUser;
+using Application.Services.Users.Commands.UpdateUser;
+using Application.Services.Users.Queries.GetAllUser;
+using Application.Services.Users.Queries.GetUser;
 using Domain.Entity;
+using Domain.Exceptions;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
@@ -8,17 +15,16 @@ namespace WebSite.Controllers
 {
     [Route("api/User")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : BaseController
     {
-        private readonly UserService _userService;
-        public UserController(UserService userService)
-        {
-            _userService = userService;
-        }
         [HttpGet]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
-            var result = await _userService.GetAllAsync(cancellationToken);
+            var getAllUserCommand = new GetAllUserQuery
+            {
+
+            };
+            var result = await Mediator.Send(getAllUserCommand, cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -29,10 +35,10 @@ namespace WebSite.Controllers
             }
         }
         [HttpGet("{UserName}")]
-        public async Task<IActionResult> Get([FromRoute] string UserName ,
+        public async Task<IActionResult> Get([FromRoute] GetUserQuery getUserCommand,
             CancellationToken cancellationToken)
         {
-            var result = await _userService.GetAsync(UserName , cancellationToken);
+            var result = await Mediator.Send(getUserCommand, cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -43,13 +49,18 @@ namespace WebSite.Controllers
             }
         }
         [HttpPost()]
-        public async Task<IActionResult> Insert([FromBody] User user ,
+        public async Task<IActionResult> Insert([FromBody] AddUserCommand userAddCommand,
             CancellationToken cancellationToken)
         {
-            var result = await _userService.AddAsync(user , cancellationToken);
+
+            var result = await Mediator.Send(userAddCommand, cancellationToken);
             if (result.Success)
             {
-                string url = Url.Action(nameof(Get), "User", new { userName = user.UserName.Value }, Request.Scheme);
+                string url = Url.Action(nameof(Get),
+                    "User",
+                    new { userName = userAddCommand.UserName },
+                    Request.Scheme);
+
                 return Created(url, result.Success);
             }
             else
@@ -58,10 +69,10 @@ namespace WebSite.Controllers
             }
         }
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] User user ,
+        public async Task<IActionResult> Update([FromBody] UpdateUserCommand updateUserCommand,
             CancellationToken cancellationToken)
         {
-            var result = await _userService.UpdateAsync(user , cancellationToken);
+            var result = await Mediator.Send(updateUserCommand, cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Success);
@@ -72,10 +83,10 @@ namespace WebSite.Controllers
             }
         }
         [HttpDelete("{UserName}")]
-        public async Task<IActionResult> Delete([FromRoute] string UserName,
+        public async Task<IActionResult> Delete([FromRoute] DeleteUserCommand deleteUserCommand,
             CancellationToken cancellationToken)
         {
-            var result = await _userService.DeleteAsync(UserName , cancellationToken);
+            var result = await Mediator.Send(deleteUserCommand, cancellationToken);
             if (result.Success)
             {
                 return Ok(result.Success);

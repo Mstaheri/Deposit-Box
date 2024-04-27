@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Persistence.Config
 {
-    internal class BankSafeTransactionsConfig : IEntityTypeConfiguration<BankSafeTransactions>
+    internal class BankSafeTransactionsConfig : IEntityTypeConfiguration<BankSafeTransaction>
     {
-        public void Configure(EntityTypeBuilder<BankSafeTransactions> builder)
+        public void Configure(EntityTypeBuilder<BankSafeTransaction> builder)
         {
             builder.HasQueryFilter(m => EF.Property<bool>(m, "IsRemoved") == false);
 

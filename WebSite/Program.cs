@@ -1,9 +1,16 @@
+
 using Application.Services;
+using Application.Services.Users.Commands.AddUser;
 using Application.UnitOfWork;
 using Domain.IRepositories;
+using Domain.Validations;
 using Infrastructure.Repositories;
+using MediatR;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols;
 using Persistence;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,24 +23,14 @@ builder.Services.AddSqlServer<DbContextEF>(Connection);
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddScoped<IUnitOfWork, DbContextEF>();
-//User
 builder.Services.AddScoped<IUserRepositorie , UserRepositorie>();
-builder.Services.AddScoped<UserService>();
-//BankAccount
 builder.Services.AddScoped<IBankAccountRepositorie, BankAccountRepositorie>();
-builder.Services.AddScoped<BankAccountService>();
-//BankSafe
 builder.Services.AddScoped<IBankSafeRepositorie, BankSafeRepositorie>();
-builder.Services.AddScoped<BankSafeService>();
-//UserAndNumberOfShare
 builder.Services.AddScoped<IUserAndNumberOfShareRepositorie, UserAndNumberOfShareRepositorie>();
-builder.Services.AddScoped<UserAndNumberOfShareService>();
-//BankSafeTransactions
 builder.Services.AddScoped<IBankSafeTransactionsRepositorie, BankSafeTransactionsRepositorie>();
-builder.Services.AddScoped<BankSafeTransactionsService>();
-//BankSafeDocument
 builder.Services.AddScoped<IBankSafeDocumentRepositorie, BankSafeDocumentRepositorie>();
-builder.Services.AddScoped<BankSafeDocumentService>();
+
+builder.Services.RegisterApplication();
 
 var app = builder.Build();
 

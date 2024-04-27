@@ -1,5 +1,9 @@
 ﻿using Application.Data.MoqData;
 using Application.Services;
+using Application.Services.BankSafeDocuments.Command.AddBankSafeDocuments;
+using Application.Services.BankSafeDocuments.Queries.GetAllBankSafeDocuments;
+using Application.Services.BankSafeDocuments.Query.GetBankSafeDocuments;
+using Application.Services.BankSafes.Queries.GetAllBankSafe;
 using Application.UnitOfWork;
 using Domain.Entity;
 using Domain.Exceptions;
@@ -19,32 +23,41 @@ namespace Application.test.Services
         private readonly BankSafeDocumentMoqData _moqData;
         private readonly Mock<IBankSafeDocumentRepositorie> _repositorMoq;
         private readonly Mock<IUnitOfWork> _unitOfWorkMoq;
-        private readonly Mock<ILogger<BankSafeDocumentService>> _loggerMoq;
         public BankSafeDocumentTest()
         {
             _moqData = new BankSafeDocumentMoqData();
             _repositorMoq = new Mock<IBankSafeDocumentRepositorie>();
             _unitOfWorkMoq = new Mock<IUnitOfWork>();
-            _loggerMoq = new Mock<ILogger<BankSafeDocumentService>>();
         }
 
         [Fact]
         [Trait("Service", "BankSafeDocument")]
         public async Task AddTestAsync()
         {
+            Mock<ILogger<AddBankSafeDocumentsCommandHandler>> _loggerMoq = new Mock<ILogger<AddBankSafeDocumentsCommandHandler>>();
             var data = await _moqData.Get();
             _repositorMoq.Setup(p => p.AddAsync(It.IsAny<BankSafeDocument>() , It.IsAny<CancellationToken>()))
                 .Returns(() => ValueTask.CompletedTask);
-            BankSafeDocumentService bankSafeDocumentService = new BankSafeDocumentService(_unitOfWorkMoq.Object,
+            AddBankSafeDocumentsCommandHandler bankSafeDocumentService = new AddBankSafeDocumentsCommandHandler(_unitOfWorkMoq.Object,
                 _repositorMoq.Object,
                 _loggerMoq.Object);
 
 
-            var result = await bankSafeDocumentService.AddAsync(data);
+            var addBankSafeDocumentsCommand = new AddBankSafeDocumentsCommand()
+            {
+                AccountNumber = data.AccountNumber,
+                NameBankSafe = data.NameBankSafe,
+                RegistrationDate = data.RegistrationDate,
+                DueDate = data.DueDate,
+                Withdrawal = data.Withdrawal,
+                Deposit = data.Deposit,
+                Situation = data.Situation,
+            };
+            var result = await bankSafeDocumentService.Handle(addBankSafeDocumentsCommand , It.IsAny<CancellationToken>());
 
 
             Assert.NotNull(result);
-            Assert.IsType<OperationResult>(result);
+            Assert.IsType<OperationResult<Guid>>(result);
             if (result.Success)
             {
                 Assert.Null(result.Message);
@@ -58,14 +71,16 @@ namespace Application.test.Services
         [Trait("Service", "BankSafeDocument")]
         public async Task GetAllTestAsync()
         {
+            Mock<ILogger<GetAllBankSafeDocumentsQueryHandler>> _loggerMoq = new Mock<ILogger<GetAllBankSafeDocumentsQueryHandler>>();
             _repositorMoq.Setup(p => p.GetAllAsync(It.IsAny<CancellationToken>()))
                 .Returns(_moqData.GetAll());
-            BankSafeDocumentService bankSafeDocumentService = new BankSafeDocumentService(_unitOfWorkMoq.Object,
+            GetAllBankSafeDocumentsQueryHandler bankSafeDocumentService = new GetAllBankSafeDocumentsQueryHandler(_unitOfWorkMoq.Object,
                 _repositorMoq.Object,
                 _loggerMoq.Object);
 
 
-            var result = await bankSafeDocumentService.GetAllAsync();
+            var getAllBankSafeDocumentsQuery = new GetAllBankSafeDocumentsQuery();
+            var result = await bankSafeDocumentService.Handle(getAllBankSafeDocumentsQuery , It.IsAny<CancellationToken>());
 
 
             Assert.IsType<OperationResult<List<BankSafeDocument>>>(result);
@@ -88,14 +103,19 @@ namespace Application.test.Services
         [InlineData("17466fd3-e221-413d-a419-dd4690bf7bc1")]
         public async Task GetTestAsync(Guid code)
         {
+            Mock<ILogger<GetBankSafeDocumentsQueryHandler>> _loggerMoq = new Mock<ILogger<GetBankSafeDocumentsQueryHandler>>();
             _repositorMoq.Setup(p => p.GetAsync(It.IsAny<Guid>() , It.IsAny<CancellationToken>()))
                 .Returns(_moqData.Get());
-            BankSafeDocumentService bankSafeDocumentService = new BankSafeDocumentService(_unitOfWorkMoq.Object,
+            GetBankSafeDocumentsQueryHandler bankSafeDocumentService = new GetBankSafeDocumentsQueryHandler(_unitOfWorkMoq.Object,
                 _repositorMoq.Object,
                 _loggerMoq.Object);
 
 
-            var result = await bankSafeDocumentService.GetAsync(code);
+            var getBankSafeDocumentsQuery = new GetBankSafeDocumentsQuery()
+            {
+                Code = code
+            };
+            var result = await bankSafeDocumentService.Handle(getBankSafeDocumentsQuery , It.IsAny<CancellationToken>());
 
 
             Assert.IsType<OperationResult<BankSafeDocument>>(result);
