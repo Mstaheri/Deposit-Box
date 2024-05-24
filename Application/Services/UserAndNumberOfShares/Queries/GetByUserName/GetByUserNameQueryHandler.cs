@@ -15,15 +15,13 @@ namespace Application.Services.UserAndNumberOfShares.Queries.GetByUserName
     public class GetByUserNameQueryHandler
         :IRequestHandler<GetByUserNameQuery , OperationResult<UserAndNumberOfShare>>
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IUserAndNumberOfShareRepositorie _userAndNumberOfShareRepositorie;
         private readonly ILogger<GetByUserNameQueryHandler> _Logger;
-        public GetByUserNameQueryHandler(IUnitOfWork unitOfWork,
+        public GetByUserNameQueryHandler(
             IUserAndNumberOfShareRepositorie userAndNumberOfShareRepositorie,
             ILogger<GetByUserNameQueryHandler> Logger)
 
         {
-            _unitOfWork = unitOfWork;
             _userAndNumberOfShareRepositorie = userAndNumberOfShareRepositorie;
             _Logger = Logger;
         }

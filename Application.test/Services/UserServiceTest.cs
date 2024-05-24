@@ -143,7 +143,6 @@ namespace Application.test.Services
             _repositorMoq.Setup(repo => repo.GetAllAsync(It.IsAny<CancellationToken>()))
                 .Returns(_moqData.GetAll());
             GetAllUserQueryHandler user = new GetAllUserQueryHandler(_repositorMoq.Object
-                , _unitOfWorkMoq.Object
                 , _loggerMoq.Object);
 
 
@@ -175,7 +174,6 @@ namespace Application.test.Services
             _repositorMoq.Setup(p => p.GetAsync(It.IsAny<UserName>(), It.IsAny<CancellationToken>()))
                 .Returns(_moqData.Get());
             GetUserQueryHandler user = new GetUserQueryHandler(_repositorMoq.Object
-                , _unitOfWorkMoq.Object
                 , _loggerMoq.Object);
 
 

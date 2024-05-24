@@ -16,14 +16,11 @@ namespace Application.Services.BankSafes.Queries.GetAllBankSafe
         : IRequestHandler<GetAllBankSafeQuery, OperationResult<List<BankSafe>>>
     {
         private readonly IBankSafeRepositorie _bankSafeRepositorie;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<GetAllBankSafeQueryHandler> _logger;
-        public GetAllBankSafeQueryHandler(IBankSafeRepositorie bankSafeRepositorie,
-            IUnitOfWork unitOfWork
+        public GetAllBankSafeQueryHandler(IBankSafeRepositorie bankSafeRepositorie
             , ILogger<GetAllBankSafeQueryHandler> logger)
         {
             _bankSafeRepositorie = bankSafeRepositorie;
-            _unitOfWork = unitOfWork;
             _logger = logger;
         }
         public async Task<OperationResult<List<BankSafe>>> Handle(GetAllBankSafeQuery request, CancellationToken cancellationToken)

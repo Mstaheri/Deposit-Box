@@ -14,5 +14,6 @@ namespace Domain.IRepositories
         Task DeleteAsync(UserName userName, CancellationToken cancellationToken);
         Task<User> GetAsync(UserName userName, CancellationToken cancellationToken);
         Task<List<User>> GetAllAsync(CancellationToken cancellationToken);
+        Task<User> GetByUserNameAndPassword(UserName userNam ,Password password , CancellationToken cancellationToken);
     }
 }

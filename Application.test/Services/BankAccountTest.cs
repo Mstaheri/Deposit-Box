@@ -145,7 +145,7 @@ namespace Application.test.Services
             Mock<ILogger<GetAllBankAccountQueryHandler>> _loggerMoq = new Mock<ILogger<GetAllBankAccountQueryHandler>>();
             _repositorMoq.Setup(p => p.GetAllAsync(It.IsAny<CancellationToken>()))
                 .Returns(_moqData.GetAll());
-            GetAllBankAccountQueryHandler bankAccount = new GetAllBankAccountQueryHandler(_unitOfWorkMoq.Object,
+            GetAllBankAccountQueryHandler bankAccount = new GetAllBankAccountQueryHandler(
                 _repositorMoq.Object,
                 _loggerMoq.Object);
 
@@ -178,7 +178,7 @@ namespace Application.test.Services
             Mock<ILogger<GetBankAccountQueryHandler>> _loggerMoq = new Mock<ILogger<GetBankAccountQueryHandler>>();
             _repositorMoq.Setup(p => p.GetAsync(It.IsAny<AccountNumber>(), It.IsAny<CancellationToken>()))
                 .Returns(_moqData.Get());
-            GetBankAccountQueryHandler bankAccount = new GetBankAccountQueryHandler(_unitOfWorkMoq.Object,
+            GetBankAccountQueryHandler bankAccount = new GetBankAccountQueryHandler(
                 _repositorMoq.Object,
                 _loggerMoq.Object);
 

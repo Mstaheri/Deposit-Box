@@ -74,7 +74,6 @@ namespace Application.test.Services
             _repositorMoq.Setup(p => p.GetAllAsync(It.IsAny<CancellationToken>()))
                 .Returns(_moqData.GetAll());
             GetAllBankSafeTransactionQueryHandler bankSafeTransactionsService = new GetAllBankSafeTransactionQueryHandler(
-                _unitOfWorkMoq.Object,
                 _repositorMoq.Object,
                 _loggerMoq.Object);
 
@@ -106,7 +105,7 @@ namespace Application.test.Services
             Mock<ILogger<GetBankSafeTransactionCommandHandler>> _loggerMoq = new Mock<ILogger<GetBankSafeTransactionCommandHandler>>();
             _repositorMoq.Setup(p => p.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
                 .Returns(_moqData.Get());
-            GetBankSafeTransactionCommandHandler bankSafeTransactionsService = new GetBankSafeTransactionCommandHandler(_unitOfWorkMoq.Object,
+            GetBankSafeTransactionCommandHandler bankSafeTransactionsService = new GetBankSafeTransactionCommandHandler(
                 _repositorMoq.Object,
                 _loggerMoq.Object);
 

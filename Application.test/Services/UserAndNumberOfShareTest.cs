@@ -142,8 +142,8 @@ namespace Application.test.Services
             Mock<ILogger<GetAllUserAndNumberOfShareQueryHandler>> _loggerMoq = new Mock<ILogger<GetAllUserAndNumberOfShareQueryHandler>>();
             _repositorMoq.Setup(repo => repo.GetAllAsync(It.IsAny<CancellationToken>()))
                 .Returns(_moqData.GetAll());
-            GetAllUserAndNumberOfShareQueryHandler userAndNumberOfShare = new GetAllUserAndNumberOfShareQueryHandler(_unitOfWorkMoq.Object
-                , _repositorMoq.Object
+            GetAllUserAndNumberOfShareQueryHandler userAndNumberOfShare = new GetAllUserAndNumberOfShareQueryHandler(
+                 _repositorMoq.Object
                 , _loggerMoq.Object);
 
 
@@ -174,8 +174,8 @@ namespace Application.test.Services
             Mock<ILogger<GetByUserNameQueryHandler>> _loggerMoq = new Mock<ILogger<GetByUserNameQueryHandler>>();
             _repositorMoq.Setup(p => p.GetUserNameAsync(It.IsAny<UserName>(), It.IsAny<CancellationToken>()))
                 .Returns(_moqData.Get());
-            GetByUserNameQueryHandler userAndNumberOfShare = new GetByUserNameQueryHandler(_unitOfWorkMoq.Object
-                , _repositorMoq.Object
+            GetByUserNameQueryHandler userAndNumberOfShare = new GetByUserNameQueryHandler(
+                 _repositorMoq.Object
                 , _loggerMoq.Object);
 
 
@@ -210,8 +210,8 @@ namespace Application.test.Services
             Mock<ILogger<GetByNameBankQueryHandler>> _loggerMoq = new Mock<ILogger<GetByNameBankQueryHandler>>();
             _repositorMoq.Setup(p => p.GetNameBankAsync(It.IsAny<Name>(), It.IsAny<CancellationToken>()))
                 .Returns(_moqData.Get());
-            GetByNameBankQueryHandler userAndNumberOfShare = new GetByNameBankQueryHandler(_unitOfWorkMoq.Object
-                , _repositorMoq.Object
+            GetByNameBankQueryHandler userAndNumberOfShare = new GetByNameBankQueryHandler(
+                 _repositorMoq.Object
                 , _loggerMoq.Object);
 
 
@@ -245,8 +245,8 @@ namespace Application.test.Services
             _repositorMoq.Setup(p => p.GetNameBankAndUserNameAsync
             (It.IsAny<Name>() , It.IsAny<UserName>(), It.IsAny<CancellationToken>()))
                 .Returns(_moqData.Get());
-            GetByNameBankAndUserNameQueryHandler userAndNumberOfShare = new GetByNameBankAndUserNameQueryHandler(_unitOfWorkMoq.Object
-                , _repositorMoq.Object
+            GetByNameBankAndUserNameQueryHandler userAndNumberOfShare = new GetByNameBankAndUserNameQueryHandler(
+                 _repositorMoq.Object
                 , _loggerMoq.Object);
 
 

@@ -15,14 +15,11 @@ namespace Application.Services.BankSafes.Queries.InventoryBankSafe
         : IRequestHandler<InventoryBankSafeQuery, OperationResult<decimal>>
     {
         private readonly IBankSafeRepositorie _bankSafeRepositorie;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<InventoryBankSafeQueryHandler> _logger;
-        public InventoryBankSafeQueryHandler(IBankSafeRepositorie bankSafeRepositorie,
-            IUnitOfWork unitOfWork
+        public InventoryBankSafeQueryHandler(IBankSafeRepositorie bankSafeRepositorie
             , ILogger<InventoryBankSafeQueryHandler> logger)
         {
             _bankSafeRepositorie = bankSafeRepositorie;
-            _unitOfWork = unitOfWork;
             _logger = logger;
         }
         public async Task<OperationResult<decimal>> Handle(InventoryBankSafeQuery request, CancellationToken cancellationToken)

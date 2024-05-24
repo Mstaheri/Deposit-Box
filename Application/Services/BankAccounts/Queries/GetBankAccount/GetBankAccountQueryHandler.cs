@@ -16,15 +16,13 @@ namespace Application.Services.BankAccounts.Queries.GetBankAccount
     public class GetBankAccountQueryHandler
         : IRequestHandler<GetBankAccountQuery, OperationResult<BankAccount>>
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IBankAccountRepositorie _bankAccountRepositorie;
         private readonly ILogger<GetBankAccountQueryHandler> _Logger;
-        public GetBankAccountQueryHandler(IUnitOfWork unitOfWork,
+        public GetBankAccountQueryHandler(
             IBankAccountRepositorie bankAccountRepositorie,
             ILogger<GetBankAccountQueryHandler> Logger)
 
         {
-            _unitOfWork = unitOfWork;
             _bankAccountRepositorie = bankAccountRepositorie;
             _Logger = Logger;
         }

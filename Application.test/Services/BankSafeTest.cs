@@ -137,7 +137,7 @@ namespace Application.test.Services
             _repositorMoq.Setup(p => p.GetAllAsync(It.IsAny<CancellationToken>()))
                 .Returns(_moqData.GetAll());
             GetAllBankSafeQueryHandler bankSafe = new GetAllBankSafeQueryHandler(_repositorMoq.Object
-                , _unitOfWorkMoq.Object, _loggerMoq.Object);
+                , _loggerMoq.Object);
 
 
             var getAllBankSafeQuery = new GetAllBankSafeQuery();
@@ -169,7 +169,7 @@ namespace Application.test.Services
             _repositorMoq.Setup(p => p.GetAsync(It.IsAny<Name>(), It.IsAny<CancellationToken>()))
                 .Returns(_moqData.Get());
             GetBankSafeQueryHandler bankSafe = new GetBankSafeQueryHandler(_repositorMoq.Object
-                , _unitOfWorkMoq.Object, _loggerMoq.Object);
+                , _loggerMoq.Object);
 
 
             var getBankSafeQuery = new GetBankSafeQuery()
@@ -198,7 +198,7 @@ namespace Application.test.Services
             _repositorMoq.Setup(p => p.Inventory(It.IsAny<CancellationToken>()))
                 .Returns(It.IsAny<Task<decimal>>);
             InventoryBankSafeQueryHandler bankSafe = new InventoryBankSafeQueryHandler(_repositorMoq.Object
-                , _unitOfWorkMoq.Object, _loggerMoq.Object);
+                , _loggerMoq.Object);
 
 
             var inventoryBankSafeQuery = new InventoryBankSafeQuery();

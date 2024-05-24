@@ -15,14 +15,11 @@ namespace Application.Services.Users.Queries.GetAllUser
     public class GetAllUserQueryHandler : IRequestHandler<GetAllUserQuery, OperationResult<List<User>>>
     {
         private readonly IUserRepositorie _userRepositorie;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<GetAllUserQueryHandler> _logger;
-        public GetAllUserQueryHandler(IUserRepositorie userRepositorie,
-            IUnitOfWork unitOfWork
+        public GetAllUserQueryHandler(IUserRepositorie userRepositorie
             , ILogger<GetAllUserQueryHandler> logger)
         {
             _userRepositorie = userRepositorie;
-            _unitOfWork = unitOfWork;
             _logger = logger;
         }
         public async Task<OperationResult<List<User>>> Handle(GetAllUserQuery request, CancellationToken cancellationToken)

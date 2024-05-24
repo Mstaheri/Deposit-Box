@@ -16,15 +16,13 @@ namespace Application.Services.UserAndNumberOfShares.Queries.GetByNameBankAndUse
     public class GetByNameBankAndUserNameQueryHandler
         : IRequestHandler<GetByNameBankAndUserNameQuery, OperationResult<UserAndNumberOfShare>>
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IUserAndNumberOfShareRepositorie _userAndNumberOfShareRepositorie;
         private readonly ILogger<GetByNameBankAndUserNameQueryHandler> _Logger;
-        public GetByNameBankAndUserNameQueryHandler(IUnitOfWork unitOfWork,
+        public GetByNameBankAndUserNameQueryHandler(
             IUserAndNumberOfShareRepositorie userAndNumberOfShareRepositorie,
             ILogger<GetByNameBankAndUserNameQueryHandler> Logger)
 
         {
-            _unitOfWork = unitOfWork;
             _userAndNumberOfShareRepositorie = userAndNumberOfShareRepositorie;
             _Logger = Logger;
         }

@@ -15,15 +15,13 @@ namespace Application.Services.BankSafeTransactions.Queries.GetAllBankSafeTransa
     public class GetAllBankSafeTransactionQueryHandler
         : IRequestHandler<GetAllBankSafeTransactionQuery, OperationResult<List<BankSafeTransaction>>>
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IBankSafeTransactionsRepositorie _bankSafeTransactionsRepositorie;
         private readonly ILogger<GetAllBankSafeTransactionQueryHandler> _Logger;
-        public GetAllBankSafeTransactionQueryHandler(IUnitOfWork unitOfWork,
+        public GetAllBankSafeTransactionQueryHandler(
             IBankSafeTransactionsRepositorie bankSafeTransactionsRepositorie,
             ILogger<GetAllBankSafeTransactionQueryHandler> Logger)
 
         {
-            _unitOfWork = unitOfWork;
             _bankSafeTransactionsRepositorie = bankSafeTransactionsRepositorie;
             _Logger = Logger;
         }

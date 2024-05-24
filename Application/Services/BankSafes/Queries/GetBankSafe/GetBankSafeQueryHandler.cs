@@ -18,14 +18,11 @@ namespace Application.Services.BankSafes.Queries.GetBankSafe
         : IRequestHandler<GetBankSafeQuery, OperationResult<BankSafe>>
     {
         private readonly IBankSafeRepositorie _bankSafeRepositorie;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<GetBankSafeQueryHandler> _logger;
-        public GetBankSafeQueryHandler(IBankSafeRepositorie bankSafeRepositorie,
-            IUnitOfWork unitOfWork
+        public GetBankSafeQueryHandler(IBankSafeRepositorie bankSafeRepositorie
             , ILogger<GetBankSafeQueryHandler> logger)
         {
             _bankSafeRepositorie = bankSafeRepositorie;
-            _unitOfWork = unitOfWork;
             _logger = logger;
         }
 

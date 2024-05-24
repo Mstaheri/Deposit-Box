@@ -6,6 +6,7 @@ using Application.Services.BankAccounts.Queries.GetAllBankAccount;
 using Application.Services.BankAccounts.Queries.GetBankAccount;
 using Domain.Entity;
 using Domain.ValueObjects;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +14,7 @@ namespace WebSite.Controllers
 {
     [Route("api/BankAccount")]
     [ApiController]
+    [Authorize]
     public class BankAccountController : BaseController
     {
         [HttpGet]

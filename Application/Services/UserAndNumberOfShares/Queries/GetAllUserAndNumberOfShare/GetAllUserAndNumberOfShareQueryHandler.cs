@@ -15,15 +15,13 @@ namespace Application.Services.UserAndNumberOfShares.Queries.GetAllUserAndNumber
     public class GetAllUserAndNumberOfShareQueryHandler
         : IRequestHandler<GetAllUserAndNumberOfShareQuery, OperationResult<List<UserAndNumberOfShare>>>
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IUserAndNumberOfShareRepositorie _userAndNumberOfShareRepositorie;
         private readonly ILogger<GetAllUserAndNumberOfShareQueryHandler> _Logger;
-        public GetAllUserAndNumberOfShareQueryHandler(IUnitOfWork unitOfWork,
+        public GetAllUserAndNumberOfShareQueryHandler(
             IUserAndNumberOfShareRepositorie userAndNumberOfShareRepositorie,
             ILogger<GetAllUserAndNumberOfShareQueryHandler> Logger)
 
         {
-            _unitOfWork = unitOfWork;
             _userAndNumberOfShareRepositorie = userAndNumberOfShareRepositorie;
             _Logger = Logger;
         }

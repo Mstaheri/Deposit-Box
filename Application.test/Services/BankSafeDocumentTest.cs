@@ -74,7 +74,7 @@ namespace Application.test.Services
             Mock<ILogger<GetAllBankSafeDocumentsQueryHandler>> _loggerMoq = new Mock<ILogger<GetAllBankSafeDocumentsQueryHandler>>();
             _repositorMoq.Setup(p => p.GetAllAsync(It.IsAny<CancellationToken>()))
                 .Returns(_moqData.GetAll());
-            GetAllBankSafeDocumentsQueryHandler bankSafeDocumentService = new GetAllBankSafeDocumentsQueryHandler(_unitOfWorkMoq.Object,
+            GetAllBankSafeDocumentsQueryHandler bankSafeDocumentService = new GetAllBankSafeDocumentsQueryHandler(
                 _repositorMoq.Object,
                 _loggerMoq.Object);
 
@@ -106,7 +106,7 @@ namespace Application.test.Services
             Mock<ILogger<GetBankSafeDocumentsQueryHandler>> _loggerMoq = new Mock<ILogger<GetBankSafeDocumentsQueryHandler>>();
             _repositorMoq.Setup(p => p.GetAsync(It.IsAny<Guid>() , It.IsAny<CancellationToken>()))
                 .Returns(_moqData.Get());
-            GetBankSafeDocumentsQueryHandler bankSafeDocumentService = new GetBankSafeDocumentsQueryHandler(_unitOfWorkMoq.Object,
+            GetBankSafeDocumentsQueryHandler bankSafeDocumentService = new GetBankSafeDocumentsQueryHandler(
                 _repositorMoq.Object,
                 _loggerMoq.Object);
 
