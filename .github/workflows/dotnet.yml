@@ -1,1 +1,48 @@
 
+name: Mstaheri Development pipline
+
+on:
+	push:
+		branche: ["develop"]
+
+	bull_request:
+		branche: ["develop"]
+
+jobs:
+	build:
+		runs-on: ubuntu-latest
+
+		stop:
+		- uses: actions/checkout@v3
+
+		- name: setup .Net
+		  uses: action/setup-dotnet@v3
+		  with:
+			dotnet-version:7.0.x
+
+		- name: Restore Dependecy
+		  run: dotnet restore
+
+		- name: Bulid
+		  run: dotnet build --no-restore
+
+		- name: Test
+		  run: dotnet test --no-build --verbosity normal
+
+		- name: Publish
+		  run: dotnet publish -c release --output ./Release
+
+		- name: App Setting Variable
+		  uses: microsoft/variable-substitution@v1
+		  with:
+			files:'./release/appsettings.Development.json'
+		  env:
+			ConnectionStrings.?sqlServer: ${{secrets.CONNECTION_STRING}}
+
+		- name: FTP Deploy
+		  uses: Samkirkland/FTP-Deploy-Action@v4.3.4
+		  with:
+			server: ${{secrets.ftp_server}}
+			username: ${{secrets.ftp_user}}
+			password: ${{secrets.ftp_password}}
+			local-dir: ./Release/
