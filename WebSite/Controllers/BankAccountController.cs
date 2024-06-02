@@ -14,7 +14,6 @@ namespace WebSite.Controllers
 {
     [Route("api/BankAccount")]
     [ApiController]
-    [Authorize]
     public class BankAccountController : BaseController
     {
         [HttpGet]

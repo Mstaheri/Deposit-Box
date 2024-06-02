@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
+using Glimpse.Mvc.Tab;
 using MediatR;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,33 +15,33 @@ namespace Application.Services
     where TRequest : notnull
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
-
         public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
         {
             _validators = validators;
         }
 
-        public async Task<TResponse> Handle(
-            TRequest request,
-            RequestHandlerDelegate<TResponse> next,
-            CancellationToken cancellationToken)
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
+            //pre
+
             var context = new ValidationContext<TRequest>(request);
+            var validations = await Task.WhenAll(_validators.Select(p => p.ValidateAsync(context)));
 
-            var validationFailures = await Task.WhenAll(
-                _validators.Select(validator => validator.ValidateAsync(context)));
-
-            var errors = validationFailures
+            var errors = validations
                 .Where(validationResult => !validationResult.IsValid)
                 .SelectMany(validationResult => validationResult.Errors)
                 .ToList();
 
-            if (errors.Any())
+            if (errors.Count != 0)
             {
                 throw new ValidationException(errors);
             }
 
+            //next
+
             var response = await next();
+
+            //post
 
             return response;
         }

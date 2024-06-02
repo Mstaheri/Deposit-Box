@@ -24,6 +24,7 @@ builder.Services.AddEndpointsApiExplorer();
 string Connection = builder.Configuration.GetConnectionString("sqlServer");
 builder.Services.AddSqlServer<DbContextEF>(Connection);
 
+
 builder.Services.AddAuthentication(Option =>
 {
     Option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

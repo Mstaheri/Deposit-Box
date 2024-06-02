@@ -1,4 +1,5 @@
-﻿using Domain.Exceptions;
+﻿using Application.UnitOfWork;
+using Domain.Exceptions;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Application.Services.BankAccounts.Commands.AddBankAccount
     {
         public AddBankAccountCommandValidator()
         {
-            RuleFor(p => p.AccountNumber)
+             RuleFor(p => p.AccountNumber)
             .NotNull().WithMessage(string.Format(ConstMessages.IsNull, "AccountNumber"))
             .MaximumLength(50).WithMessage(string.Format(ConstMessages.MaximumLength, "AccountNumber", "16"));
 
