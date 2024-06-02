@@ -4,9 +4,11 @@ using Application.Services.Users.Commands.AddUser;
 using Application.UnitOfWork;
 using Domain.IRepositories;
 using Domain.Validations;
+using HealthChecks.UI.Client;
 using Infrastructure.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +26,9 @@ builder.Services.AddEndpointsApiExplorer();
 string Connection = builder.Configuration.GetConnectionString("sqlServer");
 builder.Services.AddSqlServer<DbContextEF>(Connection);
 
+builder.Services.AddHealthChecks()
+    .AddSqlServer(builder.Configuration.GetConnectionString("sqlServer"));
+    
 
 builder.Services.AddAuthentication(Option =>
 {
@@ -93,6 +98,11 @@ if (app.Environment.IsDevelopment())
     app.UseEndpoints(endpoints =>
     {
         endpoints.MapControllers();
+        endpoints.MapHealthChecks("/health", new HealthCheckOptions
+        {
+            Predicate = _ => true,
+            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+        });
     });
 }
 
