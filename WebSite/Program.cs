@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Tokens;
 using Persistence;
+using Prometheus;
 using System.Reflection;
 using System.Text;
 
@@ -105,6 +106,8 @@ if (app.Environment.IsDevelopment())
         });
     });
 }
+app.UseMetricServer();
+app.UseHttpMetrics();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

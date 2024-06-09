@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" Sdk="Microsoft.Docker.Sdk">
+  <PropertyGroup Label="Globals">
+    <ProjectVersion>2.1</ProjectVersion>
+    <DockerTargetOS>Linux</DockerTargetOS>
+    <ProjectGuid>5d83925c-90c6-481a-a371-d353d8e2f1a7</ProjectGuid>
+    <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
+    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
+    <DockerServiceName>website</DockerServiceName>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="alertmanager\alertmanager.override.yml">
+      <DependentUpon>alertmanager.yml</DependentUpon>
+    </None>
+    <None Include="alertmanager\alertmanager.yml" />
+    <None Include="docker-compose.override.yml">
+      <DependentUpon>docker-compose.yml</DependentUpon>
+    </None>
+    <None Include="docker-compose.yml" />
+    <None Include=".dockerignore" />
+    <None Include="grafana\provisioning\datasources\datasources.override.yml">
+      <DependentUpon>datasources.yml</DependentUpon>
+    </None>
+    <None Include="grafana\provisioning\datasources\datasources.yml" />
+    <None Include="prometheus\alert.rules.override.yml">
+      <DependentUpon>alert.rules.yml</DependentUpon>
+    </None>
+    <None Include="prometheus\alert.rules.yml" />
+    <None Include="prometheus\prometheus.override.yml">
+      <DependentUpon>prometheus.yml</DependentUpon>
+    </None>
+    <None Include="prometheus\prometheus.yml" />
+  </ItemGroup>
+</Project>

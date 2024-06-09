@@ -1,0 +1,18 @@
+global:
+  scrape_interval: 3s
+
+scrape_configs:
+  - job_name: 'website-read-prometheus'
+    metrics_path: /metrics
+    scheme: http
+    static_configs:
+    - targets:
+        - host.docker.internal:8082
+
+rule_files:
+     - /etc/prometheus/alert.rules.yml
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ['alertmanager:9093']

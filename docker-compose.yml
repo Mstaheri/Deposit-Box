@@ -1,0 +1,45 @@
+version: '3.4'
+
+services:
+  website:
+    image: ${DOCKER_REGISTRY-}website
+    build:
+      context: .
+      dockerfile: WebSite/Dockerfile
+    environment:
+        - ASPNETCORE_ENVIROMENT=Development
+        - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+        - 8082:80
+        - 8084:443
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:master
+    ports:
+        - "3000:3000"
+    volumes:
+        - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus_grafprom
+    restart: always
+    ports:
+        - 9090:9090
+    volumes:
+        - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+        - ./prometheus/alert.rules.yml:/etc/prometheus/alert.rules.yml:ro
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alertmanager
+    volumes:
+      - ./alertmanager:/etc/alertmanager
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--storage.path=/alertmanager'
+    ports:
+      - '9093:9093'
+    
+    

@@ -1,0 +1,11 @@
+groups:
+  - name: 'ManyRequestsThreshold'
+    rules:
+      - alert: 'ManyRequestsThreshold'
+        expr: dotnet_total_memory_bytes > 5
+        # for: 1m
+        labels:
+          severity: 'critical'
+        annotations:
+          summary: 'High request rate for'
+          description: 'High request rate for path'
