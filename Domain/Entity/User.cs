@@ -12,14 +12,6 @@ namespace Domain.Entity
     [AudiTable]
     public class User : IEntity
     {
-        public Name FirstName { get; private set; }
-        public Name LastName { get; private set; }
-        public PhoneNumber PhoneNumber { get; private set; }
-        public NationalIDNumber NationalIDNumber { get; private set; }
-        public UserName UserName { get; private set; }
-        public Password Password { get; private set; }
-        public ICollection<BankAccount> BankAccounts { get; private set; }
-        public ICollection<UserAndNumberOfShare> UserAndNumberOfShares { get; private set; }
         public User(Name firstName, Name lastName, PhoneNumber phoneNumber,
             NationalIDNumber nationalIDNumber, UserName userName,
             Password password)
@@ -31,6 +23,15 @@ namespace Domain.Entity
             UserName = userName;
             Password = password;
         }
+        public Name FirstName { get; private set; }
+        public Name LastName { get; private set; }
+        public PhoneNumber PhoneNumber { get; private set; }
+        public NationalIDNumber NationalIDNumber { get; private set; }
+        public UserName UserName { get; private set; }
+        public Password Password { get; private set; }
+        public ICollection<BankAccount> BankAccounts { get; private set; }
+        public ICollection<UserAndNumberOfShare> UserAndNumberOfShares { get; private set; }
+        
         public void Update(Name firstName, Name lastName, PhoneNumber phoneNumber,
             NationalIDNumber nationalIDNumber,
             Password password)

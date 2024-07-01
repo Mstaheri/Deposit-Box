@@ -13,16 +13,7 @@ namespace Domain.Entity
     [AudiTable]
     public class LoanDocument : IEntity
     {
-        public Guid Code { get; private set; }
-        public Guid CodeLoan { get; private set; }
-        public Name NameBankSafe { get; private set; }
-        public string RegistrationDate { get; private set; }
-        public string DueDate { get; private set; }
-        public decimal Amount { get; private set; }
-        public SituationTypes Situation { get; private set; }
-        public Loan Loan { get; private set; }
-        public BankSafe BankSafe { get; private set; }
-        public LoanDocument(Guid codeLoan , Name nameBankSafe, string registrationDate,
+        public LoanDocument(Guid codeLoan, Name nameBankSafe, string registrationDate,
             string dueDate, decimal amount, SituationTypes situation)
         {
             Code = Guid.NewGuid();
@@ -33,6 +24,16 @@ namespace Domain.Entity
             Amount = amount;
             Situation = situation;
         }
+        public Guid Code { get; private set; }
+        public Guid CodeLoan { get; private set; }
+        public Name NameBankSafe { get; private set; }
+        public string RegistrationDate { get; private set; }
+        public string DueDate { get; private set; }
+        public decimal Amount { get; private set; }
+        public SituationTypes Situation { get; private set; }
+        public Loan Loan { get; private set; }
+        public BankSafe BankSafe { get; private set; }
+        
         public void Update(string registrationDate,string dueDate,
             decimal amount, SituationTypes situation)
         {

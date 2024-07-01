@@ -12,6 +12,11 @@ namespace Domain.Entity
     [AudiTable]
     public class BankSafe : IEntity
     {
+        public BankSafe(Name name, Money sharePrice)
+        {
+            Name = name;
+            SharePrice = sharePrice;
+        }
         public Name Name { get; private set; }
         public Money SharePrice { get; private set; }
         public ICollection<UserAndNumberOfShare> UserAndNumberOfShares { get; private set; }
@@ -20,11 +25,7 @@ namespace Domain.Entity
         public ICollection<Loan> loans { get; private set; }
         public ICollection<LoanTransactions> LoanTransactions { get; private set; }
         public ICollection<LoanDocument> LoanDocuments { get; private set; }
-        public BankSafe(Name name, Money sharePrice)
-        {
-            Name = name;
-            SharePrice = sharePrice;
-        }
+       
         public void Update(Money sharePrice)
         {
             SharePrice = sharePrice;

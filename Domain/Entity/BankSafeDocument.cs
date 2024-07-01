@@ -13,16 +13,6 @@ namespace Domain.Entity
     [AudiTable]
     public class BankSafeDocument : IEntity
     {
-        public Guid Code { get; private set; }
-        public Name NameBankSafe { get; private set; }
-        public AccountNumber AccountNumber { get; private set; }
-        public PersianDate RegistrationDate { get; private set; }
-        public PersianDate DueDate { get; private set; }
-        public Money Deposit { get; private set; }
-        public Money Withdrawal { get; private set; }
-        public SituationTypes Situation { get; private set; }
-        public BankAccount BankAccount { get; private set; }
-        public BankSafe BankSafe { get; private set; }
         public BankSafeDocument(Name nameBankSafe, AccountNumber accountNumber, PersianDate registrationDate,
             PersianDate dueDate, Money deposit, Money withdrawal, SituationTypes situation)
         {
@@ -42,6 +32,17 @@ namespace Domain.Entity
             }
             Situation = situation;
         }
+        public Guid Code { get; private set; }
+        public Name NameBankSafe { get; private set; }
+        public AccountNumber AccountNumber { get; private set; }
+        public PersianDate RegistrationDate { get; private set; }
+        public PersianDate DueDate { get; private set; }
+        public Money Deposit { get; private set; }
+        public Money Withdrawal { get; private set; }
+        public SituationTypes Situation { get; private set; }
+        public BankAccount BankAccount { get; private set; }
+        public BankSafe BankSafe { get; private set; }
+        
         public void Update(PersianDate registrationDate, PersianDate dueDate,
             Money deposit, Money withdrawal)
         {

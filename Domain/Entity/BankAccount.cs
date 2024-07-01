@@ -12,14 +12,6 @@ namespace Domain.Entity
     [AudiTable]
     public class BankAccount : IEntity
     {
-        public AccountNumber AccountNumber { get; private set; }
-        public UserName UserName { get; private set; }
-        public Name AccountName { get; private set; }
-        public Name BankName { get; private set; }
-        public string Description { get; private set; }
-        public User User { get; private set; }
-        public ICollection<BankSafeTransaction> BankSafeTransactions { get; private set; }
-        public ICollection<BankSafeDocument> BankSafeDocuments { get; private set; }
         public BankAccount(AccountNumber accountNumber, UserName userName, Name accountName,
             Name bankName, string description)
         {
@@ -29,6 +21,15 @@ namespace Domain.Entity
             BankName = bankName;
             Description = description;
         }
+        public AccountNumber AccountNumber { get; private set; }
+        public UserName UserName { get; private set; }
+        public Name AccountName { get; private set; }
+        public Name BankName { get; private set; }
+        public string Description { get; private set; }
+        public User User { get; private set; }
+        public ICollection<BankSafeTransaction> BankSafeTransactions { get; private set; }
+        public ICollection<BankSafeDocument> BankSafeDocuments { get; private set; }
+        
         public void Update(Name accountName,
             Name bankName, string description)
         {

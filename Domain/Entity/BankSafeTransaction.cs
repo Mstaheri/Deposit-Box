@@ -13,15 +13,8 @@ namespace Domain.Entity
     [AudiTable]
     public class BankSafeTransaction : IEntity
     {
-        public Guid Code { get; private set; }
-        public Name NameBankSafe { get; private set; }
-        public AccountNumber AccountNumber { get; private set; }
-        public Money Deposit { get; private set; }
-        public Money Withdrawal { get; private set; }
-        public BankAccount BankAccount { get; private set; }
-        public BankSafe BankSafe { get; private set; }
         public BankSafeTransaction(Name nameBankSafe, AccountNumber accountNumber,
-            Money deposit, Money withdrawal)
+           Money deposit, Money withdrawal)
         {
             Code = Guid.NewGuid();
             NameBankSafe = nameBankSafe;
@@ -35,8 +28,16 @@ namespace Domain.Entity
             {
                 throw new Exception("");
             }
-            
+
         }
+        public Guid Code { get; private set; }
+        public Name NameBankSafe { get; private set; }
+        public AccountNumber AccountNumber { get; private set; }
+        public Money Deposit { get; private set; }
+        public Money Withdrawal { get; private set; }
+        public BankAccount BankAccount { get; private set; }
+        public BankSafe BankSafe { get; private set; }
+       
         public void Update(Money deposit, Money withdrawal)
         {
             if (deposit == 0 && withdrawal != 0 || deposit != 0 && withdrawal == 0)
