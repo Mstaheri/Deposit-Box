@@ -15,7 +15,7 @@ namespace Domain.ValueObjects
         public PhoneNumber(string value)
         {
             var result = CheckPhoneNumber(value);
-            if (result.Success == true)
+            if (result.IsSuccess == true)
             {
                 Value = value;
             }
@@ -26,19 +26,13 @@ namespace Domain.ValueObjects
         }
         private OperationResult CheckPhoneNumber(string value)
         {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                return new OperationResult(true, null);
-            }
-            else if (value.Length != 11 || !value.StartsWith("09") || !Validation.CheckNumberFormat(value))
-            {
-                string message = string.Format(ConstMessages.IncorrectFormat, nameof(PhoneNumber));
-                return new OperationResult(false, message);
-            }
-            else
-            {
-                return new OperationResult(true, null);
-            }
+            var result = OperationResult.CreateValidator(value)
+                .Validate(x => string.IsNullOrWhiteSpace(x), string.Format(ConstMessages.IsNull, nameof(PhoneNumber)))
+                .Validate(x => x.Length != 11, string.Format(ConstMessages.IncorrectFormat, nameof(PhoneNumber)))
+                .Validate(x => !x.StartsWith("09"), string.Format(ConstMessages.IncorrectFormat, nameof(PhoneNumber)))
+                .Validate(x => !Validation.CheckNumberFormat(value), string.Format(ConstMessages.IncorrectFormat, nameof(PhoneNumber)));
+
+            return result;
         }
         protected override IEnumerable<object> GetEqualityComponents()
         {

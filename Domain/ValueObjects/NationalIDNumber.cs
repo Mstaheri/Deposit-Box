@@ -15,7 +15,7 @@ namespace Domain.ValueObjects
         public NationalIDNumber(string value)
         {
             var result = CheckNationalIDNumber(value);
-            if (result.Success == true)
+            if (result.IsSuccess == true)
             {
                 Value = value;
             }
@@ -26,20 +26,12 @@ namespace Domain.ValueObjects
         }
         private OperationResult CheckNationalIDNumber(string value)
         {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                string message = string.Format(ConstMessages.IsNull, nameof(NationalIDNumber));
-                return new OperationResult(false, message);
-            }
-            else if (value.Length != 10 || !Validation.CheckNumberFormat(value))
-            {
-                string message = string.Format(ConstMessages.IncorrectFormat, nameof(NationalIDNumber));
-                return new OperationResult(false, message);
-            }
-            else
-            {
-                return new OperationResult(true, null);
-            }
+            var result = OperationResult.CreateValidator(value)
+                .Validate(x => string.IsNullOrWhiteSpace(x), string.Format(ConstMessages.IsNull, nameof(NationalIDNumber)))
+                .Validate(x => x.Length != 10, string.Format(ConstMessages.IncorrectFormat, nameof(NationalIDNumber)))
+                .Validate(x => !Validation.CheckNumberFormat(x), string.Format(ConstMessages.IncorrectFormat, nameof(NationalIDNumber)));
+
+            return result;
         }
 
         protected override IEnumerable<object> GetEqualityComponents()

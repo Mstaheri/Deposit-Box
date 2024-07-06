@@ -22,7 +22,7 @@ namespace WebSite.Controllers
         {
             var getAllBankSafeQuery = new GetAllBankSafeQuery();
             var result = await Mediator.Send(getAllBankSafeQuery,cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 return Ok(result.Data);
             }
@@ -37,7 +37,7 @@ namespace WebSite.Controllers
         {
             var inventoryBankSafeQuery = new InventoryBankSafeQuery();
             var result = await Mediator.Send(inventoryBankSafeQuery,cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 return Ok(result.Data);
             }
@@ -51,7 +51,7 @@ namespace WebSite.Controllers
             CancellationToken cancellationToken)
         {
             var result = await Mediator.Send(getBankSafeQuery, cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 return Ok(result.Data);
             }
@@ -65,13 +65,13 @@ namespace WebSite.Controllers
             CancellationToken cancellationToken)
         {
             var result = await Mediator.Send(addBankSafeCommand, cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 string url = Url.Action(nameof(Get),
                     "BankSafe", 
                     new { name = addBankSafeCommand.Name },
                     Request.Scheme);
-                return Created(url, result.Success);
+                return Created(url, result.IsSuccess);
             }
             else
             {
@@ -83,9 +83,9 @@ namespace WebSite.Controllers
             CancellationToken cancellationToken)
         {
             var result = await Mediator.Send(updateBankSafeCommand, cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
-                return Ok(result.Success);
+                return Ok(result.IsSuccess);
             }
             else
             {
@@ -97,9 +97,9 @@ namespace WebSite.Controllers
             CancellationToken cancellationToken)
         {
             var result = await Mediator.Send(deleteBankSafeCommand, cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
-                return Ok(result.Success);
+                return Ok(result.IsSuccess);
             }
             else
             {

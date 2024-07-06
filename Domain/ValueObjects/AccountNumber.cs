@@ -15,7 +15,7 @@ namespace Domain.ValueObjects
         public AccountNumber(string value)
         {
             var result = CheckAccountNumber(value);
-            if (result.Success == true)
+            if (result.IsSuccess == true)
             {
                 Value = value;
             }
@@ -26,20 +26,11 @@ namespace Domain.ValueObjects
         }
         private OperationResult CheckAccountNumber(string value)
         {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                string message = string.Format(ConstMessages.IsNull, nameof(AccountNumber));
-                return new OperationResult(false, message);
-            }
-            else if (value.Length != 16 || !Validation.CheckNumberFormat(value))
-            {
-                string message = string.Format(ConstMessages.IncorrectFormat, nameof(AccountNumber));
-                return new OperationResult(false, message);
-            }
-            else
-            {
-                return new OperationResult(true, null);
-            }
+            var result = OperationResult.CreateValidator(value)
+                .Validate(x => string.IsNullOrWhiteSpace(x) , string.Format(ConstMessages.IsNull, nameof(AccountNumber)))
+                .Validate(x => x.Length != 16 , string.Format(ConstMessages.IncorrectFormat, nameof(AccountNumber)))
+                .Validate(x => !Validation.CheckNumberFormat(x) , string.Format(ConstMessages.IncorrectFormat, nameof(AccountNumber)));
+            return result;
         }
 
         protected override IEnumerable<object> GetEqualityComponents()

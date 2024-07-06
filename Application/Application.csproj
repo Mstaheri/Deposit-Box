@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <Folder Include="Behavior\" />
+    <Folder Include="Services\Loan\Queries\" />
   </ItemGroup>
 
 </Project>

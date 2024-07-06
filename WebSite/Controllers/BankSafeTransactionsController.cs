@@ -18,7 +18,7 @@ namespace WebSite.Controllers
         {
             var getAllBankSafeTransactionQuery = new GetAllBankSafeTransactionQuery();
             var result = await Mediator.Send(getAllBankSafeTransactionQuery ,cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 return Ok(result.Data);
             }
@@ -32,7 +32,7 @@ namespace WebSite.Controllers
             CancellationToken cancellationToken)
         {
             var result = await Mediator.Send(getAllBankSafeTransactionQuery, cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 return Ok(result.Data);
             }
@@ -46,11 +46,11 @@ namespace WebSite.Controllers
             CancellationToken cancellationToken)
         {
             var result = await Mediator.Send(addBankSafeTransactionCommand, cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 string url = Url.Action(nameof(Get), "BankSafeTransactions",
                     new { Code = result.Data }, Request.Scheme);
-                return Created(url,result.Success);
+                return Created(url,result.IsSuccess);
             }
             else
             {

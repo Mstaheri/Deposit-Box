@@ -22,7 +22,7 @@ namespace WebSite.Controllers
         {
             var getAllUserAndNumberOfShareQuery = new GetAllUserAndNumberOfShareQuery();
             var result = await Mediator.Send(getAllUserAndNumberOfShareQuery, cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 return Ok(result.Data);
             }
@@ -40,7 +40,7 @@ namespace WebSite.Controllers
                 NameBankSafe = NameBankSafe,
             };
             var result = await Mediator.Send(getByNameBankQuery, cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 return Ok(result.Data);
             }
@@ -58,7 +58,7 @@ namespace WebSite.Controllers
                 UserName = UserName,
             };
             var result = await Mediator.Send(getByUserNameQuery, cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 return Ok(result.Data);
             }
@@ -77,7 +77,7 @@ namespace WebSite.Controllers
                 UserName = UserName,
             };
             var result = await Mediator.Send(getByNameBankAndUserNameQuery, cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 return Ok(result.Data);
             }
@@ -91,13 +91,13 @@ namespace WebSite.Controllers
             CancellationToken cancellationToken)
         {
             var result = await Mediator.Send(addUserAndNumberOfShareCommand, cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 string url = Url.Action(nameof(GetNameBankAndUserName), "userAndNumberOfShare",
                     new { nameBankSafe = addUserAndNumberOfShareCommand.NameBankSafe ,
                         userName = addUserAndNumberOfShareCommand.UserName },
                     Request.Scheme);
-                return Created(url, result.Success);
+                return Created(url, result.IsSuccess);
             }
             else
             {
@@ -109,9 +109,9 @@ namespace WebSite.Controllers
             CancellationToken cancellationToken)
         {
             var result = await Mediator.Send(updateUserAndNumberOfShareCommand, cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
-                return Ok(result.Success);
+                return Ok(result.IsSuccess);
             }
             else
             {
@@ -123,9 +123,9 @@ namespace WebSite.Controllers
             CancellationToken cancellationToken)
         {
             var result = await Mediator.Send(deleteUserAndNumberOfShareCommand, cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
-                return Ok(result.Success);
+                return Ok(result.IsSuccess);
             }
             else
             {

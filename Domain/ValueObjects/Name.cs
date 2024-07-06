@@ -18,7 +18,7 @@ namespace Domain.ValueObjects
         public Name(string value)
         {
             var result = CheckValueName(value);
-            if (result.Success == true)
+            if (result.IsSuccess == true)
             {
                 Value = value;
             }

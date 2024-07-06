@@ -15,7 +15,7 @@ namespace Domain.ValueObjects
         public Number(int value)
         {
             var result = CheckNumber(value);
-            if (result.Success == true)
+            if (result.IsSuccess == true)
             {
                 Value = value;
             }

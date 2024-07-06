@@ -1,7 +1,7 @@
 ﻿using Domain.Common;
 using Domain.Exceptions;
-using Domain.Exceptions;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -16,7 +16,7 @@ namespace Domain.ValueObjects
         public PersianDate(string value)
         {
             var result = CheckPersianDate(value);
-            if (result.Success == true)
+            if (result.IsSuccess == true)
             {
                 Value = value;
             }
@@ -36,30 +36,22 @@ namespace Domain.ValueObjects
             {
                 PersianCalendar persianCalendar = new PersianCalendar();
                 string message = string.Format(ConstMessages.IncorrectFormatCharacters, nameof(CheckPersianDate));
-                string[] dateParts = value.Split('/');
-                bool y = int.TryParse(dateParts[0] , out int year);
-                bool m = int.TryParse(dateParts[1] , out int month);
-                bool d = int.TryParse(dateParts[2] ,  out int day);
+                ReadOnlySpan<char> dataSpan = value;
+                bool y = int.TryParse(dataSpan.Slice(0 , 4) , out int year);
+                bool m = int.TryParse(dataSpan.Slice(5 , 2) , out int month);
+                bool d = int.TryParse(dataSpan.Slice(8 , 2) ,  out int day);
                 if (y == false || m == false || d == false)
-                {
-                    return new OperationResult(false, message);
-                }
-                else  if (year < 1 || year > 1600)
-                {
-                    return new OperationResult(false, message);
-                }
-                else if (month < 1 || month > 12)
-                {
-                    return new OperationResult(false, message);
-                }
-                else if (day < 1 || day > persianCalendar.GetDaysInMonth(year, month))
                 {
                     return new OperationResult(false, message);
                 }
                 else
                 {
-                    return new OperationResult(true, null);
-                }   
+                    var result = OperationResult.CreateValidator(month)
+                        .Validate(x => year < 1 || year > 1600, message)
+                        .Validate(x => month < 1 || month > 12, message)
+                        .Validate(x => day < 1 || day > persianCalendar.GetDaysInMonth(year, month), message);
+                    return result;
+                }
             }
         }
 

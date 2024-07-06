@@ -15,7 +15,7 @@ namespace Domain.ValueObjects
         public UserName(string value)
         {
             var result = CheckUserName(value);
-            if (result.Success == true)
+            if (result.IsSuccess == true)
             {
                 Value = value;
             }
@@ -26,20 +26,10 @@ namespace Domain.ValueObjects
         }
         private OperationResult CheckUserName(string value)
         {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                string message = string.Format(ConstMessages.IsNull, nameof(UserName));
-                return new OperationResult(false, message);
-            }
-            else if (!Validation.CheckFormatcharacter(value))
-            {
-                string message = string.Format(ConstMessages.IncorrectFormatCharacters, nameof(UserName));
-                return new OperationResult(false, message);
-            }
-            else
-            {
-                return new OperationResult(true, null);
-            }
+            var result = OperationResult.CreateValidator(value)
+                .Validate(x => string.IsNullOrWhiteSpace(x), string.Format(ConstMessages.IsNull, nameof(UserName)))
+                .Validate(x => !Validation.CheckFormatcharacter(x), string.Format(ConstMessages.IncorrectFormatCharacters, nameof(UserName)));
+            return result;
         }
 
         protected override IEnumerable<object> GetEqualityComponents()

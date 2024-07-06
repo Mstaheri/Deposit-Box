@@ -21,7 +21,7 @@ namespace WebSite.Controllers
         {
             var getAllBankAccountQuery = new GetAllBankAccountQuery();
             var result = await Mediator.Send(getAllBankAccountQuery,cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 return Ok(result.Data);
             }
@@ -36,7 +36,7 @@ namespace WebSite.Controllers
         {
             
             var result = await Mediator.Send(getAllBankAccountQuery, cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 return Ok(result.Data);
             }
@@ -50,13 +50,13 @@ namespace WebSite.Controllers
             CancellationToken cancellationToken)
         {
             var result = await Mediator.Send(addBankAccountCommand, cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 string url = Url.Action(nameof(Get), 
                     "bankAccount", 
                     new { accountNumber = addBankAccountCommand.AccountNumber },
                     Request.Scheme);
-                return Created(url, result.Success);
+                return Created(url, result.IsSuccess);
             }
             else
             {
@@ -68,9 +68,9 @@ namespace WebSite.Controllers
             CancellationToken cancellationToken)
         {
             var result = await Mediator.Send(updateBankAccountCommand, cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
-                return Ok(result.Success);
+                return Ok(result.IsSuccess);
             }
             else
             {
@@ -82,9 +82,9 @@ namespace WebSite.Controllers
             CancellationToken cancellationToken)
         {
             var result = await Mediator.Send(deleteBankAccountCommand, cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
-                return Ok(result.Success);
+                return Ok(result.IsSuccess);
             }
             else
             {

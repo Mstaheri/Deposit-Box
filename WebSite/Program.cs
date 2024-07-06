@@ -22,14 +22,15 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddEndpointsApiExplorer();
+//builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddControllersWithViews();
 //Database
 string Connection = builder.Configuration.GetConnectionString("sqlServer");
 builder.Services.AddSqlServer<DbContextEF>(Connection);
 
 builder.Services.AddHealthChecks()
     .AddSqlServer(builder.Configuration.GetConnectionString("sqlServer"));
-    
+
 
 builder.Services.AddAuthentication(Option =>
 {

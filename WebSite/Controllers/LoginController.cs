@@ -22,7 +22,7 @@ namespace WebSite.Controllers
         {
 
             var result = await Mediator.Send(getByUserNameAndPasswordQuery , cancellationToken);
-            if (result.Success == true)
+            if (result.IsSuccess == true)
             {
                 if (result.Data != null)
                 {

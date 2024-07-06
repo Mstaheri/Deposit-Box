@@ -14,7 +14,7 @@ namespace Domain.ValueObjects
         public Money(decimal value = 0)
         {
             var result = CheckMoney(value);
-            if (result.Success == true)
+            if (result.IsSuccess == true)
             {
                 Value = value;
             }
@@ -25,15 +25,9 @@ namespace Domain.ValueObjects
         }
         private OperationResult CheckMoney(decimal value)
         {
-            if (value < 0)
-            {
-                string message = string.Format(ConstMessages.NotNegative, nameof(Money));
-                return new OperationResult(false, message);
-            }
-            else
-            {
-                return new OperationResult(true, null);
-            }
+            var result = OperationResult.CreateValidator(value)
+                .Validate(x => x < 0, string.Format(ConstMessages.NotNegative, nameof(Money)));
+            return result;
         }
 
         protected override IEnumerable<object> GetEqualityComponents()

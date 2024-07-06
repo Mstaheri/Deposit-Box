@@ -25,7 +25,7 @@ namespace WebSite.Controllers
 
             };
             var result = await Mediator.Send(getAllUserCommand, cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 return Ok(result.Data);
             }
@@ -39,7 +39,7 @@ namespace WebSite.Controllers
             CancellationToken cancellationToken)
         {
             var result = await Mediator.Send(getUserCommand, cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 return Ok(result.Data);
             }
@@ -54,14 +54,14 @@ namespace WebSite.Controllers
         {
 
             var result = await Mediator.Send(userAddCommand, cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 string url = Url.Action(nameof(Get),
                     "User",
                     new { userName = userAddCommand.UserName },
                     Request.Scheme);
 
-                return Created(url, result.Success);
+                return Created(url, result.IsSuccess);
             }
             else
             {
@@ -73,9 +73,9 @@ namespace WebSite.Controllers
             CancellationToken cancellationToken)
         {
             var result = await Mediator.Send(updateUserCommand, cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
-                return Ok(result.Success);
+                return Ok(result.IsSuccess);
             }
             else
             {
@@ -87,9 +87,9 @@ namespace WebSite.Controllers
             CancellationToken cancellationToken)
         {
             var result = await Mediator.Send(deleteUserCommand, cancellationToken);
-            if (result.Success)
+            if (result.IsSuccess)
             {
-                return Ok(result.Success);
+                return Ok(result.IsSuccess);
             }
             else
             {

@@ -58,7 +58,7 @@ namespace Application.test.Services
 
             Assert.NotNull(result);
             Assert.IsType<OperationResult<Guid>>(result);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 Assert.Null(result.Message);
             }
@@ -84,7 +84,7 @@ namespace Application.test.Services
 
 
             Assert.IsType<OperationResult<List<BankSafeDocument>>>(result);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 Assert.Null(result.Message);
 
@@ -119,7 +119,7 @@ namespace Application.test.Services
 
 
             Assert.IsType<OperationResult<BankSafeDocument>>(result);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 Assert.Null(result.Message);
 

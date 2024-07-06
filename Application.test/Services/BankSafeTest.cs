@@ -56,7 +56,7 @@ namespace Application.test.Services
 
             Assert.NotNull(result);
             Assert.IsType<OperationResult>(result);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 Assert.Null(result.Message);
             }
@@ -87,7 +87,7 @@ namespace Application.test.Services
 
             Assert.NotNull(result);
             Assert.IsType<OperationResult>(result);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 Assert.Null(result.Message);
             }
@@ -119,7 +119,7 @@ namespace Application.test.Services
 
             Assert.NotNull(result);
             Assert.IsType<OperationResult>(result);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 Assert.Null(result.Message);
             }
@@ -145,7 +145,7 @@ namespace Application.test.Services
 
 
             Assert.IsType<OperationResult<List<BankSafe>>>(result);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 Assert.Null(result.Message);
 
@@ -178,7 +178,7 @@ namespace Application.test.Services
 
 
             Assert.IsType<OperationResult<BankSafe>>(result);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 Assert.Null(result.Message);
 
@@ -206,7 +206,7 @@ namespace Application.test.Services
 
 
             Assert.IsType<OperationResult<decimal>>(result);
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 Assert.Null(result.Message);
             }

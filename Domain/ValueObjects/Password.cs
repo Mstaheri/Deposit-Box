@@ -15,7 +15,7 @@ namespace Domain.ValueObjects
         public Password(string value)
         {
             var result = CheckPassword(value);
-            if (result.Success == true)
+            if (result.IsSuccess == true)
             {
                 Value = value;
             }
@@ -26,20 +26,10 @@ namespace Domain.ValueObjects
         }
         private OperationResult CheckPassword(string value)
         {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                string message = string.Format(ConstMessages.IsNull, nameof(Password));
-                return new OperationResult(false, message);
-            }
-            else if (!Validation.CheckFormatcharacter(value))
-            {
-                string message = string.Format(ConstMessages.IncorrectFormatCharacters, nameof(Password));
-                return new OperationResult(false, message);
-            }
-            else
-            {
-                return new OperationResult(true, null);
-            }
+            var result = OperationResult.CreateValidator(value)
+                .Validate(x => string.IsNullOrWhiteSpace(x), string.Format(ConstMessages.IsNull, nameof(Password)))
+                .Validate(x => !Validation.CheckFormatcharacter(value), string.Format(ConstMessages.IncorrectFormatCharacters, nameof(Password)));
+            return result;
         }
 
         protected override IEnumerable<object> GetEqualityComponents()
