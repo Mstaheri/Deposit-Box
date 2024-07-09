@@ -27,7 +27,6 @@ namespace Domain.ValueObjects
         private OperationResult CheckPhoneNumber(string value)
         {
             var result = OperationResult.CreateValidator(value)
-                .Validate(x => string.IsNullOrWhiteSpace(x), string.Format(ConstMessages.IsNull, nameof(PhoneNumber)))
                 .Validate(x => x.Length != 11, string.Format(ConstMessages.IncorrectFormat, nameof(PhoneNumber)))
                 .Validate(x => !x.StartsWith("09"), string.Format(ConstMessages.IncorrectFormat, nameof(PhoneNumber)))
                 .Validate(x => !Validation.CheckNumberFormat(value), string.Format(ConstMessages.IncorrectFormat, nameof(PhoneNumber)));

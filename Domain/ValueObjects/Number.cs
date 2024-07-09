@@ -26,15 +26,9 @@ namespace Domain.ValueObjects
         }
         private OperationResult CheckNumber(int value)
         {
-            if (value <= 0)
-            {
-                string message = string.Format(ConstMessages.NotNegativeOrZero, nameof(Number));
-                return new OperationResult(false, message);
-            }
-            else
-            {
-                return new OperationResult(true, null);
-            }
+            var result = OperationResult.CreateValidator(value)
+                .Validate(x => x <= 0, string.Format(ConstMessages.NotNegativeOrZero, nameof(Number)));
+            return result;
         }
 
         protected override IEnumerable<object> GetEqualityComponents()

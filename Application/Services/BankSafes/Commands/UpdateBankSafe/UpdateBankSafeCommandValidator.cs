@@ -1,7 +1,6 @@
 ﻿using Application.Services.BankAccounts.Commands.AddBankAccount;
 using Domain.Exceptions;
 using FluentValidation;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +18,7 @@ namespace Application.Services.BankSafes.Commands.UpdateBankSafe
 
             RuleFor(p => p.SharePrice)
             .NotNull().WithMessage(string.Format(ConstMessages.IsNull, "SharePrice"));
+            
         }
     }
 }

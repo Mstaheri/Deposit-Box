@@ -27,7 +27,6 @@ namespace Domain.ValueObjects
         private OperationResult CheckNationalIDNumber(string value)
         {
             var result = OperationResult.CreateValidator(value)
-                .Validate(x => string.IsNullOrWhiteSpace(x), string.Format(ConstMessages.IsNull, nameof(NationalIDNumber)))
                 .Validate(x => x.Length != 10, string.Format(ConstMessages.IncorrectFormat, nameof(NationalIDNumber)))
                 .Validate(x => !Validation.CheckNumberFormat(x), string.Format(ConstMessages.IncorrectFormat, nameof(NationalIDNumber)));
 

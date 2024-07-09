@@ -27,7 +27,6 @@ namespace Domain.ValueObjects
         private OperationResult CheckUserName(string value)
         {
             var result = OperationResult.CreateValidator(value)
-                .Validate(x => string.IsNullOrWhiteSpace(x), string.Format(ConstMessages.IsNull, nameof(UserName)))
                 .Validate(x => !Validation.CheckFormatcharacter(x), string.Format(ConstMessages.IncorrectFormatCharacters, nameof(UserName)));
             return result;
         }

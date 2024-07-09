@@ -23,7 +23,7 @@ namespace Domain.Exceptions
         => new(message);
 
         public static OperationResult<T> Success<T>(T data)
-       => new(data);
+        => new(data);
     }
     public class OperationResult<T> : OperationResult
     {

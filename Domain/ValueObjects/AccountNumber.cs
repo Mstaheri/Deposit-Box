@@ -27,7 +27,6 @@ namespace Domain.ValueObjects
         private OperationResult CheckAccountNumber(string value)
         {
             var result = OperationResult.CreateValidator(value)
-                .Validate(x => string.IsNullOrWhiteSpace(x) , string.Format(ConstMessages.IsNull, nameof(AccountNumber)))
                 .Validate(x => x.Length != 16 , string.Format(ConstMessages.IncorrectFormat, nameof(AccountNumber)))
                 .Validate(x => !Validation.CheckNumberFormat(x) , string.Format(ConstMessages.IncorrectFormat, nameof(AccountNumber)));
             return result;

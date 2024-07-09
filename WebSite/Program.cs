@@ -82,6 +82,7 @@ builder.Services.AddScoped<IBankSafeRepositorie, BankSafeRepositorie>();
 builder.Services.AddScoped<IUserAndNumberOfShareRepositorie, UserAndNumberOfShareRepositorie>();
 builder.Services.AddScoped<IBankSafeTransactionsRepositorie, BankSafeTransactionsRepositorie>();
 builder.Services.AddScoped<IBankSafeDocumentRepositorie, BankSafeDocumentRepositorie>();
+builder.Services.AddScoped<ILoanRepositorie, LoanRepositorie>();
 
 builder.Services.RegisterApplication();
 

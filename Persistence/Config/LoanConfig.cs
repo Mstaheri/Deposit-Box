@@ -58,6 +58,7 @@ namespace Persistence.Config
                .IsRequired(true);
 
             builder.Property(p => p.Wage)
+                .HasConversion<PercentConverter>()
                .HasMaxLength(2)
                .IsRequired(true);
         }

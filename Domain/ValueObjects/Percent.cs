@@ -1,6 +1,5 @@
 ﻿using Domain.Common;
 using Domain.Exceptions;
-using Domain.Validations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Domain.ValueObjects
 {
-    public sealed class Password : ValueObject
+    public sealed class Percent : ValueObject
     {
-        public string Value { get; private set; }
-        public Password(string value)
+        public int Value { get; private set; }
+        public Percent(int value)
         {
-            var result = CheckPassword(value);
+            var result = CheckPercent(value);
             if (result.IsSuccess == true)
             {
                 Value = value;
@@ -24,10 +23,11 @@ namespace Domain.ValueObjects
                 throw new Exception(result.Message);
             }
         }
-        private OperationResult CheckPassword(string value)
+
+        private OperationResult CheckPercent(int value)
         {
             var result = OperationResult.CreateValidator(value)
-                .Validate(x => !Validation.CheckFormatcharacter(value), string.Format(ConstMessages.IncorrectFormatCharacters, nameof(Password)));
+                .Validate(p => !(p >= 1 && p <= 100), string.Format(ConstMessages.NotBetweenNumber, nameof(Percent), "1", "100"));
             return result;
         }
 
@@ -36,10 +36,10 @@ namespace Domain.ValueObjects
             yield return Value;
         }
 
-        public static implicit operator Password(string value)
-        => new Password(value);
+        public static implicit operator Percent(int value)
+        => new Percent(value);
 
-        public static implicit operator string(Password password)
-            => password.Value;
+        public static implicit operator int(Percent percent)
+        => percent.Value;
     }
 }

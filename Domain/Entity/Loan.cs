@@ -12,7 +12,7 @@ namespace Domain.Entity
     [AudiTable]
     public class Loan : IEntity
     {
-        public Loan(Name nameBankSafe, Name firstName, Name lastName, Number numberOfInstallments, Money amount)
+        public Loan(Name nameBankSafe, Name firstName, Name lastName, Number numberOfInstallments, Money amount , Percent wage)
         {
             Code = Guid.NewGuid();
             NameBankSafe = nameBankSafe;
@@ -20,6 +20,7 @@ namespace Domain.Entity
             LastName = lastName;
             NumberOfInstallments = numberOfInstallments;
             Amount = amount;
+            Wage = wage;
         }
         public Guid Code { get; private set; }
         public Name NameBankSafe { get; private set; }
@@ -27,7 +28,7 @@ namespace Domain.Entity
         public Name LastName { get; private set; }
         public Number NumberOfInstallments { get; private set; }
         public Money Amount { get; private set; }
-        public int Wage { get; private set; }
+        public Percent Wage { get; private set; }
         public BankSafe BankSafe { get; private set; }
         public ICollection<LoanTransactions> LoanTransactions { get; private set; }
         public ICollection<LoanDocument> LoanDocuments { get; private set; }

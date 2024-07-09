@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Domain.Exceptions
 {
@@ -19,6 +20,8 @@ namespace Domain.Exceptions
         public const string NotNegative = "The {0} must not be negative";
         public const string NotInventory = "The balance of {0} account in Bank {1} is {2}";
         public const string MaximumLength = "{0} cannot be more than {1} characters";
+        public const string NotBetweenNumber = "The {0} number must be between {1} and {2}";
+
 
     }
 }

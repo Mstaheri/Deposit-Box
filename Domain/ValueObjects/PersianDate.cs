@@ -27,31 +27,23 @@ namespace Domain.ValueObjects
         }
         private OperationResult CheckPersianDate(string value)
         {
-            if (string.IsNullOrWhiteSpace(value))
+            PersianCalendar persianCalendar = new PersianCalendar();
+            string message = string.Format(ConstMessages.IncorrectFormatCharacters, nameof(PersianDate));
+            ReadOnlySpan<char> dataSpan = value;
+            bool y = int.TryParse(dataSpan.Slice(0, 4), out int year);
+            bool m = int.TryParse(dataSpan.Slice(5, 2), out int month);
+            bool d = int.TryParse(dataSpan.Slice(8, 2), out int day);
+            if (y == false || m == false || d == false)
             {
-                string message = string.Format(ConstMessages.IsNull, nameof(CheckPersianDate));
                 return new OperationResult(false, message);
             }
             else
             {
-                PersianCalendar persianCalendar = new PersianCalendar();
-                string message = string.Format(ConstMessages.IncorrectFormatCharacters, nameof(CheckPersianDate));
-                ReadOnlySpan<char> dataSpan = value;
-                bool y = int.TryParse(dataSpan.Slice(0 , 4) , out int year);
-                bool m = int.TryParse(dataSpan.Slice(5 , 2) , out int month);
-                bool d = int.TryParse(dataSpan.Slice(8 , 2) ,  out int day);
-                if (y == false || m == false || d == false)
-                {
-                    return new OperationResult(false, message);
-                }
-                else
-                {
-                    var result = OperationResult.CreateValidator(month)
-                        .Validate(x => year < 1 || year > 1600, message)
-                        .Validate(x => month < 1 || month > 12, message)
-                        .Validate(x => day < 1 || day > persianCalendar.GetDaysInMonth(year, month), message);
-                    return result;
-                }
+                var result = OperationResult.CreateValidator(month)
+                    .Validate(x => year < 1 || year > 1600, message)
+                    .Validate(x => month < 1 || month > 12, message)
+                    .Validate(x => day < 1 || day > persianCalendar.GetDaysInMonth(year, month), message);
+                return result;
             }
         }
 

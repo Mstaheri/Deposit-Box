@@ -29,15 +29,16 @@ namespace Domain.ValueObjects
         }
         private OperationResult CheckValueName(string value)
         {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                string message = string.Format(ConstMessages.IsNull, nameof(Name));
-                return new OperationResult(false, message);
-            }
-            else
-            {
-                return new OperationResult(true, null);
-            }
+            //if (string.IsNullOrWhiteSpace(value))
+            //{
+            //    string message = string.Format(ConstMessages.IsNull, nameof(Name));
+            //    return new OperationResult(false, message);
+            //}
+            //else
+            //{
+            //    return new OperationResult(true, null);
+            //}
+            return new OperationResult(true, null);
         }
 
         protected override IEnumerable<object> GetEqualityComponents()
