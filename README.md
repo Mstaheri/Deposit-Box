@@ -1,6 +1,6 @@
-# Fund Manager
+# Deposit-Box
 
-Fund Manager is a C# application designed to simplify financial tasks in home funds. It provides capabilities to manage accounts, loans, funds, fund members and create insightful reports. This system provides an intuitive interface for efficient management of fund activities.
+Deposit-Box is a C# application designed to simplify financial tasks in home funds. It provides capabilities to manage accounts, loans, funds, fund members and create insightful reports. This system provides an intuitive interface for efficient management of fund activities.
 
 ## Features
 
