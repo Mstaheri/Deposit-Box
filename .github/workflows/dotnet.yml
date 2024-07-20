@@ -32,7 +32,7 @@ jobs:
       - name: App Setting Variable
         uses: microsoft/variable-substitution@v1
         with:
-          files: './release/appsettings.Development.json'
+          files: './Release/appsettings.json'
         env:
           ConnectionStrings.sqlServer: ${{secrets.CONNECTION_STRING}}
 
