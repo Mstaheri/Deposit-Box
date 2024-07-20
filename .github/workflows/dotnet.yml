@@ -21,13 +21,13 @@ jobs:
         run:  dotnet restore MSTSandogh.sln
 
       - name: Build
-        run: dotnet build --no-restore
+        run: dotnet build MSTSandogh.sln --no-restore
 
       - name: Test
-        run: dotnet test --no-build --verbosity normal
+        run:  dotnet test MSTSandogh.sln --no-build --verbosity normal
 
       - name: Publish
-        run: dotnet publish -c release --output ./Release
+        run:  dotnet publish MSTSandogh.sln -c release --output ./Release
 
       - name: App Setting Variable
         uses: microsoft/variable-substitution@v1
