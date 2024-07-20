@@ -18,7 +18,7 @@ jobs:
           dotnet-version: 7.0.x
 
       - name: Restore Dependency
-        run:  dotnet restore .\MSTSandogh.sln
+        run:  dotnet restore MSTSandogh.sln
 
       - name: Build
         run: dotnet build --no-restore
