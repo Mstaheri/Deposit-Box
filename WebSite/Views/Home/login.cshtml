@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html lang="fa">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff4d4d, #ff944d);
+            font-family: 'Arial', sans-serif;
+            direction: rtl;
+        }
+
+        .signin {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .signin h2 {
+            margin: 0 0 20px;
+            color: #333;
+            font-size: 24px;
+        }
+
+        .form .inputBox {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .form .inputBox input {
+            width: 100%;
+            padding: 10px 10px 10px 40px;
+            border: 1px solid #ccc;
+            border-radius: 30px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form .inputBox input:focus {
+            border-color: #ff4d4d;
+        }
+
+        .form .inputBox i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            transition: all 0.3s ease;
+        }
+
+        .form .inputBox input:focus + i,
+        .form .inputBox input:valid + i {
+            color: #ff4d4d;
+        }
+
+        .links {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .links a {
+            color: #ff4d4d;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .links a:hover {
+            color: #ff944d;
+        }
+
+        .form .inputBox input[type="submit"] {
+            background: #ff4d4d;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .form .inputBox input[type="submit"]:hover {
+            background: #ff944d;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="signin">
+        <h2>ورود</h2>
+        <div class="form">
+            <div class="inputBox">
+                <input type="text" required>
+                <i>نام کاربری</i>
+            </div>
+            <div class="inputBox">
+                <input type="password" required>
+                <i>رمز عبور</i>
+            </div>
+            <div class="links">
+                <a href="#">فراموشی رمز عبور</a>
+                <a href="#">ثبت نام</a>
+            </div>
+            <div class="inputBox">
+                <input type="submit" value="ورود">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

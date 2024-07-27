@@ -1,0 +1,504 @@
+﻿@{
+    ViewData["Title"] = "کاربران";
+}
+
+<!DOCTYPE html>
+<html lang="fa">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+         body {
+            background: linear-gradient(to right, #e0eafc, #cfdef3);
+            font-family: 'Tahoma', sans-serif;
+            margin: 0;
+            padding: 0;
+            direction: rtl;
+            text-align: right;
+        }
+
+        .header-title {
+            background: linear-gradient(to right, #007bb5, #004a8c); /* رنگ آبی تیره‌تر */
+            color: #fff;
+            padding: 15px; /* کاهش پدینگ */
+            border-radius: 8px; /* کاهش شعاع گوشه‌ها */
+            text-align: center;
+            font-size: 1.75rem; /* کاهش اندازه فونت */
+            font-weight: bold;
+            margin-right: 290px; /* کاهش مارجین راست */
+            margin-top: 15px; /* کاهش مارجین بالا */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* سایه کمی تیره‌تر */
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s; /* اضافه کردن انیمیشن برای تغییرات */
+        }
+
+            .header-title::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.15); /* کمی تیره‌تر از قبل */
+                border-radius: 8px; /* مطابقت با گوشه‌ها */
+                z-index: 0;
+                transition: opacity 0.3s;
+            }
+
+            .header-title:hover::before {
+                opacity: 0;
+            }
+
+            .header-title span {
+                position: relative;
+                z-index: 1;
+            }
+
+        .navbar {
+            background-color: #3c8dbc;
+            padding: 15px;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .navbar-brand {
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .navbar-nav {
+            direction: ltr;
+            text-align: left;
+        }
+
+            .navbar-nav .nav-link {
+                color: #fff;
+                font-size: 1rem;
+                padding: 10px 15px;
+            }
+
+                .navbar-nav .nav-link:hover {
+                    background-color: #357ca5;
+                    border-radius: 5px;
+                }
+
+        .sidebar {
+            min-height: 100vh;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding-top: 20px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            width: 250px;
+            transition: width 0.3s;
+        }
+
+            .sidebar:hover {
+                width: 300px;
+            }
+
+            .sidebar a {
+                color: #ecf0f1;
+                padding: 10px 20px;
+                display: block;
+                border-radius: 5px;
+                transition: background-color 0.3s, padding-right 0.3s;
+                text-decoration: none;
+            }
+
+                .sidebar a:hover {
+                    background-color: #34495e;
+                    padding-right: 30px;
+                }
+
+                .sidebar a.active {
+                    background-color: #3c8dbc;
+                }
+
+        .container {
+            margin-top: 30px;
+            margin-right: 160px; /* تغییر اندازه مارجین برای هماهنگی با عرض سایدبار */
+            padding: 20px;
+        }
+
+        h2 {
+            color: #3c8dbc;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .btn-custom {
+            background-color: #3c8dbc;
+            color: white;
+            border: none;
+        }
+
+            .btn-custom:hover {
+                background-color: #357ca5;
+            }
+
+        .modal-body {
+            direction: rtl;
+        }
+
+        .alert {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            border-radius: 10px;
+        }
+
+        .modal-content {
+            border-radius: 20px;
+        }
+
+        .modal-header {
+            background: linear-gradient(to right, #007bff, #0056b3);
+            color: white;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        .modal-footer {
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        .close {
+            color: white;
+        }
+
+        .profile-card {
+            margin-bottom: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: .25rem;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-card-header {
+            padding: 15px;
+            background-color: #007bff;
+            color: white;
+            border-bottom: 1px solid #dee2e6;
+            border-radius: .25rem .25rem 0 0;
+        }
+
+        .profile-card-body {
+            padding: 15px;
+        }
+
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+
+        .alert {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" href="@Url.Action("Index", "Home")">داشبورد</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("BankSafe", "Home")">صندوق‌ها</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("BankSafeTransactions", "Home")">تراکنش ها</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("BankSafeDocument", "Home")">چک‌ها</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">امانات</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("User", "Home")">کاربران</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("BankAccount", "Home")">حساب کاربران</a>
+            </li>
+        </ul>
+    </div>
+    <div class="header-title">
+        <span>کاربران</span>
+    </div>
+    <div class="container">
+        
+        <div id="alertContainer" style="display:none;" class="alert alert-success alert-dismissible fade show" role="alert">
+            <span id="alertMessage"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="بستن">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <button class="btn btn-success mb-3" data-toggle="modal" data-target="#addUserModal">اضافه کردن کاربر جدید</button>
+        <div id="usersContainer" class="row">
+            <!-- کارت‌های کاربران به صورت داینامیک با جاوااسکریپت اضافه می‌شود -->
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addUserModalLabel">اضافه کردن کاربر جدید</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="بستن">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addUserForm">
+                        <div class="form-group">
+                            <label for="firstName">نام</label>
+                            <input type="text" class="form-control" id="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">نام خانوادگی</label>
+                            <input type="text" class="form-control" id="lastName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phoneNumber">شماره تلفن</label>
+                            <input type="text" class="form-control" id="phoneNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nationalID">شماره ملی</label>
+                            <input type="text" class="form-control" id="nationalID" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="username">نام کاربری</label>
+                            <input type="text" class="form-control" id="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">رمز عبور</label>
+                            <input type="password" class="form-control" id="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-custom">اضافه کردن</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editUserModalLabel">ویرایش کاربر</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="بستن">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editUserForm">
+                        <input type="hidden" id="editUserId">
+                        <div class="form-group">
+                            <label for="editFirstName">نام</label>
+                            <input type="text" class="form-control" id="editFirstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editLastName">نام خانوادگی</label>
+                            <input type="text" class="form-control" id="editLastName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editPhoneNumber">شماره تلفن</label>
+                            <input type="text" class="form-control" id="editPhoneNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editNationalID">شماره ملی</label>
+                            <input type="text" class="form-control" id="editNationalID" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editUsername">نام کاربری</label>
+                            <input type="text" class="form-control" id="editUsername" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editPassword">رمز عبور</label>
+                            <input type="password" class="form-control" id="editPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-custom">ذخیره تغییرات</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+            <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            <script>
+            $(document).ready(function () {
+                function loadUsers() {
+                    $.ajax({
+                        url: '/api/User/all',
+                        type: 'GET',
+                        success: function (data) {
+                            var usersContainer = $('#usersContainer');
+                            usersContainer.empty();
+                            data.forEach(function (user) {
+                                usersContainer.append(
+                                    `<div class="col-md-4">
+                                        <div class="profile-card">
+                                            <div class="profile-card-header">
+                                                <h5>${user.firstName.value} ${user.lastName.value}</h5>
+                                            </div>
+                                            <div class="profile-card-body">
+                                                <p><strong>شماره تلفن:</strong> ${user.phoneNumber.value}</p>
+                                                <p><strong>شماره ملی:</strong> ${user.nationalIDNumber.value}</p>
+                                                <p><strong>نام کاربری:</strong> ${user.userName.value}</p>
+                                                <button class="btn btn-info btn-sm edit-btn" data-user='${JSON.stringify(user)}' data-toggle="modal" data-target="#editUserModal">ویرایش</button>
+                                                <button class="btn btn-danger btn-sm delete-btn" data-username='${user.userName.value}'>حذف</button>
+                                            </div>
+                                        </div>
+                                    </div>`
+                                );
+                            });
+
+                            // Edit button click event
+                            $('.edit-btn').on('click', function () {
+                                var user = $(this).data('user');
+                                $('#editUserId').val(user.userName.value);  // Save userName for updating
+                                $('#editFirstName').val(user.firstName.value);
+                                $('#editLastName').val(user.lastName.value);
+                                $('#editPhoneNumber').val(user.phoneNumber.value);
+                                $('#editNationalID').val(user.nationalIDNumber.value);
+                                $('#editUsername').val(user.userName.value);
+                            });
+
+                            // Delete button click event
+                            $('.delete-btn').on('click', function () {
+                                var userName = $(this).data('username');
+                                if (confirm('آیا از حذف این کاربر اطمینان دارید؟')) {
+                                    $.ajax({
+                                        url: `/api/User/${encodeURIComponent(userName)}`,
+                                        type: 'DELETE',
+                                        success: function () {
+                                            loadUsers();
+                                            showAlert('کاربر با موفقیت حذف شد.', 'success');
+                                        },
+                                        error: function (error) {
+                                            console.log('Error:', error);
+                                            showAlert('خطایی رخ داد. لطفاً دوباره امتحان کنید.', 'danger');
+                                        }
+                                    });
+                                }
+                            });
+                        },
+                        error: function (error) {
+                            console.log('Error:', error);
+                            showAlert('خطایی رخ داد. لطفاً دوباره امتحان کنید.', 'danger');
+                        }
+                    });
+                }
+
+                // Load users on page load
+                loadUsers();
+
+                // Add user form submit event
+                $('#addUserForm').on('submit', function (e) {
+                    e.preventDefault();
+                    var firstName = $('#firstName').val();
+                    var lastName = $('#lastName').val();
+                    var phoneNumber = $('#phoneNumber').val();
+                    var nationalID = $('#nationalID').val();
+                    var userName = $('#username').val();
+                    var password = $('#password').val();
+
+                    $.ajax({
+                        url: '/api/User',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            firstName: firstName,
+                            lastName: lastName,
+                            phoneNumber: phoneNumber,
+                            nationalIDNumber: nationalID,
+                            userName: userName,
+                            password: password
+                        }),
+                        success: function () {
+                            $('#addUserModal').modal('hide');
+                            loadUsers();
+                            showAlert('کاربر جدید با موفقیت اضافه شد.', 'success');
+                        },
+                        error: function (error) {
+                            console.log('Error:', error);
+                            showAlert('خطایی رخ داد. لطفاً دوباره امتحان کنید.', 'danger');
+                        }
+                    });
+                });
+
+                // Edit user form submit event
+                $('#editUserForm').on('submit', function (e) {
+                    e.preventDefault();
+                    var oldUserName = $('#editUserId').val();  // Old username to identify the record
+                    var firstName = $('#editFirstName').val();
+                    var lastName = $('#editLastName').val();
+                    var phoneNumber = $('#editPhoneNumber').val();
+                    var nationalID = $('#editNationalID').val();
+                    var userName = $('#editUsername').val();
+                    var password = $('#editPassword').val();
+
+                    $.ajax({
+                        url: '/api/User',
+                        type: 'PUT',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            oldUserName: oldUserName,  // Identifies the user to be updated
+                            firstName: firstName,
+                            lastName: lastName,
+                            phoneNumber: phoneNumber,
+                            nationalIDNumber: nationalID,
+                            userName: userName,
+                            password: password
+                        }),
+                        success: function () {
+                            $('#editUserModal').modal('hide');
+                            loadUsers();
+                            showAlert('تغییرات با موفقیت ذخیره شد.', 'success');
+                        },
+                        error: function (error) {
+                            console.log('Error:', error);
+                            showAlert('خطایی رخ داد. لطفاً دوباره امتحان کنید.', 'danger');
+                        }
+                    });
+                });
+
+                // Function to show alert
+                function showAlert(message, type) {
+                    var alertContainer = $('#alertContainer');
+                    alertContainer.removeClass('alert-success alert-danger');
+                    alertContainer.addClass('alert-' + type);
+                    $('#alertMessage').text(message);
+                    alertContainer.show();
+
+                    // Hide the alert after 3 seconds
+                    setTimeout(function () {
+                        alertContainer.hide();
+                    }, 3000);
+                }
+            });
+
+            </script>
+    }
+</body>
+
+</html>

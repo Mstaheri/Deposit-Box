@@ -18,6 +18,7 @@ using Persistence;
 using Prometheus;
 using System.Reflection;
 using System.Text;
+using WebSite.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,8 @@ builder.Services.AddSqlServer<DbContextEF>(Connection);
 
 builder.Services.AddHealthChecks()
     .AddSqlServer(builder.Configuration.GetConnectionString("sqlServer"));
+
+builder.Services.AddSignalR();
 
 
 builder.Services.AddAuthentication(Option =>
@@ -83,6 +86,8 @@ builder.Services.AddScoped<IUserAndNumberOfShareRepositorie, UserAndNumberOfShar
 builder.Services.AddScoped<IBankSafeTransactionsRepositorie, BankSafeTransactionsRepositorie>();
 builder.Services.AddScoped<IBankSafeDocumentRepositorie, BankSafeDocumentRepositorie>();
 builder.Services.AddScoped<ILoanRepositorie, LoanRepositorie>();
+builder.Services.AddScoped<IChatRoomRepositorie, ChatRoomRepositorie>();
+
 
 builder.Services.RegisterApplication();
 
@@ -100,12 +105,15 @@ if (app.Environment.IsDevelopment())
     app.UseRouting();
     app.UseEndpoints(endpoints =>
     {
-        endpoints.MapControllers();
         endpoints.MapHealthChecks("/health", new HealthCheckOptions
         {
             Predicate = _ => true,
             ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
         });
+        endpoints.MapHub<SiteChatHub>("/chathub");
+        endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
     });
 }
 app.UseMetricServer();
@@ -119,8 +127,8 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
