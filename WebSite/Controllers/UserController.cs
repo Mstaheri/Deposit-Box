@@ -17,7 +17,7 @@ namespace WebSite.Controllers
     [ApiController]
     public class UserController : BaseController
     {
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var getAllUserCommand = new GetAllUserQuery

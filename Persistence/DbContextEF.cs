@@ -29,8 +29,9 @@ namespace Persistence
         public DbSet<Loan> Loans { get; set; }
         public DbSet<LoanTransactions> LoanTransactions { get; set; }
         public DbSet<LoanDocument> LoanDocuments { get; set; }
+        public DbSet<ChatRoom> ChatRooms { get; set; }
 
-        
+
         public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
         {
             return Database.BeginTransactionAsync(cancellationToken);

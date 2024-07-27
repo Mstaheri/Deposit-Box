@@ -71,7 +71,7 @@ namespace Infrastructure.Repositories
             return result;
         }
 
-        public async Task<BankSafeTransaction> GetAsync(Guid code , CancellationToken cancellationToken)
+        public async Task<BankSafeTransaction> GetAsync(System.Guid code , CancellationToken cancellationToken)
         {
             var result = await _bankSafeTransactions
                 .FirstOrDefaultAsync(p => p.Code == code , cancellationToken);

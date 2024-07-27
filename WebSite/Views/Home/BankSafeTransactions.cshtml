@@ -1,0 +1,346 @@
+﻿@{
+    ViewData["Title"] = "تراکنش‌های بانک‌سیف";
+}
+
+<!DOCTYPE html>
+<html lang="fa">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            direction: rtl;
+            text-align: right;
+        }
+
+        .navbar {
+            background-color: #007bff;
+            padding: 15px;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .navbar-brand {
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .navbar-nav {
+            direction: ltr;
+            text-align: left;
+        }
+
+            .navbar-nav .nav-link {
+                color: #fff;
+                font-size: 1rem;
+                padding: 10px 15px;
+            }
+
+                .navbar-nav .nav-link:hover {
+                    background-color: #0056b3;
+                    border-radius: 5px;
+                }
+
+        .sidebar {
+            min-height: 100vh;
+            background-color: #343a40;
+            color: #fff;
+            padding-top: 20px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            width: 250px;
+            transition: width 0.3s;
+        }
+
+            .sidebar:hover {
+                width: 300px;
+            }
+
+            .sidebar a {
+                color: #fff;
+                padding: 10px 20px;
+                display: block;
+                border-radius: 5px;
+                transition: background-color 0.3s, padding-right 0.3s;
+                text-decoration: none;
+            }
+
+                .sidebar a:hover {
+                    background-color: #495057;
+                    padding-right: 30px;
+                }
+
+                .sidebar a.active {
+                    background-color: #007bff;
+                }
+
+        .container {
+            margin-top: 50px;
+            margin-right: 160px;
+        }
+
+        h2 {
+            margin-bottom: 30px;
+        }
+
+        table {
+            background-color: #ffffff;
+        }
+
+        th,
+        td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .modal {
+            direction: rtl;
+        }
+
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+        }
+
+            .btn-custom:hover {
+                background-color: #0056b3;
+            }
+
+        .nav-tabs {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" href="@Url.Action("Index", "Home")">داشبورد</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("BankSafe", "Home")">صندوق‌ها</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("BankSafeTransactions", "Home")">تراکنش ها</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("BankSafeDocument", "Home")">چک‌ها</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">امانات</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("User", "Home")">کاربران</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("BankAccount", "Home")">حساب کاربران</a>
+            </li>
+        </ul>
+    </div>
+    <div class="container">
+        <h2 class="text-center">تراکنش‌های بانک‌سیف</h2>
+        <div id="alertContainer" style="display:none;" class="alert alert-success alert-dismissible fade show" role="alert">
+            <span id="alertMessage"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="بستن">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <button class="btn btn-success mb-3" data-toggle="modal" data-target="#addTransactionModal">اضافه کردن تراکنش جدید</button>
+
+        <!-- Tabs for Deposits and Withdrawals -->
+        <ul class="nav nav-tabs" id="transactionTabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="deposits-tab" data-toggle="tab" href="#deposits" role="tab" aria-controls="deposits" aria-selected="true">واریزی‌ها</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="withdrawals-tab" data-toggle="tab" href="#withdrawals" role="tab" aria-controls="withdrawals" aria-selected="false">برداشتی‌ها</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="transactionTabsContent">
+            <div class="tab-pane fade show active" id="deposits" role="tabpanel" aria-labelledby="deposits-tab">
+                <table class="table table-hover table-striped" id="depositsTable">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>کد</th>
+                            <th>نام بانک‌سیف</th>
+                            <th>شماره حساب</th>
+                            <th>واریز</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- محتوا به صورت داینامیک از طریق جاوااسکریپت اضافه می‌شود -->
+                    </tbody>
+                </table>
+                <div class="text-right font-weight-bold" id="totalDeposits">جمع کل واریزی‌ها: ۰</div>
+            </div>
+            <div class="tab-pane fade" id="withdrawals" role="tabpanel" aria-labelledby="withdrawals-tab">
+                <table class="table table-hover table-striped" id="withdrawalsTable">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>کد</th>
+                            <th>نام بانک‌سیف</th>
+                            <th>شماره حساب</th>
+                            <th>برداشت</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- محتوا به صورت داینامیک از طریق جاوااسکریپت اضافه می‌شود -->
+                    </tbody>
+                </table>
+                <div class="text-right font-weight-bold" id="totalWithdrawals">جمع کل برداشتی‌ها: ۰</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Transaction Modal -->
+    <div class="modal fade" id="addTransactionModal" tabindex="-1" role="dialog" aria-labelledby="addTransactionModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addTransactionModalLabel">اضافه کردن تراکنش جدید</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="بستن">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addTransactionForm">
+                        <div class="form-group">
+                            <label for="nameBankSafe">نام بانک‌سیف</label>
+                            <input type="text" class="form-control" id="nameBankSafe" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="accountNumber">شماره حساب</label>
+                            <input type="text" class="form-control" id="accountNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="deposit">واریز</label>
+                            <input type="number" class="form-control" id="deposit" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="withdrawal">برداشت</label>
+                            <input type="number" class="form-control" id="withdrawal" value="0">
+                        </div>
+                        <button type="submit" class="btn btn-custom">اضافه کردن</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                function loadTransactions() {
+                    $.ajax({
+                        url: '/api/BankSafeTransactions/all',
+                        type: 'GET',
+                        success: function (data) {
+                            var depositsTableBody = $('#depositsTable tbody');
+                            var withdrawalsTableBody = $('#withdrawalsTable tbody');
+                            depositsTableBody.empty();
+                            withdrawalsTableBody.empty();
+                            var totalDeposits = 0;
+                            var totalWithdrawals = 0;
+
+                            data.forEach(function (transaction) {
+                                if (transaction.deposit.value > 0) {
+                                    depositsTableBody.append(
+                                        `<tr>
+                                                <td>${transaction.code}</td>
+                                                <td>${transaction.nameBankSafe.value}</td>
+                                                <td>${transaction.accountNumber.value}</td>
+                                                <td>${transaction.deposit.value.toLocaleString()}</td>
+                                            </tr>`
+                                    );
+                                    totalDeposits += transaction.deposit.value;
+                                } else if (transaction.withdrawal.value > 0) {
+                                    withdrawalsTableBody.append(
+                                        `<tr>
+                                                <td>${transaction.code}</td>
+                                                <td>${transaction.nameBankSafe.value}</td>
+                                                <td>${transaction.accountNumber.value}</td>
+                                                <td>${transaction.withdrawal.value.toLocaleString()}</td>
+                                            </tr>`
+                                    );
+                                    totalWithdrawals += transaction.withdrawal.value;
+                                }
+                            });
+
+                            $('#totalDeposits').text(`جمع کل واریزی‌ها: ${totalDeposits.toLocaleString()}`);
+                            $('#totalWithdrawals').text(`جمع کل برداشتی‌ها: ${totalWithdrawals.toLocaleString()}`);
+                        },
+                        error: function (error) {
+                            console.log('Error:', error);
+                            var errorMessage = error.responseJSON ? error.responseJSON.message : 'خطایی رخ داد. لطفاً دوباره امتحان کنید.';
+                            showAlert(errorMessage, 'danger');
+                        }
+                    });
+                }
+
+                // Load transactions on page load
+                loadTransactions();
+
+                // Add transaction form submit event
+                $('#addTransactionForm').on('submit', function (e) {
+                    e.preventDefault();
+                    var nameBankSafe = $('#nameBankSafe').val();
+                    var accountNumber = $('#accountNumber').val();
+                    var deposit = parseFloat($('#deposit').val());
+                    var withdrawal = parseFloat($('#withdrawal').val());
+
+                    // Validate deposit and withdrawal
+                    if ((deposit === 0 && withdrawal !== 0) || (deposit !== 0 && withdrawal === 0)) {
+                        $.ajax({
+                            url: '/api/BankSafeTransactions',
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                nameBankSafe: nameBankSafe,
+                                accountNumber: accountNumber,
+                                deposit: deposit,
+                                withdrawal: withdrawal
+                            }),
+                            success: function () {
+                                $('#addTransactionModal').modal('hide');
+                                loadTransactions();
+                                showAlert('تراکنش جدید با موفقیت اضافه شد.', 'success');
+                            },
+                            error: function (error) {
+                                console.log('Error:', error);
+                                showAlert('خطایی رخ داد. لطفاً دوباره امتحان کنید.', 'danger');
+                            }
+                        });
+                    } else {
+                        showAlert('لطفاً یا واریز یا برداشت را مقدار دهید (نه هر دو).', 'danger');
+                    }
+                });
+
+                // Function to show alert
+                function showAlert(message, type) {
+                    var alertContainer = $('#alertContainer');
+                    alertContainer.removeClass('alert-success alert-danger');
+                    alertContainer.addClass('alert-' + type);
+                    $('#alertMessage').text(message);
+                    alertContainer.show();
+
+                    // Hide the alert after 3 seconds
+                    setTimeout(function () {
+                        alertContainer.hide();
+                    }, 3000);
+                }
+            });
+        </script>
+    }
+</body>
+
+</html>

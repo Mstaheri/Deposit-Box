@@ -10,6 +10,6 @@ namespace Application.Services.Loan.Commands.DeleteLoan
 {
     public record DeleteLoanCommand : IRequest<OperationResult>
     {
-        public required Guid Code { get; init; }
+        public required System.Guid Code { get; init; }
     }
 }
