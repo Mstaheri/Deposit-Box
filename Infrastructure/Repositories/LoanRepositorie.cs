@@ -38,7 +38,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task DeleteAsync(Guid code, CancellationToken cancellationToken)
+        public async Task DeleteAsync(System.Guid code, CancellationToken cancellationToken)
         {
             var result = await _loan.FirstOrDefaultAsync(loan => loan.Code == code , cancellationToken);
             if (result != null)
@@ -58,7 +58,7 @@ namespace Infrastructure.Repositories
             return result;
         }
 
-        public async Task<Loan> GetByCodeAsync(Guid code, CancellationToken cancellationToken)
+        public async Task<Loan> GetByCodeAsync(System.Guid code, CancellationToken cancellationToken)
         {
             var result = await _loan
                 .FirstOrDefaultAsync(p => p.Code== code, cancellationToken);
