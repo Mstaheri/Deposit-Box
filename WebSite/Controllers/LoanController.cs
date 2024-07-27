@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebSite.Controllers
 {
-    [Route("api/Loan")]
+    [Route("api/[controller]")]
     [ApiController]
     public class LoanController : BaseController
     {
-        [HttpGet]
+        [HttpGet("[action]")]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var getAllLoanQuery = new GetAllLoanQuery();
@@ -25,7 +25,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpGet("{Code}")]
+        [HttpGet("[action]/{Code}")]
         public async Task<IActionResult> GetByCode([FromRoute] GetByCodeLoanQuery getByCodeLoanQuery
             , CancellationToken cancellationToken)
         {
@@ -39,7 +39,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpDelete("{UserName}")]
+        [HttpDelete("[action]/{UserName}")]
         public async Task<IActionResult> Delete([FromRoute]DeleteLoanCommand deleteLoanCommand 
             ,CancellationToken cancellationToken)
         {
@@ -53,7 +53,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpPost]
+        [HttpPost("[action]")]
         public async Task<IActionResult> Insert([FromBody] AddLoanCommand addLoanCommand ,
             CancellationToken cancellationToken)
         {

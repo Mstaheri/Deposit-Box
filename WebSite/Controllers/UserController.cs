@@ -13,11 +13,11 @@ using Microsoft.AspNetCore.Rewrite;
 
 namespace WebSite.Controllers
 {
-    [Route("api/User")]
+    [Route("api/[controller]")]
     [ApiController]
     public class UserController : BaseController
     {
-        [HttpGet("all")]
+        [HttpGet("[action]")]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var getAllUserCommand = new GetAllUserQuery
@@ -34,7 +34,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpGet("{UserName}")]
+        [HttpGet("[action]/{UserName}")]
         public async Task<IActionResult> Get([FromRoute] GetUserQuery getUserCommand,
             CancellationToken cancellationToken)
         {
@@ -48,7 +48,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpPost()]
+        [HttpPost("[action]")]
         public async Task<IActionResult> Insert([FromBody] AddUserCommand userAddCommand,
             CancellationToken cancellationToken)
         {
@@ -68,7 +68,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpPut]
+        [HttpPut("[action]")]
         public async Task<IActionResult> Update([FromBody] UpdateUserCommand updateUserCommand,
             CancellationToken cancellationToken)
         {
@@ -82,7 +82,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpDelete("{UserName}")]
+        [HttpDelete("[action]/{UserName}")]
         public async Task<IActionResult> Delete([FromRoute] DeleteUserCommand deleteUserCommand,
             CancellationToken cancellationToken)
         {

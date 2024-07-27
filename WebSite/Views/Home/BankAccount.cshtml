@@ -24,7 +24,7 @@
             text-align: center;
             font-size: 1.75rem; /* کاهش اندازه فونت */
             font-weight: bold;
-            margin-right: 290px; /* کاهش مارجین راست */
+            margin-right: 310px; /* کاهش مارجین راست */
             margin-top: 15px; /* کاهش مارجین بالا */
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* سایه کمی تیره‌تر */
             position: relative;
@@ -391,7 +391,7 @@
                 $(document).ready(function () {
                     function loadAccounts() {
                         $.ajax({
-                            url: '/api/BankAccount/all',
+                            url: '/api/BankAccount/GetAll',
                             type: 'GET',
                             success: function (data) {
                                 var container = $('#accountsContainer');
@@ -439,7 +439,7 @@
                                     var accountNumber = $(this).closest('.card').find('.card-title').text();
                                     if (confirm('آیا از حذف این حساب اطمینان دارید؟')) {
                                         $.ajax({
-                                            url: `/api/BankAccount/${encodeURIComponent(accountNumber)}`,
+                                            url: `/api/BankAccount/Delete/${encodeURIComponent(accountNumber)}`,
                                             type: 'DELETE',
                                             success: function () {
                                                 loadAccounts();
@@ -473,7 +473,7 @@
                         var description = $('#description').val();
 
                         $.ajax({
-                            url: '/api/BankAccount',
+                            url: '/api/BankAccount/Insert',
                             type: 'POST',
                             contentType: 'application/json',
                             data: JSON.stringify({
@@ -506,7 +506,7 @@
                         var description = $('#editDescription').val();
 
                         $.ajax({
-                            url: '/api/BankAccount',
+                            url: '/api/BankAccount/Update',
                             type: 'PUT',
                             contentType: 'application/json',
                             data: JSON.stringify({

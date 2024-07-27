@@ -8,7 +8,7 @@ using System.Text;
 namespace WebSite.Controllers
 {
     [ApiController]
-    [Route("api/Login")]
+    [Route("api/[controller]")]
     public class LoginController : BaseController
     {
         private readonly IConfiguration _configuration;
@@ -16,7 +16,7 @@ namespace WebSite.Controllers
         {
             _configuration = configuration;
         }
-        [HttpPost]
+        [HttpPost("action")]
         public async Task<IActionResult> Post([FromBody] GetByUserNameAndPasswordQuery getByUserNameAndPasswordQuery
             , CancellationToken cancellationToken)
         {

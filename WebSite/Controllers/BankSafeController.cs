@@ -12,12 +12,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebSite.Controllers
 {
-    [Route("api/BankSafe")]
+    [Route("api/[controller]")]
     [ApiController]
     public class BankSafeController : BaseController
     {
-        [Route("all")]
-        [HttpGet]
+        [HttpGet("[action]")]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var getAllBankSafeQuery = new GetAllBankSafeQuery();
@@ -31,8 +30,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [Route("inventory")]
-        [HttpGet]
+        [HttpGet("[action]")]
         public async Task<IActionResult> Inventory(CancellationToken cancellationToken)
         {
             var inventoryBankSafeQuery = new InventoryBankSafeQuery();
@@ -46,7 +44,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpGet("{Name}")]
+        [HttpGet("[action]/{Name}")]
         public async Task<IActionResult> Get([FromRoute] GetBankSafeQuery getBankSafeQuery,
             CancellationToken cancellationToken)
         {
@@ -60,7 +58,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpPost()]
+        [HttpPost("[action]")]
         public async Task<IActionResult> Insert([FromBody] AddBankSafeCommand addBankSafeCommand,
             CancellationToken cancellationToken)
         {
@@ -78,7 +76,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpPut]
+        [HttpPut("[action]")]
         public async Task<IActionResult> Update([FromBody] UpdateBankSafeCommand updateBankSafeCommand,
             CancellationToken cancellationToken)
         {
@@ -92,7 +90,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpDelete("{Name}")]
+        [HttpDelete("[action]/{Name}")]
         public async Task<IActionResult> Delete([FromRoute] DeleteBankSafeCommand deleteBankSafeCommand,
             CancellationToken cancellationToken)
         {

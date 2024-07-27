@@ -13,11 +13,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebSite.Controllers
 {
-    [Route("api/UserAndNumberOfShare")]
+    [Route("api/[controller]")]
     [ApiController]
     public class UserAndNumberOfShareController : BaseController
     {
-        [HttpGet]
+        [HttpGet("[action]")]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var getAllUserAndNumberOfShareQuery = new GetAllUserAndNumberOfShareQuery();
@@ -31,7 +31,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpGet("NameBank/{NameBankSafe}")]
+        [HttpGet("[action]/{NameBankSafe}")]
         public async Task<IActionResult> GetNameBank([FromRoute] string NameBankSafe,
             CancellationToken cancellationToken)
         {
@@ -49,7 +49,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpGet("UserName/{UserName}")]
+        [HttpGet("[action]/{UserName}")]
         public async Task<IActionResult> GetUserName([FromRoute] string UserName,
             CancellationToken cancellationToken)
         {
@@ -67,7 +67,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpGet("{NameBankSafe}/{UserName}")]
+        [HttpGet("[action]/{NameBankSafe}/{UserName}")]
         public async Task<IActionResult> GetNameBankAndUserName([FromRoute] string NameBankSafe , string UserName,
             CancellationToken cancellationToken)
         {
@@ -86,7 +86,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpPost]
+        [HttpPost("[action]")]
         public async Task<IActionResult> Insert([FromBody] AddUserAndNumberOfShareCommand addUserAndNumberOfShareCommand,
             CancellationToken cancellationToken)
         {
@@ -104,7 +104,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpPut]
+        [HttpPut("[action]")]
         public async Task<IActionResult> Update([FromBody] UpdateUserAndNumberOfShareCommand updateUserAndNumberOfShareCommand,
             CancellationToken cancellationToken)
         {
@@ -118,7 +118,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpDelete("{NameBankSafe}/{UserName}")]
+        [HttpDelete("[action]/{NameBankSafe}/{UserName}")]
         public async Task<IActionResult> Delete([FromRoute] DeleteUserAndNumberOfShareCommand deleteUserAndNumberOfShareCommand,
             CancellationToken cancellationToken)
         {

@@ -28,7 +28,7 @@
             text-align: center;
             font-size: 1.75rem; /* کاهش اندازه فونت */
             font-weight: bold;
-            margin-right: 290px; /* کاهش مارجین راست */
+            margin-right: 310px; /* کاهش مارجین راست */
             margin-top: 15px; /* کاهش مارجین بالا */
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* سایه کمی تیره‌تر */
             position: relative;
@@ -348,7 +348,7 @@
             $(document).ready(function () {
                 function loadUsers() {
                     $.ajax({
-                        url: '/api/User/all',
+                        url: '/api/User/GetAll',
                         type: 'GET',
                         success: function (data) {
                             var usersContainer = $('#usersContainer');
@@ -388,7 +388,7 @@
                                 var userName = $(this).data('username');
                                 if (confirm('آیا از حذف این کاربر اطمینان دارید؟')) {
                                     $.ajax({
-                                        url: `/api/User/${encodeURIComponent(userName)}`,
+                                        url: `/api/User/Delete/${encodeURIComponent(userName)}`,
                                         type: 'DELETE',
                                         success: function () {
                                             loadUsers();
@@ -423,7 +423,7 @@
                     var password = $('#password').val();
 
                     $.ajax({
-                        url: '/api/User',
+                        url: '/api/User/Insert',
                         type: 'POST',
                         contentType: 'application/json',
                         data: JSON.stringify({
@@ -458,7 +458,7 @@
                     var password = $('#editPassword').val();
 
                     $.ajax({
-                        url: '/api/User',
+                        url: '/api/User/Update',
                         type: 'PUT',
                         contentType: 'application/json',
                         data: JSON.stringify({
