@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebSite.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class BankSafeDocumentController : BaseController
     {
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var getAllBankSafeDocumentsQuery = new GetAllBankSafeDocumentsQuery();
@@ -25,7 +25,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpGet("[action]/{Code}")]
+        [HttpGet("{Code}")]
         public async Task<IActionResult> Get([FromRoute] GetAllBankSafeDocumentsQuery getAllBankSafeDocumentsQuery
             , CancellationToken cancellationToken)
         {
@@ -39,7 +39,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpPost("[action]")]
+        [HttpPost]
         public async Task<IActionResult> Insert([FromBody] AddBankSafeDocumentsCommand addBankSafeDocumentsCommand,
             CancellationToken cancellationToken)
         {

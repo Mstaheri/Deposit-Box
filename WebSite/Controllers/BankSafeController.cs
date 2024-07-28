@@ -12,11 +12,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebSite.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class BankSafeController : BaseController
     {
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var getAllBankSafeQuery = new GetAllBankSafeQuery();
@@ -30,7 +30,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> Inventory(CancellationToken cancellationToken)
         {
             var inventoryBankSafeQuery = new InventoryBankSafeQuery();
@@ -44,7 +44,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpGet("[action]/{Name}")]
+        [HttpGet("{Name}")]
         public async Task<IActionResult> Get([FromRoute] GetBankSafeQuery getBankSafeQuery,
             CancellationToken cancellationToken)
         {
@@ -58,7 +58,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpPost("[action]")]
+        [HttpPost]
         public async Task<IActionResult> Insert([FromBody] AddBankSafeCommand addBankSafeCommand,
             CancellationToken cancellationToken)
         {
@@ -76,7 +76,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpPut("[action]")]
+        [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateBankSafeCommand updateBankSafeCommand,
             CancellationToken cancellationToken)
         {
@@ -90,7 +90,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpDelete("[action]/{Name}")]
+        [HttpDelete("{Name}")]
         public async Task<IActionResult> Delete([FromRoute] DeleteBankSafeCommand deleteBankSafeCommand,
             CancellationToken cancellationToken)
         {

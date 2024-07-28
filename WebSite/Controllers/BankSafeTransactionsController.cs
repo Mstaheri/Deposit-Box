@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Rewrite;
 
 namespace WebSite.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class BankSafeTransactionsController : BaseController
     {
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var getAllBankSafeTransactionQuery = new GetAllBankSafeTransactionQuery();
@@ -27,7 +27,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpGet("[action]/{Code}")]
+        [HttpGet("{Code}")]
         public async Task<IActionResult> Get([FromRoute] GetAllBankSafeTransactionQuery getAllBankSafeTransactionQuery,
             CancellationToken cancellationToken)
         {
@@ -41,7 +41,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpPost("[action]")]
+        [HttpPost]
         public async Task<IActionResult> Insert([FromBody] AddBankSafeTransactionCommand addBankSafeTransactionCommand,
             CancellationToken cancellationToken)
         {

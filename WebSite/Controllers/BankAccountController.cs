@@ -12,11 +12,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebSite.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class BankAccountController : BaseController
     {
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var getAllBankAccountQuery = new GetAllBankAccountQuery();
@@ -30,7 +30,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpGet("[action]/{AccountNumber}")]
+        [HttpGet("{AccountNumber}")]
         public async Task<IActionResult> Get([FromRoute] GetBankAccountQuery getAllBankAccountQuery,
             CancellationToken cancellationToken)
         {
@@ -45,7 +45,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpPost("[action]")]
+        [HttpPost]
         public async Task<IActionResult> Insert([FromBody] AddBankAccountCommand addBankAccountCommand,
             CancellationToken cancellationToken)
         {
@@ -63,7 +63,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpPut("[action]")]
+        [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateBankAccountCommand updateBankAccountCommand,
             CancellationToken cancellationToken)
         {
@@ -77,7 +77,7 @@ namespace WebSite.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpDelete("[action]/{AccountNumber}")]
+        [HttpDelete("{AccountNumber}")]
         public async Task<IActionResult> Delete([FromRoute] DeleteBankAccountCommand deleteBankAccountCommand,
             CancellationToken cancellationToken)
         {
