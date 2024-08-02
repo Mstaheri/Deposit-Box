@@ -58,10 +58,9 @@ namespace Infrastructure.Repositories
             return result;
         }
 
-        public async Task<Loan> GetByCodeAsync(System.Guid code, CancellationToken cancellationToken)
+        public async Task<Loan> GetByCodeAsync(Guid code, CancellationToken cancellationToken)
         {
-            var result = await _loan
-                .FirstOrDefaultAsync(p => p.Code== code, cancellationToken);
+            var result = await _loan.FindAsync(code, cancellationToken);
             return result;
         }
     }

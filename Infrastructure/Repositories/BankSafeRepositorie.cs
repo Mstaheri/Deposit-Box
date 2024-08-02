@@ -51,7 +51,7 @@ namespace Infrastructure.Repositories
 
         public async Task<BankSafe> GetAsync(Name name , CancellationToken cancellationToken)
         {
-            var result = await _bankSafe.FirstOrDefaultAsync(p => p.Name == name , cancellationToken);
+            var result = await _bankSafe.FindAsync(name , cancellationToken);
             return result;
         }
 

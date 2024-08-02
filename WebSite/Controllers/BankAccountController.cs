@@ -16,7 +16,7 @@ namespace WebSite.Controllers
     [ApiController]
     public class BankAccountController : BaseController
     {
-        [HttpGet]
+        [HttpGet(Name = "[controller]/[action]")]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var getAllBankAccountQuery = new GetAllBankAccountQuery();
@@ -29,6 +29,7 @@ namespace WebSite.Controllers
             {
                 return BadRequest(result.Message);
             }
+
         }
         [HttpGet("{AccountNumber}")]
         public async Task<IActionResult> Get([FromRoute] GetBankAccountQuery getAllBankAccountQuery,

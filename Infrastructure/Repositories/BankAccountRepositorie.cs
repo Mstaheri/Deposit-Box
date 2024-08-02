@@ -71,7 +71,7 @@ namespace Infrastructure.Repositories
 
         public async Task<BankAccount> GetAsync(AccountNumber accountNumber , CancellationToken cancellationToken)
         {
-            var result = await _bankAccounts.FirstOrDefaultAsync(p => p.AccountNumber == accountNumber , cancellationToken);
+            var result = await _bankAccounts.FindAsync(accountNumber , cancellationToken);
             return result;
         }
     }

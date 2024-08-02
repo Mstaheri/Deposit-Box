@@ -36,8 +36,7 @@ namespace Infrastructure.Repositories
         public async Task<ChatRoom> GetChatRoomByConnectionId(string connectionId ,
             CancellationToken cancellationToken)
         {
-            var result = await _chatRoom
-                .FirstOrDefaultAsync(p => p.ConnectionId== connectionId , cancellationToken);
+            var result = await _chatRoom.FindAsync(connectionId, cancellationToken);
             return result;
         }
     }

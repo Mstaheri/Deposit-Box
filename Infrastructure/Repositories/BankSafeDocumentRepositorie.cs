@@ -74,7 +74,7 @@ namespace Infrastructure.Repositories
 
         public async Task<BankSafeDocument> GetAsync(System.Guid code , CancellationToken cancellationToken)
         {
-            var result = await _bankSafeDocument.FirstOrDefaultAsync(p => p.Code == code, cancellationToken);
+            var result = await _bankSafeDocument.FindAsync(code, cancellationToken);
             return result;
         }
     }

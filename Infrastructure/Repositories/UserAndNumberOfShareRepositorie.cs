@@ -73,15 +73,13 @@ namespace Infrastructure.Repositories
 
         public async Task<UserAndNumberOfShare> GetNameBankAsync(Name nameBankSafe, CancellationToken cancellationToken)
         {
-            var result = await _userAndNumberOfShare
-                .FirstOrDefaultAsync(p => p.NameBankSafe == nameBankSafe, cancellationToken);
+            var result = await _userAndNumberOfShare.FindAsync(nameBankSafe, cancellationToken);
             return result;
         }
 
         public async Task<UserAndNumberOfShare> GetUserNameAsync(UserName userName, CancellationToken cancellationToken)
         {
-            var result = await _userAndNumberOfShare
-                .FirstOrDefaultAsync(p => p.UserName == userName, cancellationToken);
+            var result = await _userAndNumberOfShare.FindAsync(userName, cancellationToken);
             return result;
         }
 
@@ -89,7 +87,7 @@ namespace Infrastructure.Repositories
             , CancellationToken cancellationToken)
         {
             var result = await _userAndNumberOfShare
-                .FirstOrDefaultAsync(p => p.UserName == userName && p.NameBankSafe == nameBankSafe, cancellationToken);
+                .FindAsync(userName , nameBankSafe, cancellationToken);
             return result;
         }
     }

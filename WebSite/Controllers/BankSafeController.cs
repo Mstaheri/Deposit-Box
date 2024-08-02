@@ -16,7 +16,7 @@ namespace WebSite.Controllers
     [ApiController]
     public class BankSafeController : BaseController
     {
-        [HttpGet]
+        [HttpGet(Name = "[controller]/[action]")]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var getAllBankSafeQuery = new GetAllBankSafeQuery();

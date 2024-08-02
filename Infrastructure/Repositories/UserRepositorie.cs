@@ -63,9 +63,9 @@ namespace Infrastructure.Repositories
             return result;
         }
 
-        public Task<User> GetByUserNameAndPassword(UserName userNam, Password password, CancellationToken cancellationToken)
+        public async Task<User> GetByUserNameAndPassword(UserName userNam, Password password, CancellationToken cancellationToken)
         {
-            var result = _users
+            var result = await _users
                 .FirstOrDefaultAsync(p => p.UserName == userNam && p.Password == password, cancellationToken);
             return result;
         }
