@@ -2,6 +2,7 @@
 using Domain.Entity;
 using Domain.Exceptions;
 using Domain.IRepositories;
+using Domain.IRepositories.IUserAndNumberOfShareRepositorie;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -16,10 +17,10 @@ namespace Application.Services.UserAndNumberOfShares.Commands.UpdateUserAndNumbe
         : IRequestHandler<UpdateUserAndNumberOfShareCommand, OperationResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserAndNumberOfShareRepositorie _userAndNumberOfShareRepositorie;
+        private readonly IUserAndNumberOfShareRepositorieQuery _userAndNumberOfShareRepositorie;
         private readonly ILogger<UpdateUserAndNumberOfShareCommandHandler> _Logger;
         public UpdateUserAndNumberOfShareCommandHandler(IUnitOfWork unitOfWork,
-            IUserAndNumberOfShareRepositorie userAndNumberOfShareRepositorie,
+            IUserAndNumberOfShareRepositorieQuery userAndNumberOfShareRepositorie,
             ILogger<UpdateUserAndNumberOfShareCommandHandler> Logger)
 
         {

@@ -2,6 +2,7 @@
 using Domain.Entity;
 using Domain.Exceptions;
 using Domain.IRepositories;
+using Domain.IRepositories.IBankSafeRepositorie;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -15,10 +16,10 @@ namespace Application.Services.BankSafes.Commands.UpdateBankSafe
     public class UpdateBankSafeCommandHandler
         : IRequestHandler<UpdateBankSafeCommand, OperationResult>
     {
-        private readonly IBankSafeRepositorie _bankSafeRepositorie;
+        private readonly IBankSafeRepositorieQuery _bankSafeRepositorie;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<UpdateBankSafeCommandHandler> _logger;
-        public UpdateBankSafeCommandHandler(IBankSafeRepositorie bankSafeRepositorie,
+        public UpdateBankSafeCommandHandler(IBankSafeRepositorieQuery bankSafeRepositorie,
             IUnitOfWork unitOfWork
             , ILogger<UpdateBankSafeCommandHandler> logger)
         {

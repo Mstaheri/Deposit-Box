@@ -1,6 +1,7 @@
 ﻿using Application.UnitOfWork;
 using Domain.Exceptions;
 using Domain.IRepositories;
+using Domain.IRepositories.IUserRepositorie;
 using Domain.ValueObjects;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -14,10 +15,10 @@ namespace Application.Services.Users.Commands.DeleteUser
 {
     public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, OperationResult>
     {
-        private readonly IUserRepositorie _userRepositorie;
+        private readonly IUserRepositorieCommand _userRepositorie;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<DeleteUserCommandHandler> _logger;
-        public DeleteUserCommandHandler(IUserRepositorie userRepositorie,
+        public DeleteUserCommandHandler(IUserRepositorieCommand userRepositorie,
             IUnitOfWork unitOfWork
             , ILogger<DeleteUserCommandHandler> logger)
         {

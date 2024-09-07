@@ -3,6 +3,7 @@ using Application.UnitOfWork;
 using Domain.Entity;
 using Domain.Exceptions;
 using Domain.IRepositories;
+using Domain.IRepositories.IChatRoomRepositorie;
 using Glimpse.Core.Extensibility;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -18,7 +19,7 @@ namespace Application.Services.ChatRoom.Commands.AddChatRoom
         : IRequestHandler<AddChatRoomCommand, OperationResult<Guid>>
     {
         public AddChatRoomCommandHandler(IUnitOfWork unitOfWork,
-            IChatRoomRepositorie chatRoomRepositorie,
+            IChatRoomRepositorieCommand chatRoomRepositorie,
             ILogger<AddChatRoomCommandHandler> logger)
         {
             _unitOfWork = unitOfWork;
@@ -26,7 +27,7 @@ namespace Application.Services.ChatRoom.Commands.AddChatRoom
             _logger = logger;
         }
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IChatRoomRepositorie _chatRoomRepositorie;
+        private readonly IChatRoomRepositorieCommand _chatRoomRepositorie;
         private readonly ILogger<AddChatRoomCommandHandler> _logger;
         public async Task<OperationResult<Guid>> Handle(AddChatRoomCommand request, CancellationToken cancellationToken)
         {

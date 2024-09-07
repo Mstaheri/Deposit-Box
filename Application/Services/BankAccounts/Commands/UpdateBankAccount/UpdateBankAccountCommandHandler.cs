@@ -2,6 +2,7 @@
 using Domain.Entity;
 using Domain.Exceptions;
 using Domain.IRepositories;
+using Domain.IRepositories.IBankAccountRepositorie;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -16,10 +17,10 @@ namespace Application.Services.BankAccounts.Commands.UpdateBankAccount
         : IRequestHandler<UpdateBankAccountCommand, OperationResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IBankAccountRepositorie _bankAccountRepositorie;
+        private readonly IBankAccountRepositorieQuery _bankAccountRepositorie;
         private readonly ILogger<UpdateBankAccountCommandHandler> _Logger;
         public UpdateBankAccountCommandHandler(IUnitOfWork unitOfWork,
-            IBankAccountRepositorie bankAccountRepositorie,
+            IBankAccountRepositorieQuery bankAccountRepositorie,
             ILogger<UpdateBankAccountCommandHandler> Logger)
 
         {

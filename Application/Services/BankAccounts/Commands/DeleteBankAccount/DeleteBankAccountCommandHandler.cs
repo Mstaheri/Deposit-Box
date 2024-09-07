@@ -2,6 +2,7 @@
 using Domain.Entity;
 using Domain.Exceptions;
 using Domain.IRepositories;
+using Domain.IRepositories.IBankAccountRepositorie;
 using Domain.ValueObjects;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -16,10 +17,10 @@ namespace Application.Services.BankAccounts.Commands.DeleteBankAccount
     public class DeleteBankAccountCommandHandler : IRequestHandler<DeleteBankAccountCommand, OperationResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IBankAccountRepositorie _bankAccountRepositorie;
+        private readonly IBankAccountRepositorieCommand _bankAccountRepositorie;
         private readonly ILogger<DeleteBankAccountCommandHandler> _Logger;
         public DeleteBankAccountCommandHandler(IUnitOfWork unitOfWork,
-            IBankAccountRepositorie bankAccountRepositorie,
+            IBankAccountRepositorieCommand bankAccountRepositorie,
             ILogger<DeleteBankAccountCommandHandler> Logger)
 
         {

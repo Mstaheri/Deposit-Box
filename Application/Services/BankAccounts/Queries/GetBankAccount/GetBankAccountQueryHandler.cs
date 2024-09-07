@@ -2,6 +2,7 @@
 using Domain.Entity;
 using Domain.Exceptions;
 using Domain.IRepositories;
+using Domain.IRepositories.IBankAccountRepositorie;
 using Domain.ValueObjects;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -16,10 +17,10 @@ namespace Application.Services.BankAccounts.Queries.GetBankAccount
     public class GetBankAccountQueryHandler
         : IRequestHandler<GetBankAccountQuery, OperationResult<BankAccount>>
     {
-        private readonly IBankAccountRepositorie _bankAccountRepositorie;
+        private readonly IBankAccountRepositorieQuery _bankAccountRepositorie;
         private readonly ILogger<GetBankAccountQueryHandler> _Logger;
         public GetBankAccountQueryHandler(
-            IBankAccountRepositorie bankAccountRepositorie,
+            IBankAccountRepositorieQuery bankAccountRepositorie,
             ILogger<GetBankAccountQueryHandler> Logger)
 
         {

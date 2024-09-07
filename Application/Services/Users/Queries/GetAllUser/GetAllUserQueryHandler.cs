@@ -2,6 +2,7 @@
 using Domain.Entity;
 using Domain.Exceptions;
 using Domain.IRepositories;
+using Domain.IRepositories.IUserRepositorie;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -14,9 +15,9 @@ namespace Application.Services.Users.Queries.GetAllUser
 {
     public class GetAllUserQueryHandler : IRequestHandler<GetAllUserQuery, OperationResult<List<User>>>
     {
-        private readonly IUserRepositorie _userRepositorie;
+        private readonly IUserRepositorieQuery _userRepositorie;
         private readonly ILogger<GetAllUserQueryHandler> _logger;
-        public GetAllUserQueryHandler(IUserRepositorie userRepositorie
+        public GetAllUserQueryHandler(IUserRepositorieQuery userRepositorie
             , ILogger<GetAllUserQueryHandler> logger)
         {
             _userRepositorie = userRepositorie;

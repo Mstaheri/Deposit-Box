@@ -1,6 +1,7 @@
 ﻿using Application.UnitOfWork;
 using Domain.Exceptions;
 using Domain.IRepositories;
+using Domain.IRepositories.IBankSafeRepositorie;
 using Domain.ValueObjects;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -15,10 +16,10 @@ namespace Application.Services.BankSafes.Commands.DeleteBankSafe
     public class DeleteBankSafeCommandHandler
         : IRequestHandler<DeleteBankSafeCommand, OperationResult>
     {
-        private readonly IBankSafeRepositorie _bankSafeRepositorie;
+        private readonly IBankSafeRepositorieCommand _bankSafeRepositorie;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<DeleteBankSafeCommandHandler> _logger;
-        public DeleteBankSafeCommandHandler(IBankSafeRepositorie bankSafeRepositorie,
+        public DeleteBankSafeCommandHandler(IBankSafeRepositorieCommand bankSafeRepositorie,
             IUnitOfWork unitOfWork
             , ILogger<DeleteBankSafeCommandHandler> logger)
         {

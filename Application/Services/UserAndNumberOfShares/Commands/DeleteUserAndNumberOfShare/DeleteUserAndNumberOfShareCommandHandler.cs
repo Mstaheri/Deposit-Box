@@ -1,6 +1,7 @@
 ﻿using Application.UnitOfWork;
 using Domain.Exceptions;
 using Domain.IRepositories;
+using Domain.IRepositories.IUserAndNumberOfShareRepositorie;
 using Domain.ValueObjects;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -16,10 +17,10 @@ namespace Application.Services.UserAndNumberOfShares.Commands.DeleteUserAndNumbe
         : IRequestHandler<DeleteUserAndNumberOfShareCommand, OperationResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserAndNumberOfShareRepositorie _userAndNumberOfShareRepositorie;
+        private readonly IUserAndNumberOfShareRepositorieCommand _userAndNumberOfShareRepositorie;
         private readonly ILogger<DeleteUserAndNumberOfShareCommandHandler> _Logger;
         public DeleteUserAndNumberOfShareCommandHandler(IUnitOfWork unitOfWork,
-            IUserAndNumberOfShareRepositorie userAndNumberOfShareRepositorie,
+            IUserAndNumberOfShareRepositorieCommand userAndNumberOfShareRepositorie,
             ILogger<DeleteUserAndNumberOfShareCommandHandler> Logger)
 
         {

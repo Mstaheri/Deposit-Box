@@ -2,6 +2,7 @@
 using Application.UnitOfWork;
 using Domain.Exceptions;
 using Domain.IRepositories;
+using Domain.IRepositories.ILoanRepositorie;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -15,10 +16,10 @@ namespace Application.Services.Loan.Commands.DeleteLoan
     public class DeleteLoanCommandHandler :
         IRequestHandler<DeleteLoanCommand, OperationResult>
     {
-        private readonly ILoanRepositorie _loanRepositorie;
+        private readonly ILoanRepositorieCommand _loanRepositorie;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<DeleteLoanCommandHandler> _logger;
-        public DeleteLoanCommandHandler(ILoanRepositorie loanRepositorie,
+        public DeleteLoanCommandHandler(ILoanRepositorieCommand loanRepositorie,
             IUnitOfWork unitOfWork
             , ILogger<DeleteLoanCommandHandler> logger)
         {

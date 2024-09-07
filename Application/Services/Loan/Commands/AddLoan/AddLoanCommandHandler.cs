@@ -3,6 +3,7 @@ using Application.UnitOfWork;
 using Domain.Entity;
 using Domain.Exceptions;
 using Domain.IRepositories;
+using Domain.IRepositories.ILoanRepositorie;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -16,10 +17,10 @@ namespace Application.Services.Loan.Commands.AddLoan
     public class AddLoanCommandHandler
         : IRequestHandler<AddLoanCommand, OperationResult<Guid>>
     {
-        private readonly ILoanRepositorie _loanRepositorie;
+        private readonly ILoanRepositorieCommand _loanRepositorie;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<AddLoanCommandHandler> _logger;
-        public AddLoanCommandHandler(ILoanRepositorie loanRepositorie,
+        public AddLoanCommandHandler(ILoanRepositorieCommand loanRepositorie,
             IUnitOfWork unitOfWork
             , ILogger<AddLoanCommandHandler> logger)
         {

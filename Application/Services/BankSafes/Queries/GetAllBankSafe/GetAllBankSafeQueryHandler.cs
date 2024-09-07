@@ -2,6 +2,7 @@
 using Domain.Entity;
 using Domain.Exceptions;
 using Domain.IRepositories;
+using Domain.IRepositories.IBankSafeRepositorie;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -15,9 +16,9 @@ namespace Application.Services.BankSafes.Queries.GetAllBankSafe
     public class GetAllBankSafeQueryHandler
         : IRequestHandler<GetAllBankSafeQuery, OperationResult<List<BankSafe>>>
     {
-        private readonly IBankSafeRepositorie _bankSafeRepositorie;
+        private readonly IBankSafeRepositorieQuery _bankSafeRepositorie;
         private readonly ILogger<GetAllBankSafeQueryHandler> _logger;
-        public GetAllBankSafeQueryHandler(IBankSafeRepositorie bankSafeRepositorie
+        public GetAllBankSafeQueryHandler(IBankSafeRepositorieQuery bankSafeRepositorie
             , ILogger<GetAllBankSafeQueryHandler> logger)
         {
             _bankSafeRepositorie = bankSafeRepositorie;

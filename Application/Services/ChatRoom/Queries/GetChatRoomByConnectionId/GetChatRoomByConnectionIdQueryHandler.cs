@@ -2,6 +2,7 @@
 using Application.Services.Loan.Queries.GetByCodeLoan;
 using Domain.Exceptions;
 using Domain.IRepositories;
+using Domain.IRepositories.IChatRoomRepositorie;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -15,9 +16,9 @@ namespace Application.Services.ChatRoom.Queries.GetChatRoomByConnectionId
     public class GetChatRoomByConnectionIdQueryHandler :
         IRequestHandler<GetChatRoomByConnectionIdQuery, Guid>
     {
-        private readonly IChatRoomRepositorie _chatRoomRepositorie;
+        private readonly IChatRoomRepositorieQuery _chatRoomRepositorie;
         private readonly ILogger<GetChatRoomByConnectionIdQueryHandler> _logger;
-        public GetChatRoomByConnectionIdQueryHandler(IChatRoomRepositorie chatRoomRepositorie
+        public GetChatRoomByConnectionIdQueryHandler(IChatRoomRepositorieQuery chatRoomRepositorie
             , ILogger<GetChatRoomByConnectionIdQueryHandler> logger)
         {
             _chatRoomRepositorie = chatRoomRepositorie;

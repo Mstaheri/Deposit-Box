@@ -10,15 +10,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.IRepositories.IUserRepositorie;
 
 namespace Application.Services.Users.Commands.UpdateUser
 {
     public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, OperationResult>
     {
-        private readonly IUserRepositorie _userRepositorie;
+        private readonly IUserRepositorieQuery _userRepositorie;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<UpdateUserCommandHandler> _logger;
-        public UpdateUserCommandHandler(IUserRepositorie userRepositorie,
+        public UpdateUserCommandHandler(IUserRepositorieQuery userRepositorie,
             IUnitOfWork unitOfWork
             , ILogger<UpdateUserCommandHandler> logger)
         {

@@ -2,6 +2,7 @@
 using Domain.Entity;
 using Domain.Exceptions;
 using Domain.IRepositories;
+using Domain.IRepositories.ILoanRepositorie;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -15,9 +16,9 @@ namespace Application.Services.Loan.Queries.GetAllLoan
     public class GetAllLoanQueryHandler :
         IRequestHandler<GetAllLoanQuery , OperationResult<List<Domain.Entity.Loan>>>
     {
-        private readonly ILoanRepositorie _loanRepositorie;
+        private readonly ILoanRepositorieQuery _loanRepositorie;
         private readonly ILogger<GetAllLoanQueryHandler> _logger;
-        public GetAllLoanQueryHandler(ILoanRepositorie loanRepositorie
+        public GetAllLoanQueryHandler(ILoanRepositorieQuery loanRepositorie
             , ILogger<GetAllLoanQueryHandler> logger)
         {
             _loanRepositorie = loanRepositorie;

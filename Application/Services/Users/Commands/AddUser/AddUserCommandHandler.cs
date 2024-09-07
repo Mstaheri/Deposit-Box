@@ -2,6 +2,7 @@
 using Domain.Entity;
 using Domain.Exceptions;
 using Domain.IRepositories;
+using Domain.IRepositories.IUserRepositorie;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -14,10 +15,10 @@ namespace Application.Services.Users.Commands.AddUser
 {
     public class AddUserCommandHandler : IRequestHandler<AddUserCommand, OperationResult>
     {
-        private readonly IUserRepositorie _userRepositorie;
+        private readonly IUserRepositorieCommand _userRepositorie;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<AddUserCommandHandler> _logger;
-        public AddUserCommandHandler(IUserRepositorie userRepositorie,
+        public AddUserCommandHandler(IUserRepositorieCommand userRepositorie,
             IUnitOfWork unitOfWork
             , ILogger<AddUserCommandHandler> logger)
         {

@@ -2,6 +2,7 @@
 using Domain.Entity;
 using Domain.Exceptions;
 using Domain.IRepositories;
+using Domain.IRepositories.IUserAndNumberOfShareRepositorie;
 using Domain.ValueObjects;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -16,10 +17,10 @@ namespace Application.Services.UserAndNumberOfShares.Queries.GetByNameBankAndUse
     public class GetByNameBankAndUserNameQueryHandler
         : IRequestHandler<GetByNameBankAndUserNameQuery, OperationResult<UserAndNumberOfShare>>
     {
-        private readonly IUserAndNumberOfShareRepositorie _userAndNumberOfShareRepositorie;
+        private readonly IUserAndNumberOfShareRepositorieQuery _userAndNumberOfShareRepositorie;
         private readonly ILogger<GetByNameBankAndUserNameQueryHandler> _Logger;
         public GetByNameBankAndUserNameQueryHandler(
-            IUserAndNumberOfShareRepositorie userAndNumberOfShareRepositorie,
+            IUserAndNumberOfShareRepositorieQuery userAndNumberOfShareRepositorie,
             ILogger<GetByNameBankAndUserNameQueryHandler> Logger)
 
         {

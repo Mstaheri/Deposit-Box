@@ -3,6 +3,7 @@ using Application.Services.Users.Queries.GetUser;
 using Domain.Entity;
 using Domain.Exceptions;
 using Domain.IRepositories;
+using Domain.IRepositories.IUserRepositorie;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -16,10 +17,10 @@ namespace Application.Services.Users.Queries.GetByUserNameAndPassword
     public class GetByUserNameAndPasswordQueryHandler
         : IRequestHandler<GetByUserNameAndPasswordQuery, OperationResult<User>>
     {
-        public readonly IUserRepositorie _userRepositorie;
+        public readonly IUserRepositorieQuery _userRepositorie;
         private readonly ILogger<GetByUserNameAndPasswordQueryHandler> _logger;
         public GetByUserNameAndPasswordQueryHandler(
-            IUserRepositorie userRepositorie ,
+            IUserRepositorieQuery userRepositorie ,
             ILogger<GetByUserNameAndPasswordQueryHandler> logger)
         {
             _userRepositorie = userRepositorie;
