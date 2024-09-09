@@ -20,7 +20,7 @@ namespace Infrastructure.Repositories.SmsServiceRepositorie
         private readonly AsyncFallbackPolicy<OperationResult> _fallbackPolicy;
         private static AsyncCircuitBreakerPolicy _circuitBreakerPolicy;
         private readonly HttpClient _httpClient;
-        private const string Url = "6C6247593962355A50793635692B6B58344D586C6537536768484B394F5442316472454B6F66494D7941413D";
+        public const string Url = "https://api.kavenegar.com/v1/{0}/verify/lookup.json";
         public SmsServiceRepositorieQuery(IHttpClientFactory httpClientFactory)
         {
             _fallbackPolicy = Policy<OperationResult>.Handle<Exception>().FallbackAsync
@@ -38,7 +38,7 @@ namespace Infrastructure.Repositories.SmsServiceRepositorie
         {
             var result = await _circuitBreakerPolicy.ExecuteAsync(async () =>
             {
-                string url = string.Format(ConstMessages.Url, apiUrl);
+                string url = string.Format(Url, apiUrl);
                 var conTent = new FormUrlEncodedContent(new[]
                 {
                     new KeyValuePair<string, string>("receptor",Receptor),
