@@ -20,6 +20,7 @@ namespace Domain.Exceptions
         public const string NotInventory = "The balance of {0} account in Bank {1} is {2}";
         public const string MaximumLength = "{0} cannot be more than {1} characters";
         public const string NotBetweenNumber = "The {0} number must be between {1} and {2}";
+        public const string Url = "https://api.kavenegar.com/v1/{0}/verify/lookup.json";
 
 
     }
