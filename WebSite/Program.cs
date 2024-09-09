@@ -9,6 +9,7 @@ using Domain.IRepositories.IBankSafeRepositorie;
 using Domain.IRepositories.IBankSafeTransactionsRepositorie;
 using Domain.IRepositories.IChatRoomRepositorie;
 using Domain.IRepositories.ILoanRepositorie;
+using Domain.IRepositories.ISmsSevice;
 using Domain.IRepositories.IUserAndNumberOfShareRepositorie;
 using Domain.IRepositories.IUserRepositorie;
 using Domain.Validations;
@@ -20,6 +21,7 @@ using Infrastructure.Repositories.BankSafeRepositorie;
 using Infrastructure.Repositories.BankSafeTransactionsRepositorie;
 using Infrastructure.Repositories.ChatRoomRepositorie;
 using Infrastructure.Repositories.LoanRepositorie;
+using Infrastructure.Repositories.SmsServiceRepositorie;
 using Infrastructure.Repositories.UserAndNumberOfShareRepositorie;
 using Infrastructure.Repositories.UserRepositorie;
 using MediatR;
@@ -32,6 +34,7 @@ using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Tokens;
 using Persistence;
 using Prometheus;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using WebSite.Hubs;
@@ -112,6 +115,9 @@ builder.Services.AddScoped<ILoanRepositorieCommand, LoanRepositorieCommand>();
 builder.Services.AddScoped<ILoanRepositorieQuery, LoanRepositorieQuery>();
 builder.Services.AddScoped<IChatRoomRepositorieCommand, ChatRoomRepositorieCommand>();
 builder.Services.AddScoped<IChatRoomRepositorieQuery, ChatRoomRepositorieQuery>();
+builder.Services.AddScoped<ISmsServiceRepositorieQuery, SmsServiceRepositorieQuery>();
+builder.Services.AddHttpClient();
+
 
 
 builder.Services.RegisterApplication();
