@@ -2,6 +2,7 @@
 using Domain.Attributes;
 using Domain.Entity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Storage;
 using Persistence.Config;
 using System;
@@ -14,7 +15,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Persistence
 {
-    public class DbContextEF : DbContext , IUnitOfWork
+    public sealed class DbContextEF : DbContext , IUnitOfWork
     {
         public DbContextEF(DbContextOptions<DbContextEF> Connection) : base(Connection)
         {

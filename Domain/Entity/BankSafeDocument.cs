@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Domain.Entity
 {
     [AudiTable]
-    public class BankSafeDocument : IEntity
+    public sealed class BankSafeDocument : IEntity
     {
         public BankSafeDocument(Name nameBankSafe, AccountNumber accountNumber, PersianDate registrationDate,
             PersianDate dueDate, Money deposit, Money withdrawal, SituationTypes situation)

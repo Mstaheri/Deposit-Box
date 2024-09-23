@@ -68,7 +68,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("UserName");
 
-                    b.ToTable("BankAccounts");
+                    b.ToTable("BankAccounts", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entity.BankSafe", b =>
@@ -96,7 +96,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Name");
 
-                    b.ToTable("BankSafes");
+                    b.ToTable("BankSafes", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entity.BankSafeDocument", b =>
@@ -158,7 +158,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("NameBankSafe");
 
-                    b.ToTable("BankSafeDocuments");
+                    b.ToTable("BankSafeDocuments", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entity.BankSafeTransaction", b =>
@@ -205,7 +205,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("NameBankSafe");
 
-                    b.ToTable("BankSafeTransactions");
+                    b.ToTable("BankSafeTransactions", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entity.ChatRoom", b =>
@@ -237,7 +237,7 @@ namespace Persistence.Migrations
                     b.HasIndex("ConnectionId")
                         .IsUnique();
 
-                    b.ToTable("ChatRooms");
+                    b.ToTable("ChatRooms", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entity.Loan", b =>
@@ -292,7 +292,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("NameBankSafe");
 
-                    b.ToTable("Loans");
+                    b.ToTable("Loans", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entity.LoanDocument", b =>
@@ -347,7 +347,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("NameBankSafe");
 
-                    b.ToTable("LoanDocuments");
+                    b.ToTable("LoanDocuments", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entity.LoanTransactions", b =>
@@ -391,7 +391,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("NameBankSafe");
 
-                    b.ToTable("LoanTransactions");
+                    b.ToTable("LoanTransactions", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entity.User", b =>
@@ -445,7 +445,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("UserName");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entity.UserAndNumberOfShare", b =>
@@ -480,7 +480,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("NameBankSafe");
 
-                    b.ToTable("UserAndNumberOfShares");
+                    b.ToTable("UserAndNumberOfShares", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entity.BankAccount", b =>

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Domain.Entity
 {
     [AudiTable]
-    public class ChatRoom : IEntity
+    public sealed class ChatRoom : IEntity
     {
         public ChatRoom(string connectionId)
         {

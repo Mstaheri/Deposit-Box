@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Domain.Entity
 {
     [AudiTable]
-    public class LoanTransactions : IEntity
+    public sealed class LoanTransactions : IEntity
     {
         public LoanTransactions(Guid codeLoan, Name nameBankSafe, int numberOfInstallments
             , decimal amount)

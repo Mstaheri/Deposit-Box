@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Domain.Entity
 {
     [AudiTable]
-    public class LoanDocument : IEntity
+    public sealed class LoanDocument : IEntity
     {
         public LoanDocument(Guid codeLoan, Name nameBankSafe, string registrationDate,
             string dueDate, decimal amount, SituationTypes situation)
