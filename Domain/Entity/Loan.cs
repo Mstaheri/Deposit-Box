@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Domain.Entity
 {
     [AudiTable]
-    public sealed class Loan : IEntity
+    public class Loan : IEntity
     {
         public Loan(Name nameBankSafe, Name firstName, Name lastName, Number numberOfInstallments, Money amount , Percent wage)
         {
@@ -29,9 +29,9 @@ namespace Domain.Entity
         public Number NumberOfInstallments { get; private set; }
         public Money Amount { get; private set; }
         public Percent Wage { get; private set; }
-        public BankSafe BankSafe { get; private set; }
-        public ICollection<LoanTransactions> LoanTransactions { get; private set; }
-        public ICollection<LoanDocument> LoanDocuments { get; private set; }
+        public virtual BankSafe BankSafe { get; private set; }
+        public virtual ICollection<LoanTransactions> LoanTransactions { get; private set; }
+        public virtual ICollection<LoanDocument> LoanDocuments { get; private set; }
         
         public void Update(Name firstName , Name lastName ,
             Number numberOfInstallments, Money amount)

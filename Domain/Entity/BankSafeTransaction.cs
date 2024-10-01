@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Domain.Entity
 {
     [AudiTable]
-    public sealed class BankSafeTransaction : IEntity
+    public class BankSafeTransaction : IEntity
     {
         public BankSafeTransaction(Name nameBankSafe, AccountNumber accountNumber,
            Money deposit, Money withdrawal)
@@ -35,8 +35,8 @@ namespace Domain.Entity
         public AccountNumber AccountNumber { get; private set; }
         public Money Deposit { get; private set; }
         public Money Withdrawal { get; private set; }
-        public BankAccount BankAccount { get; private set; }
-        public BankSafe BankSafe { get; private set; }
+        public virtual BankAccount BankAccount { get; private set; }
+        public virtual BankSafe BankSafe { get; private set; }
        
         public void Update(Money deposit, Money withdrawal)
         {

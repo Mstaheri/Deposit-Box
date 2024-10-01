@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Domain.Entity
 {
     [AudiTable]
-    public sealed class UserAndNumberOfShare : IEntity
+    public class UserAndNumberOfShare : IEntity
     {
         public UserAndNumberOfShare(Name nameBankSafe, UserName userName, Number numberOfShares)
         {
@@ -21,8 +21,8 @@ namespace Domain.Entity
         public Name NameBankSafe { get; private set; }
         public UserName UserName { get; private set; }
         public Number NumberOfShares { get; private set; }
-        public BankSafe BankSafe { get; private set; }
-        public User User { get; private set; }
+        public virtual BankSafe BankSafe { get; private set; }
+        public virtual User User { get; private set; }
         
         public void Update(Number numberOfShares)
         {

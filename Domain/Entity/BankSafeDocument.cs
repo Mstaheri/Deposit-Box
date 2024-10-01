@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Domain.Entity
 {
     [AudiTable]
-    public sealed class BankSafeDocument : IEntity
+    public class BankSafeDocument : IEntity
     {
         public BankSafeDocument(Name nameBankSafe, AccountNumber accountNumber, PersianDate registrationDate,
             PersianDate dueDate, Money deposit, Money withdrawal, SituationTypes situation)
@@ -40,8 +40,8 @@ namespace Domain.Entity
         public Money Deposit { get; private set; }
         public Money Withdrawal { get; private set; }
         public SituationTypes Situation { get; private set; }
-        public BankAccount BankAccount { get; private set; }
-        public BankSafe BankSafe { get; private set; }
+        public virtual BankAccount BankAccount { get; private set; }
+        public virtual BankSafe BankSafe { get; private set; }
         
         public void Update(PersianDate registrationDate, PersianDate dueDate,
             Money deposit, Money withdrawal)

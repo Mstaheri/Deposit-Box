@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Domain.Entity
 {
     [AudiTable]
-    public sealed class BankSafe : IEntity
+    public class BankSafe : IEntity
     {
         public BankSafe(Name name, Money sharePrice)
         {
@@ -19,12 +19,12 @@ namespace Domain.Entity
         }
         public Name Name { get; private set; }
         public Money SharePrice { get; private set; }
-        public ICollection<UserAndNumberOfShare> UserAndNumberOfShares { get; private set; }
-        public ICollection<BankSafeTransaction> BankSafeTransactions { get; private set; }
-        public ICollection<BankSafeDocument> BankSafeDocuments { get; private set; }
-        public ICollection<Loan> loans { get; private set; }
-        public ICollection<LoanTransactions> LoanTransactions { get; private set; }
-        public ICollection<LoanDocument> LoanDocuments { get; private set; }
+        public virtual ICollection<UserAndNumberOfShare> UserAndNumberOfShares { get; private set; }
+        public virtual ICollection<BankSafeTransaction> BankSafeTransactions { get; private set; }
+        public virtual ICollection<BankSafeDocument> BankSafeDocuments { get; private set; }
+        public virtual ICollection<Loan> loans { get; private set; }
+        public virtual ICollection<LoanTransactions> LoanTransactions { get; private set; }
+        public virtual ICollection<LoanDocument> LoanDocuments { get; private set; }
        
         public void Update(Money sharePrice)
         {

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Domain.Entity
 {
     [AudiTable]
-    public sealed class LoanDocument : IEntity
+    public class LoanDocument : IEntity
     {
         public LoanDocument(Guid codeLoan, Name nameBankSafe, string registrationDate,
             string dueDate, decimal amount, SituationTypes situation)
@@ -31,8 +31,8 @@ namespace Domain.Entity
         public string DueDate { get; private set; }
         public decimal Amount { get; private set; }
         public SituationTypes Situation { get; private set; }
-        public Loan Loan { get; private set; }
-        public BankSafe BankSafe { get; private set; }
+        public virtual Loan Loan { get; private set; }
+        public virtual BankSafe BankSafe { get; private set; }
         
         public void Update(string registrationDate,string dueDate,
             decimal amount, SituationTypes situation)

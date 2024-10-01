@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Domain.Entity
 {
     [AudiTable]
-    public sealed class LoanTransactions : IEntity
+    public class LoanTransactions : IEntity
     {
         public LoanTransactions(Guid codeLoan, Name nameBankSafe, int numberOfInstallments
             , decimal amount)
@@ -26,8 +26,8 @@ namespace Domain.Entity
         public Name NameBankSafe { get; private set; }
         public int NumberOfInstallments { get; private set; }
         public decimal Amount { get; private set; }
-        public Loan Loan { get; private set; }
-        public BankSafe BankSafe { get; private set; }
+        public virtual Loan Loan { get; private set; }
+        public virtual BankSafe BankSafe { get; private set; }
         
         public void Update(int numberOfInstallments, decimal amount)
         {
