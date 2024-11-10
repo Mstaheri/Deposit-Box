@@ -1,8 +1,5 @@
-
-using Application.Services;
-using Application.Services.Users.Commands.AddUser;
+﻿using Application.Services;
 using Application.UnitOfWork;
-using Domain.IRepositories;
 using Domain.IRepositories.IBankAccountRepositorie;
 using Domain.IRepositories.IBankSafeDocumentRepositorie;
 using Domain.IRepositories.IBankSafeRepositorie;
@@ -12,9 +9,7 @@ using Domain.IRepositories.ILoanRepositorie;
 using Domain.IRepositories.ISmsSevice;
 using Domain.IRepositories.IUserAndNumberOfShareRepositorie;
 using Domain.IRepositories.IUserRepositorie;
-using Domain.Validations;
 using HealthChecks.UI.Client;
-using Infrastructure.Repositories;
 using Infrastructure.Repositories.BankAccountRepositorie;
 using Infrastructure.Repositories.BankSafeDocumentRepositorie;
 using Infrastructure.Repositories.BankSafeRepositorie;
@@ -24,21 +19,17 @@ using Infrastructure.Repositories.LoanRepositorie;
 using Infrastructure.Repositories.SmsServiceRepositorie;
 using Infrastructure.Repositories.UserAndNumberOfShareRepositorie;
 using Infrastructure.Repositories.UserRepositorie;
-using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Persistence;
 using Prometheus;
-using System.Net.Http;
-using System.Reflection;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Text;
+using WebSite.Controllers;
 using WebSite.Hubs;
-using WebSite.MiddleWare;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,51 +46,29 @@ builder.Services.AddHealthChecks()
 builder.Services.AddSignalR();
 
 
-builder.Services.AddAuthentication(Option =>
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication(options =>
 {
-    Option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    Option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    Option.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(ConfigOption =>
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
 {
-    ConfigOption.TokenValidationParameters = new TokenValidationParameters()
+
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters = new TokenValidationParameters
     {
+        ClockSkew = TimeSpan.Zero,
         ValidIssuer = builder.Configuration["JWTConfig:issuer"],
         ValidAudience = builder.Configuration["JWTConfig:audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTConfig:Key"])),
-        ValidateIssuerSigningKey = true,
-        ValidateLifetime = true
-    };
-    ConfigOption.SaveToken = true;
-    ConfigOption.Events = new JwtBearerEvents()
-    {
-        OnAuthenticationFailed = context =>
-        {
-            return Task.CompletedTask;
-        },
-        OnTokenValidated = context =>
-        {
-            return Task.CompletedTask;
-        },
-        OnChallenge = context =>
-        {
-            return Task.CompletedTask;
-        },
-        OnMessageReceived = context =>
-        {
-            return Task.CompletedTask;
-        },
-        OnForbidden = context =>
-        {
-            return Task.CompletedTask;
-        },
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTConfig:Key"]))
     };
 });
 
+
+builder.Services.AddScoped<TokenService>();
 builder.Services.AddSwaggerGen();
-builder.Services.AddControllers();
 builder.Services.AddScoped<IUnitOfWork, DbContextEF>();
-builder.Services.AddScoped<IUserRepositorieCommand , UserRepositorieCommand>();
+builder.Services.AddScoped<IUserRepositorieCommand, UserRepositorieCommand>();
 builder.Services.AddScoped<IUserRepositorieQuery, UserRepositorieQuery>();
 builder.Services.AddScoped<IBankAccountRepositorieCommand, BankAccountRepositorieCommand>();
 builder.Services.AddScoped<IBankAccountRepositorieQuery, BankAccountRepositorieQuery>();
@@ -119,21 +88,61 @@ builder.Services.AddScoped<ISmsServiceRepositorieQuery, SmsServiceRepositorieQue
 builder.Services.AddHttpClient();
 
 
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+
+    options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
+    {
+        Description = "Enter JWT Bearer token **_only_**",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = JwtBearerDefaults.AuthenticationScheme,
+        BearerFormat = "JWT"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = JwtBearerDefaults.AuthenticationScheme
+                }
+            },
+            new string[] { }
+        }
+    });
+});
+
+
+
+
+builder.Services.AddControllers();
+
 
 builder.Services.RegisterApplication();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseRouting();
+
+app.UseAuthentication(); 
+app.UseAuthorization(); 
+
+app.MapControllers();
+
+// تنظیمات Swagger برای محیط توسعه
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(c =>
+    app.UseSwaggerUI(options =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "My API v1");
     });
-
-    app.UseRouting();
     app.UseEndpoints(endpoints =>
     {
         endpoints.MapHealthChecks("/health", new HealthCheckOptions
@@ -147,19 +156,11 @@ if (app.Environment.IsDevelopment())
                     pattern: "{controller=Home}/{action=Index}/{id?}");
     });
 }
+
+// اضافه کردن سایر تنظیمات
 app.UseMetricServer();
 app.UseHttpMetrics();
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
